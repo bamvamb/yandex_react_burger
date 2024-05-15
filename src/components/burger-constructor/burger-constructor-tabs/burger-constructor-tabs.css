@@ -1,0 +1,8 @@
+.constructor-tabs {
+    display: flex;
+    justify-content: center;
+}
+
+.constructor-tabs-container {
+    display: flex;
+}
