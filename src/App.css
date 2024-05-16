@@ -4,4 +4,15 @@
   flex-direction: column;
 }
 
+main {
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+}
+
+.app-container-offset {
+  padding: 0 15% !important;
+}
+
+
 

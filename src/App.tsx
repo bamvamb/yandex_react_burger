@@ -16,7 +16,9 @@ function App() {
   return (
     <div className="App">
         <AppHeader/>
-        <BurgerIngridients data={data}/>
+        <main className="app-container-offset">
+          <BurgerIngridients data={data}/>
+        </main>
     </div>
   );
 }
