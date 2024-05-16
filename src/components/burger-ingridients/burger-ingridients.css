@@ -1,0 +1,12 @@
+.burger-ingridients {
+    width: 50%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.burger-ingridients-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
