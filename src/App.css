@@ -6,6 +6,12 @@
 
 main {
   display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.app-content {
+  display: flex;
   overflow: hidden;
   justify-content: center;
 }

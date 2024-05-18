@@ -9,7 +9,10 @@ interface Props {
 }
 
 const BurgerConstructorItem: React.FC<Props> = ({ingridient, type, drag}) => {
-    return <li className="burger-constructor-ingridient">
+    return <li 
+            className="burger-constructor-ingridient" 
+            style={drag ? undefined : {cursor:"pointer"}}
+        >
         { drag ? <DragIcon type="primary"/> : <div/>}
         <ConstructorElement 
             text={ingridient.name} 

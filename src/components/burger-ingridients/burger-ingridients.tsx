@@ -1,8 +1,9 @@
 import {useState} from 'react'
 import BurgerIngridientsTabs from "./burger-ingridients-tabs/burger-ingridients-tabs"
 import BurgerIngridientsList from './burger-ingridients-list/burger-ingridients-list'
-import "./burger-ingridients.css"
 import { DataFrame } from "../../share/api"
+
+import "./burger-ingridients.css"
 
 interface Props {
     data: Array<DataFrame>

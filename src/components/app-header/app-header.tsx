@@ -9,14 +9,14 @@ import AppHeaderLink from './app-header-link/app-header-link'
 import "./app-header.css"
 
 const AppHeader = () => {
-    return <header className="header p-4 app-container-offset">
+    return <nav className="header p-4 app-container-offset">
         <div className='link-group'>
             <AppHeaderLink text="Конструктор" Icon={BurgerIcon}/>
             <AppHeaderLink text="Лента заказов" Icon={ListIcon}/>   
         </div>  
         <Logo/>
         <AppHeaderLink text="Личный кабинет" Icon={ProfileIcon}/>
-    </header>
+    </nav>
 }
 
 export default AppHeader
