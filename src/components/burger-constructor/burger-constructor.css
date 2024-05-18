@@ -1,0 +1,30 @@
+.burger-constructor {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.burger-constructor-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.burger-constructor-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.burger-constructor-order {
+    display: flex;
+    justify-content: end;
+    gap: 20px;
+}
+
+.burger-constructor-bun-container {
+    display: flex;
+    justify-content: end;
+}

@@ -1,0 +1,6 @@
+.burger-constructor-ingridient {
+    display: grid;
+    grid-template-columns: 50px auto;
+    align-items: center;
+    cursor: grab;
+}
