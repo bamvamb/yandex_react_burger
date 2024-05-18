@@ -6,6 +6,7 @@
     text-align: center;
     position: relative;
     cursor: grab;
+    user-select: none;
 }
 
 
