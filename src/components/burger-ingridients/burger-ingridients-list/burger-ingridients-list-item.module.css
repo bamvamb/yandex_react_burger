@@ -1,4 +1,4 @@
-.ingridients-list-item {
+.ingridients_list_item {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,6 +7,11 @@
     position: relative;
     cursor: grab;
     user-select: none;
+    composes: p-3 from global
+}
+
+.ingridients_list_item_name {
+    composes: text text_type_main-default from global
 }
 
 

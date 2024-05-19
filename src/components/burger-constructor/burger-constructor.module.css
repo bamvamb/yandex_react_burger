@@ -1,0 +1,21 @@
+.burger_constructor {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    composes: p-3 from global;
+}
+
+.burger_constructor_list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.burger_constructor_order {
+    display: flex;
+    justify-content: end;
+    gap: 20px;
+    composes: p-3 from global;
+}

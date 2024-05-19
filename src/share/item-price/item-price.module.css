@@ -1,0 +1,7 @@
+.item_price {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    composes: text text_type_digits-default from global;
+}
+  

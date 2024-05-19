@@ -3,7 +3,7 @@ import {  Counter } from '@ya.praktikum/react-developer-burger-ui-components'
 import { DataFrame } from '../../../share/api';
 import ItemPrice from '../../../share/item-price/item-price';
 
-import "./burger-ingridients-list-item.css"
+import styles from "./burger-ingridients-list-item.module.css"
 
 interface Props {
     ingridient: DataFrame;
@@ -12,16 +12,15 @@ interface Props {
 
 const BurgerIngridientsListItem: React.FC<Props>  = ({ingridient, count}) => {
     return (
-        <div className="ingridients-list-item p-3">
+        <div className={styles.ingridients_list_item}>
             { count && count > 0 ? <Counter count={count}/> : null}
             <img 
-                className="ingridients-list-item-img" 
                 src={ingridient.image} 
                 alt={ingridient.name}
             />
             <ItemPrice price={ingridient.price}/>
             <span 
-                className="ingridients-list-item-name text text_type_main-default"
+                className={styles.ingridients_list_item_name}
             >{ingridient.name}</span>
         </div>
     )

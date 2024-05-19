@@ -1,6 +1,6 @@
 import {Dispatch, SetStateAction} from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
-import "./burger-ingridients-tabs.css"
+import styles from "./burger-ingridients-tabs.module.css"
 
 interface Props {
     ingridient_types: Array<string>;
@@ -9,8 +9,8 @@ interface Props {
 }
 
 const BurgerIngridientsTabs: React.FC<Props>  = ({ingridient_types, currentIngridientType, setCurrentIngridientType}) => (
-    <div className="ingridients-tabs">
-        <div className="ingridients-tabs-container">
+    <div className={styles.ingridients_tabs}>
+        <div className={styles.ingridients_tabs_container}>
         {
             ingridient_types.map( itype => (
                 <Tab 

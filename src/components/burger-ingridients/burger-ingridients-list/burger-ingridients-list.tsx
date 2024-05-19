@@ -2,7 +2,7 @@ import React from 'react'
 import { DataFrame } from '../../../share/api';
 import BurgerIngridientsListItem from './burger-ingridients-list-item';
 
-import "./burger-ingridients-list.css"
+import style from "./burger-ingridients-list.module.css"
 
 interface Props {
     ingridients: Array<DataFrame>;
@@ -10,9 +10,9 @@ interface Props {
 }
 
 const BurgerIngridientsList: React.FC<Props> = ({ingridients, type}) => (
-    <div className="burger-ingridients-list-container p-12">
-        <h1 className="burger-ingridients-list-header text text_type_main-medium p-6">{type}</h1>
-        <ul className="burger-ingridients-list p-4">
+    <div className={style.burger_ingridients_list_container}>
+        <h1 className={style.burger_ingridients_list_header}>{type}</h1>
+        <ul className={style.burger_ingridients_list}>
             { 
                 ingridients.map( (ingridient,idx) => (
                     <BurgerIngridientsListItem 

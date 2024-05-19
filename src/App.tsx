@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import './App.css';
+import styles from './App.module.css';
 import AppHeader from './components/app-header/app-header'
 import BurgerIngridients from './components/burger-ingridients/burger-ingridients';
 import { get_data, DataFrame } from './share/api';
@@ -59,11 +59,11 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className={styles.App}>
         <AppHeader/>
-        <main className="app-container-offset">
-          <h1 className='text text_type_main-large p-6'>Соберите бургер</h1>
-          <div className="app-content">
+        <main className="pl-30 pr-30">
+          <h1 className={styles.app_body_header}>Соберите бургер</h1>
+          <div className={styles.app_content}>
             <BurgerIngridients data={data}/>
             <BurgerConstructor burger={burger}/>
           </div>

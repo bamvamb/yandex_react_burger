@@ -4,9 +4,10 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    composes: p-4 pl-30 pr-30 from global;
 }
 
-.link-group {
+.link_group {
     display: flex;
     gap: 5x
 }

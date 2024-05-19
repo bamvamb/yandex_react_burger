@@ -1,9 +1,9 @@
 import {useState} from 'react'
 import BurgerIngridientsTabs from "./burger-ingridients-tabs/burger-ingridients-tabs"
-import BurgerIngridientsList from './burger-ingridients-list/burger-ingridients-list'
+import BurgerIngridientsList from "./burger-ingridients-list/burger-ingridients-list"
 import { DataFrame } from "../../share/api"
 
-import "./burger-ingridients.css"
+import styles from "./burger-ingridients.module.css"
 
 interface Props {
     data: Array<DataFrame>
@@ -25,13 +25,13 @@ const BurgerIngridients: React.FC<Props> = ({data}) => {
         return accumulator
     }, [] as Array<string>)
 
-    return <div className="burger-ingridients p-3">
+    return <div className={styles.burger_ingridients}>
         <BurgerIngridientsTabs
             ingridient_types={ingridient_types}
             currentIngridientType={currentIngridientType}
             setCurrentIngridientType={setCurrentIngridientType}
         />
-        <div className="burger-ingridients-container">
+        <div className={styles.burger_ingridients_container}>
         {
             ingridient_types.map( ingridient_type => (
                 <BurgerIngridientsList 

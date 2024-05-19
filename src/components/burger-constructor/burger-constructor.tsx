@@ -3,7 +3,7 @@ import { DataFrame } from "../../share/api"
 import ItemPrice from "../../share/item-price/item-price"
 import BurgerConstructorItem from "./burger-constructor-item/burger-constructor-item"
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components"
-import './burger-constructor.css'
+import styles from './burger-constructor.module.css'
 
 interface Props {
     burger: Array<DataFrame>
@@ -14,25 +14,37 @@ const BurgerConstructor: React.FC<Props> = ({burger}) => {
         return accumulator + currentValue.price
     }, 0 as number)
 
-    return <div className="burger-constructor p-3">
-        <ul className="burger-constructor-list">
-            {
-                burger.map( (ingridient, index) => (
-                    <BurgerConstructorItem 
-                        key={`bci_${index}`}
-                        ingridient={ingridient} 
-                        drag={ index !== 0 && index !== burger.length - 1 }
-                        type={
-                            index === 0 ? "top" : (
-                                index === burger.length -1 ? "bottom" : undefined
-                            )
-                        }
-                    />
-                ))
-            }
-        </ul>
-        <div className="burger-constructor-order p-3">
-            <ItemPrice price={price}/><Button htmlType="submit" type="primary">Оформить заказ</Button>
+    return <div className={styles.burger_constructor}>
+        {
+            burger.length > 0 ? (
+                <>
+            <BurgerConstructorItem
+                drag={false}
+                ingridient={burger[0]}
+                type="top"
+            />
+            <div className={styles.burger_constructor_list}>
+                {
+                    burger.slice(1, burger.length-2).map( (ingridient, index) => (
+                        <BurgerConstructorItem 
+                            key={`bci_${index}`}
+                            ingridient={ingridient} 
+                            drag={ true }
+                        />
+                    ))
+                }
+            </div>
+            <BurgerConstructorItem
+                drag={false}
+                ingridient={burger[burger.length -1]}
+                type="bottom"
+            />
+            </>
+            ) : null
+        }
+        <div className={styles.burger_constructor_order}>
+            <ItemPrice price={price}/>
+            <Button htmlType="submit" type="primary">Оформить заказ</Button>
         </div>
     </div>
 }

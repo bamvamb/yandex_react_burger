@@ -3,4 +3,5 @@
     gap: 5px;
     align-items: center;
     cursor: pointer;
+    composes: p-8 from global;
 }

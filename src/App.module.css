@@ -10,15 +10,13 @@ main {
   overflow: hidden;
 }
 
-.app-content {
+.app_content {
   display: flex;
   overflow: hidden;
-  justify-content: center;
 }
 
-.app-container-offset {
-  padding: 0 15% !important;
+.app_body_header {
+  composes: text text_type_main-large p-6 from global
 }
-
 
 
