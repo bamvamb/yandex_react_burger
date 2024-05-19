@@ -1,0 +1,8 @@
+.ingridients_tabs {
+    display: flex;
+    justify-content: center;
+}
+
+.ingridients_tabs_container {
+    display: flex;
+}

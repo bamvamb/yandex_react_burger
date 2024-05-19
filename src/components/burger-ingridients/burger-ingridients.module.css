@@ -1,0 +1,11 @@
+.burger_ingridients {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    composes: p-3 from global;
+}
+
+.burger_ingridients_container {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
