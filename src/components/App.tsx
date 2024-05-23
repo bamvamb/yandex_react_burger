@@ -4,6 +4,8 @@ import AppHeader from './app-header/app-header'
 import BurgerIngredients from './burger-ingredients/burger-ingredients';
 import { get_ingredients, Ingredient } from '../share/api';
 import BurgerConstructor from './burger-constructor/burger-constructor';
+import Modal from './share/modal/modal';
+import OrderDetails from './order-details/order-details';
 
 
 const getRandomNumber = (max:number, min: number=0) => {
@@ -13,6 +15,7 @@ const getRandomNumber = (max:number, min: number=0) => {
 function App() {
   const [ingredients, setIngredients] = useState<Ingredient[]>([])
   const [burger, setBurger] = useState<Ingredient[]>([])
+  const [showOrder, setShowOrder] = useState<boolean>(false)
 
   useEffect(() => {
     if(ingredients.length === 0){
@@ -72,8 +75,18 @@ function App() {
           <h1 className={styles.app_body_header}>Соберите бургер</h1>
           <div className={styles.app_content}>
             <BurgerIngredients ingredients={ingredients}/>
-            <BurgerConstructor burger={burger}/>
+            <BurgerConstructor onOrder={() => {setShowOrder(true)}} burger={burger}/>
           </div>
+          <Modal 
+              header_title='Статус заказа'
+              isOpen={showOrder}
+              onClose={()=>{setShowOrder(false)}}
+            >
+            <OrderDetails
+              state='in_process'
+              _id='034546'
+            />
+          </Modal>
         </main>
         <div id="modal-root" className={styles.app_modals}></div>
     </div>

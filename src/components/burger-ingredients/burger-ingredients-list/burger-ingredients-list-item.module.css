@@ -5,7 +5,7 @@
     gap: 10px;
     text-align: center;
     position: relative;
-    cursor: grab;
+    cursor: pointer;
     user-select: none;
     composes: p-3 from global
 }

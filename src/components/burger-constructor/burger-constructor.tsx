@@ -8,9 +8,10 @@ import { useMemo } from "react"
 
 interface Props {
     burger: Array<Ingredient>
+    onOrder: ()=>void
 }
 
-const BurgerConstructor: React.FC<Props> = ({burger}) => {
+const BurgerConstructor: React.FC<Props> = ({burger, onOrder}) => {
     const price = useMemo( () =>
         burger.reduce( (accumulator, currentValue) => {
             return accumulator + currentValue.price
@@ -47,7 +48,7 @@ const BurgerConstructor: React.FC<Props> = ({burger}) => {
         }
         <div className={styles.burger_constructor_order}>
             <ItemPrice price={price}/>
-            <Button htmlType="submit" type="primary">Оформить заказ</Button>
+            <Button onClick={() => onOrder()} htmlType="submit" type="primary">Оформить заказ</Button>
         </div>
     </div>
 }

@@ -15,6 +15,11 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, header_title }) => {
   const [iconMouseOver, setIconMouseOver] = useState(false)
 
+  const handleClose = () => {
+    setIconMouseOver(false)
+    onClose()
+  }
+
   const onpress = (ev:KeyboardEvent) => {
     if(ev.key === "Escape"){
       onClose()
@@ -34,7 +39,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, header_title }
 
 
   const modalElement = (
-    <div className={styles.modal_background} onClick={onClose}>
+    <div className={styles.modal_background} onClick={handleClose}>
       <div className={styles.modal}>
         <h1 
           className={styles.modal_header}
@@ -42,7 +47,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, header_title }
           {header_title}
           <span
             className={styles.modal_close_icon}
-            onClick={()=>{onClose()}} 
+            onClick={handleClose} 
             onMouseEnter={() => setIconMouseOver(true)}
             onMouseLeave={() => setIconMouseOver(false)}
           >
