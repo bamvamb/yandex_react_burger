@@ -24,9 +24,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    composes: p-4 text text_type_main-medium text_color_inactive from global
+    composes: p-4 text text_type_main-small text_color_inactive from global
 }
 
 .ingredient_pfc_value {
-    composes: text_type_digits-medium from global;
+    composes: text_type_digits-small from global;
 }
