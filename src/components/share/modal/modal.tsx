@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-
-import ReactDOM from 'react-dom';
 import styles from  './modal.module.css'
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import ModalOverlay from './modal-overlay';
 
 interface ModalProps {
   isOpen: boolean;
@@ -38,33 +37,31 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, header_title }
   if (!modalRoot) return null;
 
 
-  const modalElement = (
-    <div className={styles.modal_background} onClick={handleClose}>
-      <div className={styles.modal}>
-        <h1 
-          className={styles.modal_header}
-          >
-          {header_title}
-          <span
-            className={styles.modal_close_icon}
-            onClick={handleClose} 
-            onMouseEnter={() => setIconMouseOver(true)}
-            onMouseLeave={() => setIconMouseOver(false)}
-          >
-            <CloseIcon 
-              type={iconMouseOver ? "secondary" : "primary"}
-            />
-          </span>
-        </h1>
-          
-        <div className={styles.modal_content}>
-          {children}
+  return (
+      <ModalOverlay {...{onClose, isOpen}}>
+        <div className={styles.modal}>
+          <h1 
+            className={styles.modal_header}
+            >
+            {header_title}
+            <span
+              className={styles.modal_close_icon}
+              onClick={handleClose} 
+              onMouseEnter={() => setIconMouseOver(true)}
+              onMouseLeave={() => setIconMouseOver(false)}
+            >
+              <CloseIcon 
+                type={iconMouseOver ? "secondary" : "primary"}
+              />
+            </span>
+          </h1>
+            
+          <div className={styles.modal_content}>
+            {children}
+          </div>
         </div>
-      </div>      
-    </div>
-  );
-
-  return ReactDOM.createPortal(modalElement, modalRoot);
+      </ModalOverlay>
+    )
 };
 
 export default Modal;

@@ -10,17 +10,6 @@
     box-shadow: 0 0 10px var(--background-element);
     z-index: 100;
 }
-  
-  
-.modal_background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: color-mix(in srgb, var(--background), transparent 10%);
-    z-index: 99;
-}
 
 .modal_header {
     display: flex;
