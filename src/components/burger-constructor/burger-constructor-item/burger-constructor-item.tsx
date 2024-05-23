@@ -2,28 +2,31 @@ import {
     ConstructorElement,
     DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { DataFrame } from '../../../share/api'
+import { Ingredient } from '../../../share/api'
 import styles from './burger-constructor-item.module.css'
 
 interface Props {
-    ingridient: DataFrame
+    ingredient: Ingredient
     type?: 'top' | 'bottom' | undefined
     drag: Boolean
 }
 
-const BurgerConstructorItem: React.FC<Props> = ({ ingridient, type, drag }) => {
+const BurgerConstructorItem: React.FC<Props> = ({ ingredient, type, drag }) => {
     return (
         <div
-            className={styles.burger_constructor_ingridient}
-            style={drag ? undefined : { cursor: 'pointer' }}
+            className={
+                drag ? 
+                styles.burger_constructor_ingredient_allowed_drag : 
+                styles.burger_constructor_ingredient
+            }
         >
             {drag ? <DragIcon type="primary" /> : <div />}
             <ConstructorElement
-                text={ingridient.name}
+                text={ingredient.name}
                 type={type}
-                isLocked={ingridient.type === 'bun'}
-                price={ingridient.price}
-                thumbnail={ingridient.image}
+                isLocked={ingredient.type === 'bun'}
+                price={ingredient.price}
+                thumbnail={ingredient.image}
             />
         </div>
     )

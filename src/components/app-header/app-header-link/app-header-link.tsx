@@ -12,8 +12,8 @@ interface Props {
 const AppHeaderLink: React.FC<Props> = ({ text, Icon, onClick }) => {
     const [mouseIn, setMouseIn] = useState(false)
     return (
-        <div
-            onClick={onClick}
+        <a
+            href="#"
             onMouseLeave={() => {
                 setMouseIn(false)
             }}
@@ -26,7 +26,7 @@ const AppHeaderLink: React.FC<Props> = ({ text, Icon, onClick }) => {
             <span className={`text ${mouseIn ? '' : 'text_color_inactive'}`}>
                 {text}
             </span>
-        </div>
+        </a>
     )
 }
 

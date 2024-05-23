@@ -1,11 +1,11 @@
-.burger_ingridients {
+.burger_ingredients {
     display: flex;
     flex-direction: column;
     overflow: hidden;
     composes: p-3 from global;
 }
 
-.burger_ingridients_container {
+.burger_ingredients_container {
     overflow-y: auto;
     overflow-x: hidden;
 }

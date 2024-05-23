@@ -1,4 +1,4 @@
-export interface DataFrame {
+export interface Ingredient {
     _id: string,
     name: string,
     type: string,
@@ -24,7 +24,7 @@ interface TypeLocales {
     [propName: string]: TypeLocale
 }
 
-export const type_localisation = <TypeLocales>{
+export const type_localisation = {
     "bun": {
         many: "Булки",
         one: "Булка"
@@ -37,22 +37,31 @@ export const type_localisation = <TypeLocales>{
         many: "Соусы",
         one: "Соус"
     }
-}
+} as TypeLocales
 
 
 export const url = "data.json"
-export const get_data = () => new Promise<Array<DataFrame>>((resolve, reject) => {
-
-
+export const get_ingredients = () => new Promise<Array<Ingredient>>((resolve, reject) => {
     fetch(url).then( resp => {
-        resp.json().then  ( data => {
-        resolve(
-            data.map( (item:DataFrame)  => <DataFrame>{
-                ...item,
-                type_loc_many: type_localisation[item.type]?.many,
-                type_loc_one: type_localisation[item.type]?.one,
-            })
-        )
-        }).catch( reject )
+        const contentType = resp.headers.get("content-type");
+        if(resp.ok && contentType && contentType.indexOf("application/json") !== -1){
+            try {
+                resp.json().then  ( ingredients => {
+                    resolve(
+                        ingredients.map( (item:Ingredient)  => ({
+                            ...item,
+                            type_loc_many: type_localisation[item.type]?.many,
+                            type_loc_one: type_localisation[item.type]?.one,
+                        } as Ingredient))
+                    )
+                }).catch( reject )
+            } catch {
+                reject( resp )
+            }
+        } else if(resp.ok) {
+            resp.text().then(text => reject( text )) 
+        } else {
+            reject( resp )
+        }
     }).catch( reject )
 })

@@ -3,5 +3,9 @@
     gap: 5px;
     align-items: center;
     cursor: pointer;
+    text-decoration: none;
     composes: p-8 from global;
+    &:hover {
+        color: white;
+    }
 }
