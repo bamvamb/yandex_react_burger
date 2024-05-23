@@ -1,0 +1,32 @@
+.ingredients_detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ingredient_name {
+    width: max-content;
+    composes: p-8 text text_type_main-large from global
+}
+
+.ingredient_description {
+    composes: p-8 text text_type_main-medium from global
+}
+
+.ingredient_pfc_container {
+    display: flex;
+    justify-content: center;
+    margin:0;
+    composes: p-4 from global;
+}
+
+.ingredient_pfc_object {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    composes: p-4 text text_type_main-medium text_color_inactive from global
+}
+
+.ingredient_pfc_value {
+    composes: text_type_digits-medium from global;
+}

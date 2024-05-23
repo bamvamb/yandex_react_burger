@@ -75,6 +75,7 @@ function App() {
             <BurgerConstructor burger={burger}/>
           </div>
         </main>
+        <div id="modal-root" className={styles.app_modals}></div>
     </div>
   );
 }

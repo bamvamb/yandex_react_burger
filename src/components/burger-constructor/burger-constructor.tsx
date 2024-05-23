@@ -1,6 +1,6 @@
 
 import { Ingredient } from "../../share/api"
-import ItemPrice from "../../share/item-price/item-price"
+import ItemPrice from "../share/item-price/item-price"
 import BurgerConstructorItem from "./burger-constructor-item/burger-constructor-item"
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components"
 import styles from './burger-constructor.module.css'
