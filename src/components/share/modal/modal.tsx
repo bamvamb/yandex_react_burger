@@ -13,7 +13,6 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, header_title }) => {
   const [iconMouseOver, setIconMouseOver] = useState(false)
-
   const handleClose = () => {
     setIconMouseOver(false)
     onClose()
@@ -31,15 +30,18 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, header_title }
     }
   }, [])
 
+  const handleClick = (ev:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    ev.stopPropagation()
+  }
+
   if (!isOpen) return null;
 
   const modalRoot = document.getElementById('modal-root');
   if (!modalRoot) return null;
 
-
   return (
       <ModalOverlay {...{onClose, isOpen}}>
-        <div className={styles.modal}>
+        <div onClick={handleClick} className={styles.modal}>
           <h1 
             className={styles.modal_header}
             >
