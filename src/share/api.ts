@@ -40,13 +40,13 @@ export const type_localisation = {
     }
 } as TypeLocales
 
-const ingredient_loc = (ingredient:Ingredient) => ({
+const ingredientLoc = (ingredient:Ingredient) => ({
     ...ingredient,
     type_loc_many: type_localisation[ingredient.type]?.many,
     type_loc_one: type_localisation[ingredient.type]?.one,
 } as Ingredient)
 
-const get_fetch_json = async (
+const getFetchJson = async (
     resp: Response
 ) => {
     const contentType = resp.headers.get("content-type");
@@ -65,11 +65,11 @@ const get_fetch_json = async (
 
 const url = "https://norma.nomoreparties.space/api/ingredients"
 
-export const get_ingredients = async () => {
+export const getIngredients = async () => {
     try {
-        const _json = await get_fetch_json(await fetch(url))
+        const _json = await getFetchJson(await fetch(url))
         if(_json.success){
-            return _json.data.map(ingredient_loc)
+            return _json.data.map(ingredientLoc)
         }
     } catch (err) {
         throw err

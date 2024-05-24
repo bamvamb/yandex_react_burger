@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from 'react';
 import styles from './App.module.css';
 import AppHeader from './app-header/app-header'
 import BurgerIngredients from './burger-ingredients/burger-ingredients';
-import { get_ingredients, Ingredient } from '../share/api';
+import { getIngredients, Ingredient } from '../share/api';
 import BurgerConstructor from './burger-constructor/burger-constructor';
 import Modal from './share/modal/modal';
 import OrderDetails from './order-details/order-details';
@@ -19,7 +19,7 @@ function App() {
 
   useEffect(() => {
     if(ingredients.length === 0){
-      get_ingredients().then(ingredients => { 
+      getIngredients().then(ingredients => { 
         setIngredients(ingredients)
       }).catch( (err) => {
         console.log({
@@ -43,9 +43,9 @@ function App() {
     min_mains:number=3
   ) => {
     if(ingredients.length !== 0){
-      const buns = ingredients.filter( (ingredient:Ingredient) => ingredient.type === "bun")
-      const sauses = ingredients.filter( (ingredient:Ingredient) => ingredient.type === "sauce" )
-      const mains = ingredients.filter( (ingredient:Ingredient) => ingredient.type === "main")
+      const buns = ingredients.filter( (ingredient) => ingredient.type === "bun")
+      const sauses = ingredients.filter( (ingredient) => ingredient.type === "sauce" )
+      const mains = ingredients.filter( (ingredient) => ingredient.type === "main")
       const current_bun = buns[getRandomNumber(buns.length-1)]
       let mains_count = getRandomNumber(max_mains, min_mains)
       let sauses_count = getRandomNumber(max_sauses, min_sauses)
