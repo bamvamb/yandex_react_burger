@@ -1,7 +1,12 @@
-.burger_constructor_ingridient {
+.burger_constructor_ingredient {
     display: grid;
     grid-template-columns: 50px auto;
     align-items: center;
-    cursor: grab;
+    cursor: pointer;
     user-select: none;
+}
+
+.burger_constructor_ingredient_allowed_drag {
+    composes: burger_constructor_ingredient;
+    cursor: grab;
 }

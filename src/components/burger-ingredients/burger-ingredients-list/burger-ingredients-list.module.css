@@ -1,14 +1,14 @@
 
-.burger_ingridients_list_container {
+.burger_ingredients_list_container {
     composes: p-12 from global;
 }
 
-.burger_ingridients_list_header {
+.burger_ingredients_list_header {
     text-align: left;
     composes: text text_type_main-medium p-6 from global;
 }
 
-.burger_ingridients_list {
+.burger_ingredients_list {
     display: grid;
     grid-template-columns: repeat(2, 48% [col-start]);
     column-gap: 4%;

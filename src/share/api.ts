@@ -1,4 +1,4 @@
-export interface DataFrame {
+export interface Ingredient {
     _id: string,
     name: string,
     type: string,
@@ -12,6 +12,7 @@ export interface DataFrame {
     image: string,
     image_mobile: string,
     image_large: string,
+    description?: string
     __v: number
 }
 
@@ -24,7 +25,7 @@ interface TypeLocales {
     [propName: string]: TypeLocale
 }
 
-export const type_localisation = <TypeLocales>{
+export const type_localisation = {
     "bun": {
         many: "Булки",
         one: "Булка"
@@ -37,22 +38,40 @@ export const type_localisation = <TypeLocales>{
         many: "Соусы",
         one: "Соус"
     }
+} as TypeLocales
+
+const ingredientLoc = (ingredient:Ingredient) => ({
+    ...ingredient,
+    type_loc_many: type_localisation[ingredient.type]?.many,
+    type_loc_one: type_localisation[ingredient.type]?.one,
+} as Ingredient)
+
+const getFetchJson = async (
+    resp: Response
+) => {
+    const contentType = resp.headers.get("content-type");
+    if(resp.ok && contentType && contentType.indexOf("application/json") !== -1){
+        try {
+            return await resp.json()
+        } catch (error) {
+            throw error
+        }
+    } else if(resp.ok) {
+        throw await resp.text()
+    } else {
+        throw resp
+    }
 }
 
+const url = "https://norma.nomoreparties.space/api/ingredients"
 
-export const url = "data.json"
-export const get_data = () => new Promise<Array<DataFrame>>((resolve, reject) => {
-
-
-    fetch(url).then( resp => {
-        resp.json().then  ( data => {
-        resolve(
-            data.map( (item:DataFrame)  => <DataFrame>{
-                ...item,
-                type_loc_many: type_localisation[item.type]?.many,
-                type_loc_one: type_localisation[item.type]?.one,
-            })
-        )
-        }).catch( reject )
-    }).catch( reject )
-})
+export const getIngredients = async () => {
+    try {
+        const _json = await getFetchJson(await fetch(url))
+        if(_json.success){
+            return _json.data.map(ingredientLoc)
+        }
+    } catch (err) {
+        throw err
+    }
+}

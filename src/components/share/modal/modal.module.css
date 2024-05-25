@@ -1,0 +1,22 @@
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--background-alt);
+    padding: 20px;
+    border: 1px solid var(--background-element);
+    border-radius: 5px;
+    box-shadow: 0 0 10px var(--background-element);
+    z-index: 100;
+}
+
+.modal_header {
+    display: flex;
+    justify-content: space-between;
+    composes: p-4 text text_type_main-medium from global
+}
+
+.modal_close_icon {
+    cursor: pointer;
+}

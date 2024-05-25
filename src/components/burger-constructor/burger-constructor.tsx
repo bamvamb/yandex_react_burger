@@ -1,18 +1,22 @@
 
-import { DataFrame } from "../../share/api"
-import ItemPrice from "../../share/item-price/item-price"
+import { Ingredient } from "../../share/api"
+import ItemPrice from "../share/item-price/item-price"
 import BurgerConstructorItem from "./burger-constructor-item/burger-constructor-item"
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components"
 import styles from './burger-constructor.module.css'
+import { useMemo } from "react"
 
 interface Props {
-    burger: Array<DataFrame>
+    burger: Array<Ingredient>
+    onOrder: ()=>void
 }
 
-const BurgerConstructor: React.FC<Props> = ({burger}) => {
-    const price = burger.reduce( (accumulator, currentValue) => {
-        return accumulator + currentValue.price
-    }, 0 as number)
+const BurgerConstructor: React.FC<Props> = ({burger, onOrder}) => {
+    const price = useMemo( () =>
+        burger.reduce( (accumulator, currentValue) => {
+            return accumulator + currentValue.price
+        }, 0 as number), 
+    [burger] )
 
     return <div className={styles.burger_constructor}>
         {
@@ -20,15 +24,15 @@ const BurgerConstructor: React.FC<Props> = ({burger}) => {
                 <>
             <BurgerConstructorItem
                 drag={false}
-                ingridient={burger[0]}
+                ingredient={burger[0]}
                 type="top"
             />
             <div className={styles.burger_constructor_list}>
                 {
-                    burger.slice(1, burger.length-2).map( (ingridient, index) => (
+                    burger.slice(1, burger.length-2).map( (ingredient, index) => (
                         <BurgerConstructorItem 
-                            key={`bci_${index}`}
-                            ingridient={ingridient} 
+                            key={`${index}`}
+                            ingredient={ingredient} 
                             drag={ true }
                         />
                     ))
@@ -36,7 +40,7 @@ const BurgerConstructor: React.FC<Props> = ({burger}) => {
             </div>
             <BurgerConstructorItem
                 drag={false}
-                ingridient={burger[burger.length -1]}
+                ingredient={burger[burger.length -1]}
                 type="bottom"
             />
             </>
@@ -44,7 +48,7 @@ const BurgerConstructor: React.FC<Props> = ({burger}) => {
         }
         <div className={styles.burger_constructor_order}>
             <ItemPrice price={price}/>
-            <Button htmlType="submit" type="primary">Оформить заказ</Button>
+            <Button onClick={() => onOrder()} htmlType="submit" type="primary">Оформить заказ</Button>
         </div>
     </div>
 }

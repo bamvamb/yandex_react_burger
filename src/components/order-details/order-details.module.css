@@ -1,0 +1,30 @@
+.order_details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.order_id {
+    width: max-content;
+    text-shadow:  0 0 20px var(--colors-interface-accent);
+    composes: p-8 text text_type_digits-large from global
+}
+
+.title {
+    composes: p-2 text text_type_main-medium from global
+}
+
+.state_icon {
+    border-radius: 50%;
+    background: radial-gradient(closest-side, var(--background), var(--background-alt), var(--colors-interface-accent));
+    box-shadow:  0 0 20px var(--colors-interface-accent);
+    composes: p-8 m-8 from global
+}
+
+.state {
+    composes: p-2 text text_type_main-small from global
+}
+
+.recomendation {
+    composes: p-2 text text_type_main-small text_color_inactive from global
+}
