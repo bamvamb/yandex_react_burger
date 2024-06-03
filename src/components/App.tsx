@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './App.module.css';
 import AppHeader from './app-header/app-header'
 import BurgerIngredients from './burger-ingredients/burger-ingredients';
@@ -7,21 +7,19 @@ import Modal from './share/modal/modal';
 import OrderDetails from './order-details/order-details';
 import { useGetIngredientsQuery } from '../services/api';
 import {createRandom} from '../services/slices/burger'
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../services/store';
+import { useDispatch } from 'react-redux';
 
 
 function App() {
   const dispatch = useDispatch()
   const { data:ingredients, error, isLoading } = useGetIngredientsQuery()
   const [showOrder, setShowOrder] = useState<boolean>(false)
-  const burger = useSelector((state:RootState) => state.burger)
   
   useEffect(() => {
-    if(ingredients && ingredients.length > 0 && (!burger.bun && burger.core.length === 0)){
+    if(ingredients){
       dispatch(createRandom(ingredients))
     }
-  },[ingredients])
+  }, [ingredients])
 
   if (isLoading) {
     return <div>Loading...</div>;
