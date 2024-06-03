@@ -6,9 +6,9 @@ import { Ingredient } from '../../../share/typing'
 import styles from './burger-constructor-item.module.css'
 
 interface Props {
-    ingredient: Ingredient
-    type?: 'top' | 'bottom' | undefined
-    drag: Boolean
+    ingredient: Ingredient | null
+    type?: 'top' | 'bottom'
+    drag?: Boolean
 }
 
 const BurgerConstructorItem: React.FC<Props> = ({ ingredient, type, drag }) => {
@@ -21,13 +21,23 @@ const BurgerConstructorItem: React.FC<Props> = ({ ingredient, type, drag }) => {
             }
         >
             {drag ? <DragIcon type="primary" /> : <div />}
-            <ConstructorElement
-                text={ingredient.name}
-                type={type}
-                isLocked={ingredient.type === 'bun'}
-                price={ingredient.price}
-                thumbnail={ingredient.image}
-            />
+            {
+                ingredient ? (
+                    <ConstructorElement
+                        text={ingredient.name}
+                        type={type}
+                        isLocked={ingredient.type === 'bun'}
+                        price={ingredient.price}
+                        thumbnail={ingredient.image}
+                    />
+                ) : (
+                    <ConstructorElement
+                        text={""}
+                        price={0}
+                        thumbnail={""}
+                    />
+                )
+            }
         </div>
     )
 }

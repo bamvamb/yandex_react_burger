@@ -11,6 +11,7 @@ import BurgerIngredientsListItem from './burger-ingredients-list-item';
 import style from "./burger-ingredients-list.module.css"
 import Modal from '../../share/modal/modal';
 import IngridientDetail from '../ingredient-details/ingredient-details';
+import { selectIngridientsCount } from '../../../services/selectors/burger';
 
 interface Props {
     ingredients: Array<Ingredient>;
@@ -19,8 +20,8 @@ interface Props {
 
 const BurgerIngredientsList: React.FC<Props> = ({ingredients, type}) => {
     const dispatch = useDispatch()
+    const ingredentsCount = useSelector( selectIngridientsCount )
     const clickedIngredient = useSelector((state:RootState) => state.ingredient.ingredient)
-
     const onModalClose = () => dispatch(clear())
 
     return <div className={style.burger_ingredients_list_container}>
@@ -31,7 +32,7 @@ const BurgerIngredientsList: React.FC<Props> = ({ingredients, type}) => {
                     <BurgerIngredientsListItem 
                         key={`${ingredient._id}`} 
                         ingredient={ingredient} 
-                        count={idx%3 === 1 ? 1 : 0}
+                        count={ingredentsCount[ingredient._id]}
                     />
                 ))
             }
