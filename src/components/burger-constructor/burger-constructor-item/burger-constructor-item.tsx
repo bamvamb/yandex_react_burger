@@ -2,7 +2,7 @@ import {
     ConstructorElement,
     DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { Ingredient } from '../../../share/api'
+import { Ingredient } from '../../../share/typing'
 import styles from './burger-constructor-item.module.css'
 
 interface Props {

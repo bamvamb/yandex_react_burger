@@ -2,10 +2,11 @@ import React, {useState, useEffect, useCallback} from 'react';
 import styles from './App.module.css';
 import AppHeader from './app-header/app-header'
 import BurgerIngredients from './burger-ingredients/burger-ingredients';
-import { getIngredients, Ingredient } from '../share/api';
+import { getIngredients, Ingredient } from '../share/typing';
 import BurgerConstructor from './burger-constructor/burger-constructor';
 import Modal from './share/modal/modal';
 import OrderDetails from './order-details/order-details';
+import { useGetIngredientsQuery } from '../services/api';
 
 
 const getRandomNumber = (max:number, min: number=0) => {
@@ -13,36 +14,24 @@ const getRandomNumber = (max:number, min: number=0) => {
 }
 
 function App() {
-  const [ingredients, setIngredients] = useState<Ingredient[]>([])
+  //const [ingredients, setIngredients] = useState<Ingredient[]>([])
+  const { data:ingredients, error, isLoading } = useGetIngredientsQuery()
   const [burger, setBurger] = useState<Ingredient[]>([])
   const [showOrder, setShowOrder] = useState<boolean>(false)
-
-  useEffect(() => {
-    if(ingredients.length === 0){
-      getIngredients().then(ingredients => { 
-        setIngredients(ingredients)
-      }).catch( (err) => {
-        console.log({
-          "error": "can't get ingridients data",
-          "data": err
-        })
-      })
-    }
-  }, [])
   
   useEffect(() => {
-    if(ingredients.length > 0 && burger.length === 0){
+    if(ingredients && ingredients.length > 0 && burger.length === 0){
       setBurger(gen_random_burger())
     }
   },[ingredients])
-  
+
   const gen_random_burger =  useCallback( (
     max_sauses:number=2, 
     min_sauses: number=1,
     max_mains:number=5,
     min_mains:number=3
   ) => {
-    if(ingredients.length !== 0){
+    if( ingredients && ingredients.length !== 0){
       const buns = ingredients.filter( (ingredient) => ingredient.type === "bun")
       const sauses = ingredients.filter( (ingredient) => ingredient.type === "sauce" )
       const mains = ingredients.filter( (ingredient) => ingredient.type === "main")
@@ -68,13 +57,29 @@ function App() {
     }
   }, [ingredients] )
 
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+
+  if (error) {
+    if ('message' in error) {
+      return <div>Ошибка получения данных об ингредиентах: {error.message}</div>;
+    } else if('error' in error) {
+      return <div>Ошибка получения данных об ингредиентах: {error.error}</div>;
+    } else {
+      return <div>Ошибка получения данных об ингредиентах</div>;
+    }
+  }
+
   return (
     <div className={styles.App}>
         <AppHeader/>
         <main className="pl-30 pr-30">
           <h1 className={styles.app_body_header}>Соберите бургер</h1>
           <div className={styles.app_content}>
-            <BurgerIngredients ingredients={ingredients}/>
+            { ingredients && <BurgerIngredients ingredients={ingredients}/> }
             <BurgerConstructor onOrder={() => {setShowOrder(true)}} burger={burger}/>
           </div>
           <Modal 

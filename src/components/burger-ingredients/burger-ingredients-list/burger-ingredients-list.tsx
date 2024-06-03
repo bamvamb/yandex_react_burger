@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Ingredient } from '../../../share/api';
+import { Ingredient } from '../../../share/typing';
 import BurgerIngredientsListItem from './burger-ingredients-list-item';
 
 import style from "./burger-ingredients-list.module.css"

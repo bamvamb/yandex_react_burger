@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import BurgerIngredientsTabs from "./burger-ingredients-tabs/burger-ingredients-tabs"
 import BurgerIngredientsList from "./burger-ingredients-list/burger-ingredients-list"
-import { Ingredient } from "../../share/api"
+import { Ingredient } from "../../share/typing"
 
 import styles from "./burger-ingredients.module.css"
 
