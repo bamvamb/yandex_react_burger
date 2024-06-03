@@ -1,4 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
+
+import { useSelector } from 'react-redux';
+import {RootState} from '../../../services/store';
+import { useDispatch } from 'react-redux';
+import { clear } from '../../../services/slices/ingredient';
+
 import { Ingredient } from '../../../share/typing';
 import BurgerIngredientsListItem from './burger-ingredients-list-item';
 
@@ -12,13 +18,10 @@ interface Props {
 }
 
 const BurgerIngredientsList: React.FC<Props> = ({ingredients, type}) => {
-    const [clickedIngredient, setClickedIngredient] = useState<Ingredient|undefined>()
+    const dispatch = useDispatch()
+    const clickedIngredient = useSelector((state:RootState) => state.ingredient.ingredient)
 
-    const onIngredientClick = (ingredient:Ingredient) => {
-        setClickedIngredient(ingredient)
-    }
-
-    const onModalClose = () => setClickedIngredient(undefined)
+    const onModalClose = () => dispatch(clear())
 
     return <div className={style.burger_ingredients_list_container}>
         <h1 className={style.burger_ingredients_list_header}>{type}</h1>
@@ -29,7 +32,6 @@ const BurgerIngredientsList: React.FC<Props> = ({ingredients, type}) => {
                         key={`${ingredient._id}`} 
                         ingredient={ingredient} 
                         count={idx%3 === 1 ? 1 : 0}
-                        onClick={()=>{onIngredientClick(ingredient)}}
                     />
                 ))
             }
@@ -39,7 +41,7 @@ const BurgerIngredientsList: React.FC<Props> = ({ingredients, type}) => {
             onClose={onModalClose}
             header_title='Детали ингридиента'
             >
-            <IngridientDetail ingredient={clickedIngredient}/>
+            <IngridientDetail ingredient={clickedIngredient ?? undefined}/>
         </Modal>
     </div>
 }
