@@ -1,11 +1,14 @@
 import React from 'react'
 import styles from "./order-details.module.css"
-import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { CheckMarkIcon, CloseIcon, EditIcon, InfoIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { TIconProps } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/utils'
+import { createOrderResponse } from '../../services/api'
 
 interface Props {
-    _id: string,
-    state: "in_process"|"somethin_else"
+    order?: createOrderResponse, 
+    isSuccess?:boolean, 
+    isError?:boolean, 
+    isLoading?:boolean
 }
 
 interface StateDescription {
@@ -19,23 +22,44 @@ interface StateDescriptions {
 }
 
 const state_props = {
+    "loading": {
+        icon: EditIcon,
+        state: "Ваш заказ принимается",
+        recomendation: "Ожидайте"
+    },
+    "error": {
+        icon: InfoIcon,
+        state: "Произошла ошибка",
+        recomendation: "Попробуйте отправить заказ снова"
+    },
     "in_process": {
         icon: CheckMarkIcon,
         state: "Ваш заказ начали готовить",
         recomendation: "Дождитесь готовности на орбитальной станции"
+    },
+    "unknown": {
+        icon: CloseIcon,
+        state: "Неизвестно что произошло",
+        recomendation: "Попробуйте немного подождать, или отправить заказ снова"
     }
 } as StateDescriptions
 
-const OrderDetails: React.FC<Props>  = ({_id, state}) => {
+const OrderDetails:React.FC<Props> = ({isLoading, isSuccess, isError, order}) => {
+    const state = isLoading ? "loading" : (
+        isError || !order?.success ? "error" : (
+            isSuccess && order?.success ? "in_process" : "unknown"
+        )
+    )
     
     const Icon = state_props[state].icon
 
     return <div className={styles.order_details}>
-        <h1 className={styles.order_id}>{_id}</h1>
+        <h1 className={styles.order_id}>{order?.order?.number.toString() ?? ""}</h1>
         <p className={styles.title}>идентификатор заказа</p>
         <p className={styles.state_icon}>
             <Icon type="primary"/>
         </p>
+        <h1 className={styles.name}>{order?.name}</h1>
         <span className={styles.state}>{state_props[state].state}</span>
         <span className={styles.recomendation}>{state_props[state].recomendation}</span>
     </div>

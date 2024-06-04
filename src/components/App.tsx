@@ -1,20 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import styles from './App.module.css';
 import AppHeader from './app-header/app-header'
 import BurgerIngredients from './burger-ingredients/burger-ingredients';
 import BurgerConstructor from './burger-constructor/burger-constructor';
-import Modal from './share/modal/modal';
-import OrderDetails from './order-details/order-details';
 import { useGetIngredientsQuery } from '../services/api';
 import {createRandom} from '../services/slices/burger'
 import { useDispatch } from 'react-redux';
 
-
 function App() {
   const dispatch = useDispatch()
   const { data:ingredients, error, isLoading } = useGetIngredientsQuery()
-  const [showOrder, setShowOrder] = useState<boolean>(false)
-  
   useEffect(() => {
     if(ingredients){
       dispatch(createRandom(ingredients))
@@ -24,7 +19,6 @@ function App() {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
 
   if (error) {
     if ('message' in error) {
@@ -43,18 +37,8 @@ function App() {
           <h1 className={styles.app_body_header}>Соберите бургер</h1>
           <div className={styles.app_content}>
             { ingredients && <BurgerIngredients ingredients={ingredients}/> }
-            <BurgerConstructor onOrder={() => {setShowOrder(true)}}/>
+            <BurgerConstructor/>
           </div>
-          <Modal 
-              header_title='Статус заказа'
-              isOpen={showOrder}
-              onClose={()=>{setShowOrder(false)}}
-            >
-            <OrderDetails
-              state='in_process'
-              _id='034546'
-            />
-          </Modal>
         </main>
         <div id="modal-root" className={styles.app_modals}></div>
     </div>

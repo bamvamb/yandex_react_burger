@@ -81,10 +81,8 @@ export const burgerSlice = createSlice({
         state.core = new_core
     },
     clear: (state) => {
-        state = {
-            bun: null,
-            core: []
-        }
+        state.bun = null
+        state.core = []
     },
     createRandom: (state, action:PayloadAction<Ingredient[]>) => {
         const {bun, core} = genRandomBurger(action.payload)
@@ -95,6 +93,6 @@ export const burgerSlice = createSlice({
 });
 
 
-export const { selectBun, clearBun, addCoreIngredient, deleteCoreIngredient, createRandom } = burgerSlice.actions;
+export const { selectBun, clearBun, addCoreIngredient, deleteCoreIngredient, createRandom, clear } = burgerSlice.actions;
 
 export default burgerSlice;

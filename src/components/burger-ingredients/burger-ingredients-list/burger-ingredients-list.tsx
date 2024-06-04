@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { useSelector } from 'react-redux';
-import {RootState} from '../../../services/store';
+import {RootStoreState} from '../../../services/store';
 import { useDispatch } from 'react-redux';
 import { clear } from '../../../services/slices/ingredient';
 
@@ -21,7 +21,7 @@ interface Props {
 const BurgerIngredientsList: React.FC<Props> = ({ingredients, type}) => {
     const dispatch = useDispatch()
     const ingredentsCount = useSelector( selectIngridientsCount )
-    const clickedIngredient = useSelector((state:RootState) => state.ingredient.ingredient)
+    const clickedIngredient = useSelector((state:RootStoreState) => state.ingredient.ingredient)
     const onModalClose = () => dispatch(clear())
 
     return <div className={style.burger_ingredients_list_container}>

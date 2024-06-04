@@ -12,6 +12,14 @@ interface Props {
 }
 
 const BurgerConstructorItem: React.FC<Props> = ({ ingredient, type, drag }) => {
+    if(!ingredient){
+        const className = (
+            type === "bottom" ? styles.null_constructor_element_bottom : (
+                type === "top" ?  styles.null_constructor_element_top : styles.null_constructor_element
+            ) 
+        )
+        return <div className={className}>перенесите ингредиент сюда</div>
+    }
     return (
         <div
             className={

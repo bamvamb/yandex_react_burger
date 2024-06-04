@@ -10,3 +10,22 @@
     composes: burger_constructor_ingredient;
     cursor: grab;
 }
+
+.null_constructor_element {
+    composes: p-6 text text_type_main-medium constructor-element from global;
+    text-align: center;
+    align-content: center;
+    min-width: max-content;
+}
+
+.null_constructor_element_top {
+    composes: null_constructor_element;
+    composes: constructor-element_pos_top from global;
+    max-height: 80px
+}
+
+.null_constructor_element_bottom {
+    composes: null_constructor_element;
+    composes: constructor-element_pos_bottom from global;
+    max-height: 80px
+}

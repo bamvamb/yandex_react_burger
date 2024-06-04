@@ -37,7 +37,7 @@ const IngridientDetail: React.FC<Props>  = ({ingredient}) => {
                 alt={ingredient.name}
             />
             <h1 className={styles.ingredient_name}>{ingredient.name}</h1>
-            <p className={styles.ingredient_description}>{ingredient.description ?  ingredient.description : "нет описания ингридиента"}</p>
+            { ingredient.description && <p className={styles.ingredient_description}>{ingredient.description}</p> }
             <ul className={styles.ingredient_pfc_container}>
                 {
                     pfc.map( object => (
