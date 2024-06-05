@@ -12,11 +12,6 @@ const initialState: BurgerState = {
   core: []
 };
 
-interface addCoreIngredientInterface {
-    idx: number,
-    ingredient: Ingredient
-}
-
 const getRandomNumber = (max:number, min: number=0) => {
     return min + Math.round( Math.random() * (max-min))
 }
@@ -64,13 +59,25 @@ export const burgerSlice = createSlice({
   name: 'burger',
   initialState,
   reducers: {
-    selectBun: (state, action:PayloadAction<Ingredient>) => {
+    changeBun: (state, action:PayloadAction<Ingredient>) => {
         state.bun = action.payload
     },
     clearBun: (state) => {
         state.bun = null
     },
-    addCoreIngredient: (state, action:PayloadAction<addCoreIngredientInterface>) => {
+    setCoreIngredient: (state, action:PayloadAction<{
+      start_idx: number,
+      end_idx: number
+    }>) => {
+        const new_core = state.core.slice()
+        const ingredient = new_core.splice(action.payload.start_idx, 1)[0]
+        new_core.splice(action.payload.end_idx, 0, ingredient)
+        state.core = new_core
+    },
+    addCoreIngredient: (state, action:PayloadAction<{
+      idx: number,
+      ingredient: Ingredient
+    }>) => {
         const new_core = state.core.slice()
         new_core.splice(action.payload.idx, 0, action.payload.ingredient)
         state.core = new_core
@@ -93,6 +100,6 @@ export const burgerSlice = createSlice({
 });
 
 
-export const { selectBun, clearBun, addCoreIngredient, deleteCoreIngredient, createRandom, clear } = burgerSlice.actions;
+export const { changeBun, clearBun, addCoreIngredient, setCoreIngredient, deleteCoreIngredient, createRandom, clear } = burgerSlice.actions;
 
 export default burgerSlice;

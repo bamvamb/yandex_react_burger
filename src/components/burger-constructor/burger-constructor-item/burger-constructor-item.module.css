@@ -4,6 +4,7 @@
     align-items: center;
     cursor: pointer;
     user-select: none;
+    composes: p-2 from global;
 }
 
 .burger_constructor_ingredient_allowed_drag {
@@ -20,12 +21,21 @@
 
 .null_constructor_element_top {
     composes: null_constructor_element;
-    composes: constructor-element_pos_top from global;
+    composes: constructor-element_pos_top m-2 from global;
     max-height: 80px
 }
 
 .null_constructor_element_bottom {
     composes: null_constructor_element;
-    composes: constructor-element_pos_bottom from global;
+    composes: constructor-element_pos_bottom m-2 from global;
     max-height: 80px
+}
+
+.hover {
+    border: dotted 2px;
+    border-radius: 5%
+}
+
+.dragging {
+    opacity: 0.5;
 }

@@ -4,6 +4,7 @@ import { Ingredient } from '../../../share/typing';
 import ItemPrice from '../../share/item-price/item-price';
 import { useDispatch } from 'react-redux';
 import {select} from '../../../services/slices/ingredient'
+import { useDrag } from "react-dnd";
 
 import styles from "./burger-ingredients-list-item.module.css"
 
@@ -14,8 +15,15 @@ interface Props {
 
 const BurgerIngredientsListItem: React.FC<Props>  = ({ingredient, count}) => {
     const dispatch = useDispatch()
+    const [, dragRef] = useDrag({
+        type: ingredient.type,
+        item: {ingredient},
+        collect: monitor => ({
+            isDrag: monitor.isDragging()
+        })
+    });
     return (
-        <li onClick={() => dispatch(select(ingredient))} className={styles.ingredients_list_item}>
+        <li ref={dragRef} onClick={() => dispatch(select(ingredient))} className={styles.ingredients_list_item}>
             { count && count > 0 ? <Counter count={count}/> : null}
             <img 
                 src={ingredient.image} 

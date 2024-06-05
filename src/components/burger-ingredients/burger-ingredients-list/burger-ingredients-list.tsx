@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import { useSelector } from 'react-redux';
 import {RootStoreState} from '../../../services/store';
@@ -12,10 +12,11 @@ import style from "./burger-ingredients-list.module.css"
 import Modal from '../../share/modal/modal';
 import IngridientDetail from '../ingredient-details/ingredient-details';
 import { selectIngridientsCount } from '../../../services/selectors/burger';
+import { setElementPosition } from '../../../services/slices/tabs';
 
 interface Props {
     ingredients: Array<Ingredient>;
-    type: string
+    type: string;
 }
 
 const BurgerIngredientsList: React.FC<Props> = ({ingredients, type}) => {
@@ -23,8 +24,17 @@ const BurgerIngredientsList: React.FC<Props> = ({ingredients, type}) => {
     const ingredentsCount = useSelector( selectIngridientsCount )
     const clickedIngredient = useSelector((state:RootStoreState) => state.ingredient.ingredient)
     const onModalClose = () => dispatch(clear())
+    const ref = useRef<HTMLDivElement|null>(null)
 
-    return <div className={style.burger_ingredients_list_container}>
+    useEffect(() => {
+        if(ref.current){
+            console.log({type, top: ref.current.offsetTop })
+            console.log(ref.current.offsetParent?.scrollTop)
+            dispatch(setElementPosition({type, top: ref.current.offsetTop }))
+        }
+    }, [])
+
+    return <div ref={ref} className={style.burger_ingredients_list_container}>
         <h1 className={style.burger_ingredients_list_header}>{type}</h1>
         <ul className={style.burger_ingredients_list}>
             { 
