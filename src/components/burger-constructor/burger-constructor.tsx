@@ -1,5 +1,5 @@
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import ItemPrice from "../share/item-price/item-price"
 import BurgerConstructorItem from "./burger-constructor-item/burger-constructor-item"
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components"
@@ -19,8 +19,14 @@ import { selectIngredientTypes } from "../../services/selectors/ingredients"
 const BurgerConstructor = () => {
     const dispatch = useDispatch()
     const {bun, core} = useSelector((store:RootStoreState) => store.burger)
-    const { data:ingredients, } = useGetIngredientsQuery()
+    const { data:ingredients } = useGetIngredientsQuery()
     const types = useSelector(selectIngredientTypes)
+
+    useEffect(() => {
+        if(ingredients){
+            dispatch(createRandom(ingredients))
+        }
+    }, [ingredients])
 
     const [{isHover}, dropTarget] = useDrop({
         accept: types.filter( type => type !== 'bun'),

@@ -3,13 +3,16 @@ import { RootStoreState } from '../store';
 import { Ingredient } from '../../share/typing';
 import { baseApi } from '../api';
 
-const selectIngredientsState = (state: RootStoreState) => state[baseApi.reducerPath];
+const selectIngredientsState = (state: RootStoreState) => {
+    const ingredinentsState = state[baseApi.reducerPath];
+    const store_key = Object.keys(ingredinentsState.queries).find( key => key.includes("getIngredients"))
+    return (ingredinentsState.queries[store_key ?? "getIngredients(undefined)"])
+}
 
 export const selectIngredientTypes = createSelector(
     selectIngredientsState,
     (ingredinentsState) => {
-        const store_key = Object.keys(ingredinentsState.queries).find( key => key.includes("getIngredients"))
-        const data = (ingredinentsState.queries[store_key ?? "getIngredients(undefined)"]?.data?? []) as Ingredient[]
+        const data = (ingredinentsState?.data?? []) as Ingredient[]
         return data.reduce( 
             (accumulator, currentValue) => {
                 if(!accumulator.includes(currentValue.type)){
@@ -19,5 +22,12 @@ export const selectIngredientTypes = createSelector(
             }, [] as string[]
         )
     }
-  );
+);
 
+export const selectIngredientsByType = createSelector(
+    selectIngredientsState, (state: RootStoreState, type: string) => type,
+    (ingredinentsState, type) => {
+        const data = (ingredinentsState?.data?? []) as Ingredient[]
+        return data.filter( ingredient => ingredient.type === type )
+    }
+);

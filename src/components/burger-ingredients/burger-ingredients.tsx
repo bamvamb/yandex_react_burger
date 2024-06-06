@@ -1,36 +1,37 @@
 import {useRef} from 'react'
 import BurgerIngredientsTabs from "./burger-ingredients-tabs/burger-ingredients-tabs"
 import BurgerIngredientsList from "./burger-ingredients-list/burger-ingredients-list"
-import { Ingredient } from "../../share/typing"
 
 import styles from "./burger-ingredients.module.css"
 import { setContainerScrollTop } from '../../services/slices/tabs'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux'
+import { useGetIngredientsQuery } from '../../services/api'
+import { selectIngredientTypes } from '../../services/selectors/ingredients'
 
-interface Props {
-    ingredients: Array<Ingredient>
-}
-
-const getIngredientType = (ingredient: Ingredient) => {
-    return ingredient.type_loc_many ? ingredient.type_loc_many : ingredient.type
-}
-
-const BurgerIngredients: React.FC<Props> = ({ingredients}) => {
+const BurgerIngredients = () => {
     const dispatch = useDispatch()
-    //const [currentIngredientType, setCurrentIngredientType] = useState<string>()
-    const ref = useRef<HTMLDivElement>(null)
+    const { error, isLoading } = useGetIngredientsQuery()
+    const ingredient_types = useSelector(selectIngredientTypes)
 
+    const ref = useRef<HTMLDivElement>(null)
+    
+    if (isLoading) {
+        return <div>Загрузка...</div>;
+    }
+
+    if (error) {
+        if ('message' in error) {
+        return <div>Ошибка получения данных об ингредиентах: {error.message}</div>;
+        } else if('error' in error) {
+        return <div>Ошибка получения данных об ингредиентах: {error.error}</div>;
+        } else {
+        return <div>Ошибка получения данных об ингредиентах</div>;
+        }
+    }
+    
     const onScroll = (ev:React.UIEvent<HTMLDivElement, UIEvent>) => {
         dispatch(setContainerScrollTop(ev.currentTarget.scrollTop))
     }
-
-    const ingredient_types = ingredients.reduce((accumulator, currentValue) => {
-        const new_type = getIngredientType(currentValue)
-        if(!accumulator.includes( new_type )){
-            accumulator.push(new_type)
-        }
-        return accumulator
-    }, [] as Array<string>)
 
     return <div className={styles.burger_ingredients}>
         <BurgerIngredientsTabs
@@ -43,7 +44,6 @@ const BurgerIngredients: React.FC<Props> = ({ingredients}) => {
                 <BurgerIngredientsList 
                     key={ingredient_type}
                     type={ingredient_type}
-                    ingredients={  ingredients.filter( ingredient => getIngredientType(ingredient) === ingredient_type) } 
                 />
             ))
         }

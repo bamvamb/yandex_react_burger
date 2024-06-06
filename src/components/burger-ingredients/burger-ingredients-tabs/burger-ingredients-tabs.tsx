@@ -4,6 +4,7 @@ import styles from "./burger-ingredients-tabs.module.css"
 import { selectCurrentType } from '../../../services/selectors/tabs';
 import { useSelector } from 'react-redux';
 import { RootStoreState } from '../../../services/store';
+import { type_localisation } from '../../../share/typing';
 
 interface Props {
     ingredient_types: Array<string>;
@@ -34,7 +35,7 @@ const BurgerIngredientsTabs: React.FC<Props>  = ({ingredient_types, list_ref}) =
                     active={itype === currentType}
                     onClick={handleClick}
                 >
-                    {itype}
+                    {type_localisation[itype] ? type_localisation[itype].many : itype}
                 </Tab>
             ))
         }
