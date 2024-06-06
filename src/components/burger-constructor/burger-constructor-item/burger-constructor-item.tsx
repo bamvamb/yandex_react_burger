@@ -31,7 +31,6 @@ const BurgerConstructorItem: React.FC<Props> = ({ ingredient, type, drag, index 
             }
             const dragIndex = item.index;
             const hoverIndex = index;
-            console.log({dragIndex, hoverIndex})
 
             if(!hoverIndex && hoverIndex !== 0){
                 if(type){

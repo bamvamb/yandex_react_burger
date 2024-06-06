@@ -83,7 +83,7 @@ const BurgerConstructor = () => {
                 core.length === 0 ? <BurgerConstructorItem ingredient={null}/> : (
                 core.map( (ingredient, index) => (
                     <BurgerConstructorItem 
-                        key={`${index}`}
+                        key={`${ingredient.uid}`}
                         ingredient={ingredient} 
                         index={ index }
                         drag={ true }

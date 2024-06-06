@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Ingredient } from '../../share/typing';
-
+import { v4 as uuid4 } from 'uuid';
 
 export interface BurgerState {
   bun: Ingredient|null,
@@ -54,6 +54,7 @@ const genRandomBurger = (
     }
 }
 
+const addUIDToIngredient = (ingredient: Ingredient) => (ingredient.uid ? ingredient : {...ingredient, uid:uuid4()})
 
 export const burgerSlice = createSlice({
   name: 'burger',
@@ -79,7 +80,8 @@ export const burgerSlice = createSlice({
       ingredient: Ingredient
     }>) => {
         const new_core = state.core.slice()
-        new_core.splice(action.payload.idx, 0, action.payload.ingredient)
+        const new_ingredient = addUIDToIngredient(action.payload.ingredient)
+        new_core.splice(action.payload.idx, 0, new_ingredient)
         state.core = new_core
     },
     deleteCoreIngredient: (state, action:PayloadAction<number>) => {
@@ -94,7 +96,7 @@ export const burgerSlice = createSlice({
     createRandom: (state, action:PayloadAction<Ingredient[]>) => {
         const {bun, core} = genRandomBurger(action.payload)
         state.bun = bun;
-        state.core = core;
+        state.core = core.map( addUIDToIngredient );
     }
   },
 });
