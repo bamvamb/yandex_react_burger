@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Ingredient } from '../../share/typing';
+import { ConstructorIngredient, Ingredient } from '../../share/typing';
 import { v4 as uuid4 } from 'uuid';
 
 export interface BurgerState {
   bun: Ingredient|null,
-  core: Ingredient[]
+  core: ConstructorIngredient[]
 }
 
 const initialState: BurgerState = {
@@ -44,7 +44,7 @@ const genRandomBurger = (
       }
       return {
         bun: current_bun,
-        core
+        core: core.map(addUIDToIngredient)
       }
     } else {
       return {
@@ -54,7 +54,7 @@ const genRandomBurger = (
     }
 }
 
-const addUIDToIngredient = (ingredient: Ingredient) => (ingredient.uid ? ingredient : {...ingredient, uid:uuid4()})
+const addUIDToIngredient = (ingredient: Ingredient):ConstructorIngredient => ({...ingredient, uid:uuid4()})
 
 export const burgerSlice = createSlice({
   name: 'burger',
@@ -96,7 +96,7 @@ export const burgerSlice = createSlice({
     createRandom: (state, action:PayloadAction<Ingredient[]>) => {
         const {bun, core} = genRandomBurger(action.payload)
         state.bun = bun;
-        state.core = core.map( addUIDToIngredient );
+        state.core = core;
     }
   },
 });

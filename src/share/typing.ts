@@ -12,9 +12,12 @@ export interface Ingredient {
     image: string,
     image_mobile: string,
     image_large: string,
-    description?: string,
-    uid?: string
+    description?: string
     __v: number
+}
+
+export interface ConstructorIngredient extends Ingredient {
+    uid: string
 }
 
 interface TypeLocale {
