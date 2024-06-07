@@ -1,16 +1,20 @@
 .burger_constructor {
     display: flex;
     flex-direction: column;
-    gap: 20px;
     composes: p-3 from global;
 }
 
 .burger_constructor_list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+.burger_constructor_list_hover {
+    composes: burger_constructor_list;
+    border: dotted 2px;
+    border-radius: 5%
 }
 
 .burger_constructor_order {

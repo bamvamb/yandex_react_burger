@@ -1,5 +1,5 @@
 import React from 'react'
-import { Ingredient } from '../../../share/api';
+import { Ingredient } from '../../../share/typing';
 import styles from "./ingredient-details.module.css"
 
 interface Props {
@@ -37,7 +37,7 @@ const IngridientDetail: React.FC<Props>  = ({ingredient}) => {
                 alt={ingredient.name}
             />
             <h1 className={styles.ingredient_name}>{ingredient.name}</h1>
-            <p className={styles.ingredient_description}>{ingredient.description ?  ingredient.description : "нет описания ингридиента"}</p>
+            { ingredient.description && <p className={styles.ingredient_description}>{ingredient.description}</p> }
             <ul className={styles.ingredient_pfc_container}>
                 {
                     pfc.map( object => (

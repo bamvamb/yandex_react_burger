@@ -14,6 +14,11 @@
     composes: p-2 text text_type_main-medium from global
 }
 
+.name {
+    text-align: center;
+    composes: title
+}
+
 .state_icon {
     border-radius: 50%;
     background: radial-gradient(closest-side, var(--background), var(--background-alt), var(--colors-interface-accent));

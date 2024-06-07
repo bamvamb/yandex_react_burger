@@ -16,6 +16,10 @@ export interface Ingredient {
     __v: number
 }
 
+export interface ConstructorIngredient extends Ingredient {
+    uid: string
+}
+
 interface TypeLocale {
     many: string,
     one: string
@@ -40,7 +44,7 @@ export const type_localisation = {
     }
 } as TypeLocales
 
-const ingredientLoc = (ingredient:Ingredient) => ({
+export const ingredientLoc = (ingredient:Ingredient) => ({
     ...ingredient,
     type_loc_many: type_localisation[ingredient.type]?.many,
     type_loc_one: type_localisation[ingredient.type]?.one,
