@@ -4,25 +4,6 @@
   flex-direction: column;
 }
 
-main {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.app_content {
-  display: flex;
-  overflow: hidden;
-}
-
-.app_body_header {
-  composes: text text_type_main-large p-6 from global
-}
-
-
-.app_modals {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 99;
+.main {
+  composes: pl-30 pr-30 from global
 }
