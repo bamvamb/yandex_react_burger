@@ -5,5 +5,8 @@
 }
 
 .main {
-  composes: pl-30 pr-30 from global
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  composes: pl-30 pr-30 from global;
 }

@@ -1,26 +1,13 @@
-.App {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.app_content {
+.content {
   display: flex;
   overflow: hidden;
 }
 
-.app_body_header {
+.body_header {
   composes: text text_type_main-large p-6 from global
 }
 
-
-.app_modals {
+.modals {
   position: fixed;
   top: 0;
   left: 0;

@@ -5,11 +5,11 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 
-function Home() {
+function HomePage() {
   return (
         <>
-            <h1 className={styles.app_body_header}>Соберите бургер</h1>
-            <div className={styles.app_content}>
+            <h1 className={styles.body_header}>Соберите бургер</h1>
+            <div className={styles.content}>
             <DndProvider backend={HTML5Backend}>
                 <BurgerIngredients/>
                 <BurgerConstructor/>
@@ -19,4 +19,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomePage;
