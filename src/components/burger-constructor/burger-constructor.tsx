@@ -7,12 +7,12 @@ import styles from './burger-constructor.module.css'
 import { useDispatch, useSelector } from "react-redux"
 import { RootStoreState } from "../../services/store"
 import { selectPrice } from "../../services/selectors/burger"
-import { useCreateOrderMutation } from "../../services/api"
+import { useCreateOrderMutation } from "../../services/apis/data"
 import Modal from "../share/modal/modal"
 import OrderDetails from "../order-details/order-details"
 import { useDrop } from "react-dnd";
 import { clear, createRandom } from "../../services/slices/burger"
-import { useGetIngredientsQuery } from "../../services/api"
+import { useGetIngredientsQuery } from "../../services/apis/data"
 import { selectIngredientTypes } from "../../services/selectors/ingredients"
 
 

@@ -1,18 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { baseApi } from './api';
+import { dataApi } from './apis/data';
 import ingredientSlice from './slices/ingredient';
 import burgerSlice from './slices/burger';
 import tagsSlice from './slices/tabs';
+import { authApi } from './apis/auth';
 
 const store = configureStore({
   reducer: {
-    [baseApi.reducerPath]: baseApi.reducer,
+    [dataApi.reducerPath]: dataApi.reducer,
+    [authApi.reducerPath]: authApi.reducer,
     [ingredientSlice.reducerPath]: ingredientSlice.reducer,
     [burgerSlice.reducerPath]: burgerSlice.reducer,
     [tagsSlice.reducerPath]: tagsSlice.reducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(baseApi.middleware),
+    getDefaultMiddleware().concat(dataApi.middleware),
 });
 
 export type RootStoreState = ReturnType<typeof store.getState>;

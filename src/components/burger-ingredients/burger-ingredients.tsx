@@ -5,7 +5,7 @@ import BurgerIngredientsList from "./burger-ingredients-list/burger-ingredients-
 import styles from "./burger-ingredients.module.css"
 import { setContainerScrollTop } from '../../services/slices/tabs'
 import { useDispatch, useSelector} from 'react-redux'
-import { useGetIngredientsQuery } from '../../services/api'
+import { useGetIngredientsQuery } from '../../services/apis/data'
 import { selectIngredientTypes } from '../../services/selectors/ingredients'
 
 const BurgerIngredients = () => {

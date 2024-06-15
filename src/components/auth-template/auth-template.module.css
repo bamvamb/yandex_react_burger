@@ -22,3 +22,7 @@
 .footer_line {
     composes: text text_type_main-small p-3 from global
 }
+
+.request_error {
+    composes: text text_type_main-medium p-6 from global
+}

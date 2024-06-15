@@ -21,6 +21,7 @@ function App() {
             <Route path="/reset-password" element={<ResetPasswordPage/>}/>
             <Route path="/profile" element={<div>profile</div>}/>
             <Route path="/ingredients/:id" element={<div>ingredients</div>}/>
+            <Route path="*" element={<div>Not found 404</div>}/>
           </Routes>
         </Router>
       </main>

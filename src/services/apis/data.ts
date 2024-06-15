@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Ingredient,  ingredientLoc} from '../share/typing';
+import { Ingredient,  ingredientLoc} from '../../share/typing';
 
 export interface getIngredientsResponse {
     success: Boolean,
@@ -14,7 +14,7 @@ export interface createOrderResponse {
   }
 }
 
-export const baseApi = createApi({
+export const dataApi = createApi({
     reducerPath: 'baseApi',
     baseQuery: fetchBaseQuery({ baseUrl: 'https://norma.nomoreparties.space/api/' }),
     endpoints: (builder) => ({
@@ -38,8 +38,9 @@ export const baseApi = createApi({
             }
         })
       }),
+      
     })
 });
 
 
-export const { useGetIngredientsQuery, useCreateOrderMutation } = baseApi;
+export const { useGetIngredientsQuery, useCreateOrderMutation } = dataApi;

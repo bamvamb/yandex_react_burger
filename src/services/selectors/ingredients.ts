@@ -1,10 +1,10 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootStoreState } from '../store';
 import { Ingredient } from '../../share/typing';
-import { baseApi } from '../api';
+import { dataApi } from '../apis/data';
 
 const selectIngredientsState = (state: RootStoreState) => {
-    const ingredinentsState = state[baseApi.reducerPath];
+    const ingredinentsState = state[dataApi.reducerPath];
     const store_key = Object.keys(ingredinentsState.queries).find( key => key.includes("getIngredients"))
     return (ingredinentsState.queries[store_key ?? "getIngredients(undefined)"])
 }

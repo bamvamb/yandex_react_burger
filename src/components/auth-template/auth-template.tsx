@@ -3,17 +3,35 @@ import styles from './auth-template.module.css';
 import { useState } from 'react';
 import { Variants, authTemplateVariants, Inputs } from './auth-template-variants';
 import { Link } from 'react-router-dom';
+import { check_email_value, check_text_value } from '../../share/input_check';
+import { ResponseMessage } from '../../services/apis/auth';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { SerializedError } from '@reduxjs/toolkit';
 
 interface Props {
     variant: Variants,
-    onButtonClick?: (fs:FormState) => void 
+    handleSendRequest?: (fs:FormState) => void,
+    requestState?: {
+        response: ResponseMessage|undefined,
+        isSuccess: boolean,
+        isError: boolean,
+        isLoading: boolean,
+        error: FetchBaseQueryError|SerializedError|undefined
+    }
 }
 
-interface FormState {
+export interface FormState {
     name: string|null,
     password: string|null,
     email: string|null,
     code: string|null
+}
+
+export interface FormStateError {
+    name: boolean,
+    password: boolean,
+    email: boolean,
+    code: boolean
 }
 
 const getInitialState = (variant: Variants):FormState => ({
@@ -23,10 +41,58 @@ const getInitialState = (variant: Variants):FormState => ({
     code: authTemplateVariants[variant].inputs.find( inp_dict => inp_dict.name === "code") ? "" : null
 })
 
-const AuthTemplate:React.FC<Props> = ({variant, onButtonClick}) => {
-    const [state, setState] = useState<FormState>(getInitialState(variant))
+const input_error_message = "недопустимое значение"
+const request_error_message = "Произошла ошибка при обработке запроса - попробуйте снова позже. Если ошибка повторится обратитесь к администратору"
+
+const AuthTemplate:React.FC<Props> = ({variant, handleSendRequest, requestState}) => {
+    const initialState = getInitialState(variant)
+    const [state, setState] = useState<FormState>(initialState)
+    const [checkState, setCheckState] = useState<FormStateError>({
+        name: false,
+        password: false,
+        email: false,
+        code: false
+    })
+
+    let inputs_names: (keyof FormState)[] = Object.keys(initialState) as any;
+    inputs_names = inputs_names.filter( key => initialState[key] === "")
+
+    const request_error = requestState?.isError || requestState?.response?.success === false
+    
+    const getErrorMessage = () => {
+        if(requestState?.isError && requestState?.error){
+            if('data' in requestState.error && 
+                typeof requestState.error.data === 'object' && 
+                requestState.error.data && 'message' in requestState.error.data){
+                    return requestState.error.data?.message as string
+            }
+            return request_error_message
+        }
+        return null
+    }
+
     const setVal = (key:Inputs, val:string) => {
         setState({...state, [key]: val})
+        if(checkState[key]){ setCheckState({...checkState, [key]: false})}
+    }
+
+    const checkInputs = () => {
+        const new_check_state = {...checkState}
+        let fin_error = false
+        inputs_names.forEach( input_name => {
+            const check = input_name === "email" ? check_email_value : check_text_value
+            const error = !check(state[input_name])
+            new_check_state[input_name] = error
+            if(error) { fin_error = error }
+        })
+        setCheckState(new_check_state)
+        return !fin_error
+    }
+
+    const onButtonClick = () => { 
+        if(handleSendRequest && checkInputs()){
+            handleSendRequest(state)
+        }
     }
 
     const template = authTemplateVariants[variant]
@@ -35,10 +101,11 @@ const AuthTemplate:React.FC<Props> = ({variant, onButtonClick}) => {
             <h1 className={styles.body_header}>{template.title}</h1>
             {
                 template.inputs.map( input_data => {
-                    
                     return <Input 
                         key={input_data.name}
                         type={input_data.type}
+                        error={checkState[input_data.name]}
+                        errorText={checkState[input_data.name] ? input_error_message : undefined}
                         value={state[input_data.name] as string}
                         onChange={ev => setVal(input_data.name, ev.target.value)}
                         placeholder={input_data.placeholder}
@@ -48,7 +115,16 @@ const AuthTemplate:React.FC<Props> = ({variant, onButtonClick}) => {
                     ></Input>
                 })
             }
-            <Button onClick={onButtonClick ? () => onButtonClick(state) : undefined} htmlType="button">{template.button}</Button>
+            <Button 
+                disabled={requestState?.isLoading} 
+                onClick={onButtonClick} 
+                htmlType="button"
+            >
+                {template.button}
+            </Button>
+            {request_error && <span className={styles.request_error}>{
+                getErrorMessage()
+            }</span>}
             <div className={styles.footer}>
             {
                 template.footer.map( (footer, idx) => (
