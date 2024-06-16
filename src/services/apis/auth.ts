@@ -97,6 +97,14 @@ const baseQuery = fetchBaseQuery({
   },
 })
 
+const unauthorised_urls = [
+  "auth/token",
+  "auth/register",
+  "auth/login",
+  "password-reset",
+  "password-reset/reset"
+]
+
 export const getReauthBaseQuery = (_baseQuery:BaseQueryFn<
   string | FetchArgs,
   unknown,
@@ -108,8 +116,11 @@ export const getReauthBaseQuery = (_baseQuery:BaseQueryFn<
     FetchBaseQueryError
   > = async (args, api, extraOptions) => {
     let result = await _baseQuery(args, api, extraOptions);
+    if(typeof args === "object" && unauthorised_urls.includes(args.url)){
+      return result
+    }
     if (result.error && check_jwt_expired(result.error)) {
-      const refreshTokenMutation =  authApi.endpoints.refreshToken.initiate({})
+      const refreshTokenMutation = authApi.endpoints.refreshToken.initiate({})
       const resp = await api.dispatch(refreshTokenMutation)
       if(resp.data?.success){
         result = await _baseQuery(args, api, extraOptions);
