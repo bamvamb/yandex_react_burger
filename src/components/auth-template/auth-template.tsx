@@ -7,6 +7,7 @@ import { check_email_value, check_text_value } from '../../share/input_check';
 import { ResponseMessage } from '../../services/apis/auth';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
+import { getErrorMessage as getErrorMsg } from '../../services/apis/auth';
 
 interface Props {
     variant: Variants,
@@ -60,13 +61,9 @@ const AuthTemplate:React.FC<Props> = ({variant, handleSendRequest, requestState}
     const request_error = requestState?.isError || requestState?.response?.success === false
     
     const getErrorMessage = () => {
-        if(requestState?.isError && requestState?.error){
-            if('data' in requestState.error && 
-                typeof requestState.error.data === 'object' && 
-                requestState.error.data && 'message' in requestState.error.data){
-                    return requestState.error.data?.message as string
-            }
-            return request_error_message
+        if(requestState?.isError){
+            const err_message = getErrorMsg(requestState.error)
+            return err_message ? err_message : request_error_message
         }
         return null
     }

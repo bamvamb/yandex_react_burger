@@ -1,5 +1,6 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { FetchBaseQueryError, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {ls_storage} from '../../share/browser_storage/browser_storage';
+import { SerializedError } from '@reduxjs/toolkit';
 
 const api_url = 'https://norma.nomoreparties.space/api/'
 
@@ -37,6 +38,25 @@ const setUserInStorage = ({user, accessToken, refreshToken}:ResponseAuthMessage)
 }
 
 export const deleteUserFromStorage = () => Object.keys(ls_user_keys).forEach( key => ls_storage.delete(key))
+
+export const getErrorMessage = (error: FetchBaseQueryError | SerializedError | undefined) => {
+  if(!error) return
+  if('data' in error && typeof error.data === 'object' && 
+    error.data && 'message' in error.data){
+    return error.data?.message as string
+  }
+  return null
+}
+
+const jwt_expired_403 = "jwt expired"
+
+export const check_jwt_expired = (error: FetchBaseQueryError) => {
+  if(!error) return false
+  if(error.status === 401) return true
+  if(error.status === 403 && getErrorMessage(error) === jwt_expired_403 ) {
+    return true
+  }
+}
 
 /*
 export const refreshTokens = async () => {

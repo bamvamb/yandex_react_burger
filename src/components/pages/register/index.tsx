@@ -3,7 +3,13 @@ import { useRegisterUserMutation } from '../../../services/apis/auth';
 import { Navigate } from 'react-router-dom';
 
 function RegisterPage() {
-  const [registerUser,{data:response, error, isSuccess, isError, isLoading}] = useRegisterUserMutation()
+  const [registerUser,{
+      data:response, 
+      error, 
+      isSuccess, 
+      isError, 
+      isLoading
+  }] = useRegisterUserMutation()
 
   const handleRegisterClick = (data:FormState) => {
     const {name, email, password} = data

@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Ingredient,  ingredientLoc} from '../../share/typing';
 import { ls_storage } from '../../share/browser_storage/browser_storage';
-import authApi, {deleteUserFromStorage, ls_user_keys} from './auth';
+import authApi, {check_jwt_expired, deleteUserFromStorage, ls_user_keys} from './auth';
 
 import type { 
   BaseQueryFn,
@@ -39,7 +39,7 @@ const baseQueryWithReauth: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-  if (result.error && result.error.status === 401) {
+  if (result.error && check_jwt_expired(result.error)) {
     const refreshTokenMutation =  authApi.endpoints.refreshToken.initiate({})
     const resp = await api.dispatch(refreshTokenMutation)
     if(resp.data?.success){
