@@ -14,7 +14,7 @@ const store = configureStore({
     [tagsSlice.reducerPath]: tagsSlice.reducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(dataApi.middleware),
+    getDefaultMiddleware().concat(dataApi.middleware, authApi.middleware),
 });
 
 export type RootStoreState = ReturnType<typeof store.getState>;

@@ -10,3 +10,11 @@
   overflow: hidden;
   composes: pl-30 pr-30 from global;
 }
+
+
+.app_modals {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+}

@@ -10,10 +10,10 @@ function HomePage() {
         <>
             <h1 className={styles.body_header}>Соберите бургер</h1>
             <div className={styles.content}>
-            <DndProvider backend={HTML5Backend}>
-                <BurgerIngredients/>
-                <BurgerConstructor/>
-            </DndProvider>
+              <DndProvider backend={HTML5Backend}>
+                  <BurgerIngredients/>
+                  <BurgerConstructor/>
+              </DndProvider>
             </div>
         </>
   );

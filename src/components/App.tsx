@@ -25,6 +25,7 @@ function App() {
           </Routes>
         </Router>
       </main>
+      <div id="modal-root" className={styles.app_modals}></div>
     </div>
   );
 }

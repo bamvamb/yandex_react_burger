@@ -49,11 +49,15 @@ export const getErrorMessage = (error: FetchBaseQueryError | SerializedError | u
 }
 
 const jwt_expired_403 = "jwt expired"
+const jwt_malformed_403 = "jwt malformed"
 
 export const check_jwt_expired = (error: FetchBaseQueryError) => {
   if(!error) return false
   if(error.status === 401) return true
-  if(error.status === 403 && getErrorMessage(error) === jwt_expired_403 ) {
+  const error_message = getErrorMessage(error)
+  if(error.status === 403 && error_message && [
+    jwt_expired_403, jwt_malformed_403
+  ].includes(error_message)) {
     return true
   }
 }
