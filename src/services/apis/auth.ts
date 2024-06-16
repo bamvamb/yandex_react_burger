@@ -9,6 +9,14 @@ export interface ResponseMessage {
   message: string
 }
 
+export interface ResponsePatchProfile {
+  user: {
+    email: string,
+    name: string
+  },
+  success: Boolean
+}
+
 export interface ResponseAuthMessage {
   success: Boolean,
   user: {
@@ -242,6 +250,18 @@ export const authApi = createApi({
             headers: jsonHeader
         })
       }),
+      patchProfile: builder.mutation<ResponsePatchProfile,{
+        email:string,
+        name:string,
+        password?:string
+      }>({
+        query: (formData) => ({
+            url: 'auth/user', 
+            method: 'PATCH', 
+            body: formData,
+            headers: jsonHeader
+        })
+      }),
       getProfile: builder.query<{
         success: boolean,
         user: {
@@ -260,6 +280,7 @@ export const {
   useLogOutMutation, 
   useForgotPasswordMutation, 
   useResetPasswordMutation,
+  usePatchProfileMutation,
   useGetProfileQuery
 } = authApi;
 

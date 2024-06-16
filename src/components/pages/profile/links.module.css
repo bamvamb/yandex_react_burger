@@ -1,0 +1,25 @@
+.links_ul {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    background-color: inherit;
+    composes: text text_type_main-medium constructor-element from global;
+}
+
+.link {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    composes: p-8 from global;
+    color: var(--text-inactive-color);
+    &:hover {
+        color: var(--text-primary-color);;
+    }
+}
+
+.selected_link {
+    composes: link;
+    color: var(--text-primary-color);;
+}

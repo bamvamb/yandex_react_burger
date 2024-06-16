@@ -4,6 +4,7 @@ import ingredientSlice from './slices/ingredient';
 import burgerSlice from './slices/burger';
 import tagsSlice from './slices/tabs';
 import { authApi } from './apis/auth';
+import profileInputsSlice from './slices/profileInputs';
 
 const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ const store = configureStore({
     [dataApi.reducerPath]: dataApi.reducer,
     [ingredientSlice.reducerPath]: ingredientSlice.reducer,
     [burgerSlice.reducerPath]: burgerSlice.reducer,
-    [tagsSlice.reducerPath]: tagsSlice.reducer
+    [tagsSlice.reducerPath]: tagsSlice.reducer,
+    [profileInputsSlice.reducerPath]: profileInputsSlice.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(dataApi.middleware, authApi.middleware),
