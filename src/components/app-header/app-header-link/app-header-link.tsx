@@ -2,18 +2,19 @@ import React, { useState } from 'react'
 import { TIconProps } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/utils'
 
 import styles from './app-header-link.module.css'
+import { Link } from 'react-router-dom'
 
 interface Props {
     Icon: React.ComponentType<TIconProps>
-    text: String
-    onClick?: (event: React.MouseEvent<HTMLDivElement>) => void
+    text: String,
+    url?: string
 }
 
-const AppHeaderLink: React.FC<Props> = ({ text, Icon, onClick }) => {
+const AppHeaderLink: React.FC<Props> = ({ text, Icon, url }) => {
     const [mouseIn, setMouseIn] = useState(false)
     return (
-        <a
-            href="#"
+        <Link
+            to={url ? url: "#"}
             onMouseLeave={() => {
                 setMouseIn(false)
             }}
@@ -26,7 +27,7 @@ const AppHeaderLink: React.FC<Props> = ({ text, Icon, onClick }) => {
             <span className={`text ${mouseIn ? '' : 'text_color_inactive'}`}>
                 {text}
             </span>
-        </a>
+        </Link>
     )
 }
 

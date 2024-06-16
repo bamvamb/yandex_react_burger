@@ -1,8 +1,8 @@
-import { FetchBaseQueryError, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { BaseQueryFn, FetchArgs, FetchBaseQueryError, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {ls_storage} from '../../share/browser_storage/browser_storage';
 import { SerializedError } from '@reduxjs/toolkit';
 
-const api_url = 'https://norma.nomoreparties.space/api/'
+export const api_url = 'https://norma.nomoreparties.space/api/'
 
 export interface ResponseMessage {
   success: Boolean,
@@ -62,29 +62,6 @@ export const check_jwt_expired = (error: FetchBaseQueryError) => {
   }
 }
 
-/*
-export const refreshTokens = async () => {
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ token: ls_storage.get(ls_user_keys.refreshToken) })
-  }; 
-  try {
-    const resp = await fetch(api_url + "auth/token", requestOptions)
-    const obj_resp:{ success: boolean, accessToken: string, refreshToken: string} = await resp.json()
-    const {success, accessToken, refreshToken} = obj_resp
-    if(success){
-      refreshTokensInStorage(accessToken, refreshToken)
-      return true
-    } else {
-      return false
-    }
-  } catch {
-    return false
-  }
-}
-*/
-
 export const transformAuthResponse = (
   response:ResponseAuthMessage, 
   messages:{
@@ -109,9 +86,54 @@ const jsonHeader = {
   'Content-Type': 'application/json',
 }
 
+const baseQuery = fetchBaseQuery({ 
+  baseUrl: api_url,
+  prepareHeaders: (headers) => {
+    const token = ls_storage.get(ls_user_keys.accessToken)
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`);
+    }
+    return headers;
+  },
+})
+
+export const getReauthBaseQuery = (_baseQuery:BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+>) => {
+  const baseQueryWithReauth: BaseQueryFn<
+    string | FetchArgs,
+    unknown,
+    FetchBaseQueryError
+  > = async (args, api, extraOptions) => {
+    let result = await _baseQuery(args, api, extraOptions);
+    if (result.error && check_jwt_expired(result.error)) {
+      const refreshTokenMutation =  authApi.endpoints.refreshToken.initiate({})
+      const resp = await api.dispatch(refreshTokenMutation)
+      if(resp.data?.success){
+        result = await _baseQuery(args, api, extraOptions);
+      }
+      if(resp.error){
+        const logoutMutation =  authApi.endpoints.logOut.initiate({})
+        const resp = await api.dispatch(logoutMutation)
+        if(!resp.data?.success){
+          deleteUserFromStorage()
+        }
+        window.location.href = "/login"
+        //TODO history apply to redirect after relogin
+      }
+    }
+    return result
+  }
+  return baseQueryWithReauth
+}
+
 export const authApi = createApi({
     reducerPath: 'authApi',
-    baseQuery: fetchBaseQuery({ baseUrl: api_url }),
+    baseQuery: getReauthBaseQuery(
+      baseQuery
+    ),
     endpoints: (builder) => ({
       registerUser: builder.mutation<ResponseMessage,{
         email: string, 
@@ -208,7 +230,16 @@ export const authApi = createApi({
             body: formData,
             headers: jsonHeader
         })
-      })
+      }),
+      getProfile: builder.query<{
+        success: boolean,
+        user: {
+          email: string,
+          name: string
+        }
+      }, void>({
+        query: () => 'auth/user'
+      }),
     })
 });
 
@@ -218,6 +249,7 @@ export const {
   useLogOutMutation, 
   useForgotPasswordMutation, 
   useResetPasswordMutation,
+  useGetProfileQuery
 } = authApi;
 
 export default authApi

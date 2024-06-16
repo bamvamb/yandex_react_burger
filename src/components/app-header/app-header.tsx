@@ -15,7 +15,7 @@ const AppHeader = () => {
             <AppHeaderLink text="Лента заказов" Icon={ListIcon}/>   
         </div>  
         <Logo/>
-        <AppHeaderLink text="Личный кабинет" Icon={ProfileIcon}/>
+        <AppHeaderLink url='/profile' text="Личный кабинет" Icon={ProfileIcon}/>
     </nav>
 }
 
