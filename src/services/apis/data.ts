@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Ingredient,  ingredientLoc} from '../../share/typing';
 import { ls_storage } from '../../share/browser_storage/browser_storage';
-import authApi, {ls_user_keys} from './auth';
+import authApi, {deleteUserFromStorage, ls_user_keys} from './auth';
 
 import type { 
   BaseQueryFn,
@@ -46,6 +46,11 @@ const baseQueryWithReauth: BaseQueryFn<
       result = await baseQuery(args, api, extraOptions);
     }
     if(resp.error){
+      const logoutMutation =  authApi.endpoints.logOut.initiate({})
+      const resp = await api.dispatch(logoutMutation)
+      if(!resp.data?.success){
+        deleteUserFromStorage()
+      }
       window.location.href = "/login"
       //TODO history apply to redirect after relogin
     }
