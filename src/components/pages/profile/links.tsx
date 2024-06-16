@@ -8,7 +8,6 @@ const Links = () => {
     const navigate = useNavigate()
 
     const handleLogout = () => {
-        console.log('logout')
         logOut({})
     }
 
