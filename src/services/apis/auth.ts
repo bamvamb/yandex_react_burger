@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {ls_storage} from '../../share/browser_storage/browser_storage';
 
+const api_url = 'https://norma.nomoreparties.space/api/'
+
 export interface ResponseMessage {
   success: Boolean,
   message: string
@@ -16,14 +18,50 @@ export interface ResponseAuthMessage {
   refreshToken: string
 }
 
-const setUserInStorage = ({user, accessToken, refreshToken}:ResponseAuthMessage) => {
-  ls_storage.set("email", user.email)
-  ls_storage.set("username", user.name)
-  ls_storage.set("accessToken", accessToken.split("Bearer ")[1])
-  ls_storage.set("refreshToken", refreshToken)
+export const ls_user_keys = {
+  accessToken: "accessToken",
+  refreshToken: "refreshToken",
+  username: "username",
+  email: "email"
 }
 
-const transformAuthResponse = (
+export const refreshTokensInStorage = (accessToken: string, refreshToken: string) => {
+  ls_storage.set(ls_user_keys.accessToken, accessToken.split("Bearer ")[1])
+  ls_storage.set(ls_user_keys.refreshToken, refreshToken)
+}
+
+const setUserInStorage = ({user, accessToken, refreshToken}:ResponseAuthMessage) => {
+  ls_storage.set(ls_user_keys.email, user.email)
+  ls_storage.set(ls_user_keys.username, user.name)
+  refreshTokensInStorage(accessToken, refreshToken)
+}
+
+export const deleteUserFromStorage = () => Object.keys(ls_user_keys).forEach( key => ls_storage.delete(key))
+
+/*
+export const refreshTokens = async () => {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token: ls_storage.get(ls_user_keys.refreshToken) })
+  }; 
+  try {
+    const resp = await fetch(api_url + "auth/token", requestOptions)
+    const obj_resp:{ success: boolean, accessToken: string, refreshToken: string} = await resp.json()
+    const {success, accessToken, refreshToken} = obj_resp
+    if(success){
+      refreshTokensInStorage(accessToken, refreshToken)
+      return true
+    } else {
+      return false
+    }
+  } catch {
+    return false
+  }
+}
+*/
+
+export const transformAuthResponse = (
   response:ResponseAuthMessage, 
   messages:{
     success_message: string,
@@ -49,7 +87,7 @@ const jsonHeader = {
 
 export const authApi = createApi({
     reducerPath: 'authApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://norma.nomoreparties.space/api/' }),
+    baseQuery: fetchBaseQuery({ baseUrl: api_url }),
     endpoints: (builder) => ({
       registerUser: builder.mutation<ResponseMessage,{
         email: string, 
@@ -82,6 +120,50 @@ export const authApi = createApi({
           error_message: "Error occured on login action"
         })
       }),
+      logOut: builder.mutation<ResponseMessage,{}>({
+        query: () => ({
+            url: 'auth/logout', 
+            method: 'POST', 
+            body: {
+              token: ls_storage.get("refreshToken")
+            },
+            headers: jsonHeader
+        }),
+        transformResponse: (response:ResponseMessage):ResponseMessage => {
+          if(response.success){
+            deleteUserFromStorage()
+          }
+          return response
+        }
+      }),
+      refreshToken: builder.mutation<ResponseMessage,{}>({
+        query: () => ({
+            url: 'auth/token', 
+            method: 'POST', 
+            body: {
+              token: ls_storage.get("refreshToken")
+            },
+            headers: jsonHeader
+        }),
+        transformResponse: (response:{
+          success: boolean,
+          accessToken: string,
+          refreshToken: string
+        }):ResponseMessage => {
+          if(response.success){
+            refreshTokensInStorage(response.accessToken, response.refreshToken)
+            return {
+              success: response.success,
+              message: "succsessfully refresh tokens"
+            }
+          } else {
+            return {
+              success: response.success,
+              message: "error occured on trying to refresh token"
+            }
+          }
+        }
+      }),
       forgotPassword: builder.mutation<ResponseMessage,{
         email:string
       }>({
@@ -106,6 +188,12 @@ export const authApi = createApi({
     })
 });
 
-//const [createOrder,{data:order, isSuccess, isError, isLoading}] = useCreateOrderMutation()
+export const { 
+  useRegisterUserMutation,
+  useLogInMutation, 
+  useLogOutMutation, 
+  useForgotPasswordMutation, 
+  useResetPasswordMutation,
+} = authApi;
 
-export const { useRegisterUserMutation, useLogInMutation, useForgotPasswordMutation, useResetPasswordMutation } = authApi;
+export default authApi
