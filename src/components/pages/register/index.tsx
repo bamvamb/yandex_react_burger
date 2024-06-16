@@ -1,5 +1,6 @@
 import AuthTemplate, {FormState} from '../../auth-template/auth-template';
 import { useRegisterUserMutation } from '../../../services/apis/auth';
+import { Navigate } from 'react-router-dom';
 
 function RegisterPage() {
   const [registerUser,{data:response, error, isSuccess, isError, isLoading}] = useRegisterUserMutation()
@@ -11,9 +12,13 @@ function RegisterPage() {
     }
   }
 
+  if(isSuccess){
+    return <Navigate to="/"/>
+  }
+
   return <AuthTemplate 
-    requestState={{ response, isSuccess, isError, isLoading, error}} 
     variant="register" 
+    requestState={{ response, isSuccess, isError, isLoading, error}} 
     handleSendRequest={handleRegisterClick}
   />
 }

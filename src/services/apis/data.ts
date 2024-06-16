@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Ingredient,  ingredientLoc} from '../../share/typing';
+import { ls_storage } from '../../share/browser_storage/browser_storage';
 
 export interface getIngredientsResponse {
     success: Boolean,
@@ -16,7 +17,16 @@ export interface createOrderResponse {
 
 export const dataApi = createApi({
     reducerPath: 'baseApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://norma.nomoreparties.space/api/' }),
+    baseQuery: fetchBaseQuery({ 
+      baseUrl: 'https://norma.nomoreparties.space/api/',
+      prepareHeaders: (headers) => {
+        const token = ls_storage.get("accessToken")
+        if (token) {
+          headers.set('Authorization', `Bearer ${token}`);
+        }
+        return headers;
+      },
+    }),
     endpoints: (builder) => ({
       getIngredients: builder.query<Ingredient[], void>({
         query: () => 'ingredients',
