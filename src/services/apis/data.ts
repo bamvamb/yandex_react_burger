@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Ingredient,  ingredientLoc} from '../../share/typing';
-import { ls_storage } from '../../share/browser_storage/browser_storage';
+import { ls_storage } from '../../share/browser_storage';
 import { getReauthBaseQuery, ls_user_keys } from './auth';
 
 

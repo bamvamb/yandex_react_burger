@@ -5,6 +5,7 @@ import burgerSlice from './slices/burger';
 import tagsSlice from './slices/tabs';
 import { authApi, authUnautorizedApi } from './apis/auth';
 import profileInputsSlice from './slices/profileInputs';
+import { userSlice } from './slices/user';
 
 const store = configureStore({
   reducer: {
@@ -14,7 +15,8 @@ const store = configureStore({
     [ingredientSlice.reducerPath]: ingredientSlice.reducer,
     [burgerSlice.reducerPath]: burgerSlice.reducer,
     [tagsSlice.reducerPath]: tagsSlice.reducer,
-    [profileInputsSlice.reducerPath]: profileInputsSlice.reducer
+    [profileInputsSlice.reducerPath]: profileInputsSlice.reducer,
+    [userSlice.reducerPath]: userSlice.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(dataApi.middleware, authApi.middleware, authUnautorizedApi.middleware),

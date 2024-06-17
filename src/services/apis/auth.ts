@@ -1,5 +1,5 @@
 import { BaseQueryFn, FetchArgs, FetchBaseQueryError, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import {ls_storage} from '../../share/browser_storage/browser_storage';
+import {ls_storage} from '../../share/browser_storage';
 import { SerializedError } from '@reduxjs/toolkit';
 
 export const api_url = 'https://norma.nomoreparties.space/api/'
@@ -32,6 +32,14 @@ export const ls_user_keys = {
   refreshToken: "refreshToken",
   username: "username",
   email: "email"
+}
+
+export const get_ls_user_info = () => {
+  const name = ls_storage.get(ls_user_keys.username)
+  const email = ls_storage.get(ls_user_keys.email)
+  if(name && email){
+    return {name, email}
+  }
 }
 
 export const refreshTokensInStorage = (accessToken: string, refreshToken: string) => {
@@ -130,21 +138,12 @@ export const getReauthBaseQuery = (_baseQuery:BaseQueryFn<
           deleteUserFromStorage()
         }
         window.location.href = "/login"
-        //TODO history apply to redirect after relogin
       }
     }
     return result
   }
   return baseQueryWithReauth
 }
-
-const unauthorised_urls = [
-  "auth/token",
-  "auth/register",
-  "auth/login",
-  "password-reset",
-  "password-reset/reset"
-]
 
 export const authUnautorizedApi = createApi({
   reducerPath: 'authUnautorizedApi',
