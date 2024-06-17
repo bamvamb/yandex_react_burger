@@ -105,14 +105,6 @@ const baseQuery = fetchBaseQuery({
   },
 })
 
-const unauthorised_urls = [
-  "auth/token",
-  "auth/register",
-  "auth/login",
-  "password-reset",
-  "password-reset/reset"
-]
-
 export const getReauthBaseQuery = (_baseQuery:BaseQueryFn<
   string | FetchArgs,
   unknown,
@@ -124,12 +116,10 @@ export const getReauthBaseQuery = (_baseQuery:BaseQueryFn<
     FetchBaseQueryError
   > = async (args, api, extraOptions) => {
     let result = await _baseQuery(args, api, extraOptions);
-    if(typeof args === "object" && unauthorised_urls.includes(args.url)){
-      return result
-    }
     if (result.error && check_jwt_expired(result.error)) {
-      const refreshTokenMutation = authApi.endpoints.refreshToken.initiate({})
+      const refreshTokenMutation = authUnautorizedApi.endpoints.refreshToken.initiate({})
       const resp = await api.dispatch(refreshTokenMutation)
+      console.log({resp})
       if(resp.data?.success){
         result = await _baseQuery(args, api, extraOptions);
       }
@@ -148,43 +138,109 @@ export const getReauthBaseQuery = (_baseQuery:BaseQueryFn<
   return baseQueryWithReauth
 }
 
+const unauthorised_urls = [
+  "auth/token",
+  "auth/register",
+  "auth/login",
+  "password-reset",
+  "password-reset/reset"
+]
+
+export const authUnautorizedApi = createApi({
+  reducerPath: 'authUnautorizedApi',
+  baseQuery: fetchBaseQuery({ 
+    baseUrl: api_url,
+  }),
+  endpoints: (builder) => ({
+    registerUser: builder.mutation<ResponseMessage,{
+      email: string, 
+      password: string, 
+      name: string 
+    }>({
+      query: (formData) => ({
+          url: 'auth/register', 
+          method: 'POST', 
+          body: formData,
+          headers: jsonHeader
+      }),
+      transformResponse: (response:ResponseAuthMessage):ResponseMessage => transformAuthResponse(response, {
+        success_message: "User successfully registered",
+        error_message: "Error occured on register action"
+      })
+    }),
+    refreshToken: builder.mutation<ResponseMessage,{}>({
+      query: () => ({
+          url: 'auth/token', 
+          method: 'POST', 
+          body: {
+            token: ls_storage.get("refreshToken")
+          },
+          headers: jsonHeader
+      }),
+      transformResponse: (response:{
+        success: boolean,
+        accessToken: string,
+        refreshToken: string
+      }):ResponseMessage => {
+        if(response.success){
+          refreshTokensInStorage(response.accessToken, response.refreshToken)
+          return {
+            success: response.success,
+            message: "succsessfully refresh tokens"
+          }
+        } else {
+          return {
+            success: response.success,
+            message: "error occured on trying to refresh token"
+          }
+        }
+      }
+    }),
+    forgotPassword: builder.mutation<ResponseMessage,{
+      email:string
+    }>({
+      query: (formData) => ({
+          url: 'password-reset', 
+          method: 'POST', 
+          body: formData,
+          headers: jsonHeader
+      })
+    }),
+    resetPassword: builder.mutation<ResponseMessage,{
+      password:string,
+      token:string
+    }>({
+      query: (formData) => ({
+          url: 'password-reset/reset', 
+          method: 'POST', 
+          body: formData,
+          headers: jsonHeader
+      })
+    }),
+    logIn: builder.mutation<ResponseMessage,{
+      email: string, 
+      password: string
+    }>({
+      query: (formData) => ({
+          url: 'auth/login', 
+          method: 'POST', 
+          body: formData,
+          headers: jsonHeader
+      }),
+      transformResponse: (response:ResponseAuthMessage):ResponseMessage => transformAuthResponse(response, {
+        success_message: "User successfully logged in",
+        error_message: "Error occured on login action"
+      })
+    }),
+  })
+})
+
 export const authApi = createApi({
     reducerPath: 'authApi',
     baseQuery: getReauthBaseQuery(
       baseQuery
     ),
     endpoints: (builder) => ({
-      registerUser: builder.mutation<ResponseMessage,{
-        email: string, 
-        password: string, 
-        name: string 
-      }>({
-        query: (formData) => ({
-            url: 'auth/register', 
-            method: 'POST', 
-            body: formData,
-            headers: jsonHeader
-        }),
-        transformResponse: (response:ResponseAuthMessage):ResponseMessage => transformAuthResponse(response, {
-          success_message: "User successfully registered",
-          error_message: "Error occured on register action"
-        })
-      }),
-      logIn: builder.mutation<ResponseMessage,{
-        email: string, 
-        password: string
-      }>({
-        query: (formData) => ({
-            url: 'auth/login', 
-            method: 'POST', 
-            body: formData,
-            headers: jsonHeader
-        }),
-        transformResponse: (response:ResponseAuthMessage):ResponseMessage => transformAuthResponse(response, {
-          success_message: "User successfully logged in",
-          error_message: "Error occured on login action"
-        })
-      }),
       logOut: builder.mutation<ResponseMessage,{}>({
         query: () => ({
             url: 'auth/logout', 
@@ -200,55 +256,6 @@ export const authApi = createApi({
           }
           return response
         }
-      }),
-      refreshToken: builder.mutation<ResponseMessage,{}>({
-        query: () => ({
-            url: 'auth/token', 
-            method: 'POST', 
-            body: {
-              token: ls_storage.get("refreshToken")
-            },
-            headers: jsonHeader
-        }),
-        transformResponse: (response:{
-          success: boolean,
-          accessToken: string,
-          refreshToken: string
-        }):ResponseMessage => {
-          if(response.success){
-            refreshTokensInStorage(response.accessToken, response.refreshToken)
-            return {
-              success: response.success,
-              message: "succsessfully refresh tokens"
-            }
-          } else {
-            return {
-              success: response.success,
-              message: "error occured on trying to refresh token"
-            }
-          }
-        }
-      }),
-      forgotPassword: builder.mutation<ResponseMessage,{
-        email:string
-      }>({
-        query: (formData) => ({
-            url: 'password-reset', 
-            method: 'POST', 
-            body: formData,
-            headers: jsonHeader
-        })
-      }),
-      resetPassword: builder.mutation<ResponseMessage,{
-        password:string,
-        token:string
-      }>({
-        query: (formData) => ({
-            url: 'password-reset/reset', 
-            method: 'POST', 
-            body: formData,
-            headers: jsonHeader
-        })
       }),
       patchProfile: builder.mutation<ResponsePatchProfile,{
         email:string,
@@ -275,13 +282,16 @@ export const authApi = createApi({
 });
 
 export const { 
-  useRegisterUserMutation,
-  useLogInMutation, 
   useLogOutMutation, 
-  useForgotPasswordMutation, 
-  useResetPasswordMutation,
   usePatchProfileMutation,
   useGetProfileQuery
 } = authApi;
+
+export const {
+  useRegisterUserMutation,
+  useLogInMutation,   
+  useForgotPasswordMutation, 
+  useResetPasswordMutation,
+} = authUnautorizedApi
 
 export default authApi
