@@ -13,7 +13,7 @@ function ForgotPasswordPage() {
   }
 
   if(isSuccess) {
-    return <Navigate to="/reset-password"/>
+    return <Navigate to="/reset-password" replace={true}/>
   }
   
   return <AuthTemplate 

@@ -1,17 +1,20 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import styles from './links.module.css'
 import { useLogOutMutation } from '../../../services/apis/auth';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { unauthorized } from '../../../services/slices/user';
 
 const Links = () => {
+    const dispatch = useDispatch()
     const [logOut, {isSuccess:logoutSuccess, isLoading:logoutLoading}] = useLogOutMutation()
-    const navigate = useNavigate()
+    const current_path = window.location.pathname;
+    const [link, setLink] = useState<string>(current_path)
 
     const handleLogout = () => {
+        setLink(current_path)
         logOut({})
     }
-
-    const current_path = window.location.pathname;
 
     const links:{
         text:string,
@@ -35,12 +38,15 @@ const Links = () => {
         }
     ], [current_path])
 
+ 
+    useEffect(() => {
+        if(logoutSuccess){
+            window.location.reload()
+        }
+    },[logoutSuccess])
+
     if(logoutLoading){
         return <div>Разлогиниваемся...</div>
-    }
-
-    if(logoutSuccess){
-        navigate("/login")
     }
 
     return <div className={styles.links_container}>
