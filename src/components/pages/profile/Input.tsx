@@ -1,28 +1,30 @@
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components"
-import { InputsState } from "../../../services/slices/profileInputs"
+import { InputsNames } from "../../../services/slices/profileInputs"
 
 interface Props {
     type?: "text" | "email" | "password" | undefined,
-    onIconClick: (key: keyof InputsState) => void,
+    onIconClick: (key: InputsNames) => void,
     value: string,
-    setValue: (key: keyof InputsState, value:string)=>void,
+    setValue: (key: InputsNames, value:string)=>void,
     placeholder: string,
-    name: keyof InputsState,
-    disabled: boolean
+    name: InputsNames,
+    disabled: boolean,
+    error: boolean
 }
+const input_error_message = "недопустимое значение"
 
-const ProfileInput:React.FC<Props> = ({type, onIconClick, value, setValue, placeholder, name, disabled}) => {
+const ProfileInput:React.FC<Props> = ({type, onIconClick, value, setValue, placeholder, name, disabled, error}) => {
     return <Input 
         type={type}
         name={name}
-        //error={checkState[input_data.name]}
-        //errorText={checkState[input_data.name] ? input_error_message : undefined}
+        error={error}
+        errorText={error ? input_error_message : undefined}
         value={value}
         onChange={ev => setValue(name, ev.target.value)}
         placeholder={placeholder}
         onIconClick={() => onIconClick(name)}
         disabled={disabled}
-        icon={"EditIcon"}
+        icon={error ? undefined : "EditIcon"}
         onPointerEnterCapture={()=>{}}
         onPointerLeaveCapture={()=>{}}
     ></Input>   

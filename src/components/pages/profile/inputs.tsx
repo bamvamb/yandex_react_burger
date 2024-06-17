@@ -2,15 +2,17 @@ import { useEffect, useMemo } from 'react';
 import { useGetProfileQuery, usePatchProfileMutation } from '../../../services/apis/auth';
 import styles from './inputs.module.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { InputsState, setKey } from '../../../services/slices/profileInputs';
+import { setKeyValue, setKeyError, InputsNames } from '../../../services/slices/profileInputs';
 import { RootStoreState } from '../../../services/store';
 import ProfileInput from './Input';
+import { check_email_value, check_text_value } from '../../../share/input_check';
 
 const Inputs = () => {
     const dispatch = useDispatch()
     const inputsState = useSelector((state:RootStoreState) => state.profileInputs)
-    const { name, password, email } = inputsState
+    const { name, password, email } = inputsState.values
     const {data, isLoading, isSuccess, isError} = useGetProfileQuery()
+
     const [patchProfile,{
         data:patchData, 
         isSuccess:patchSuccess, 
@@ -18,37 +20,48 @@ const Inputs = () => {
         isLoading:patchLoading
       }] = usePatchProfileMutation()
 
-    const handleChangeValue = (key:keyof InputsState, value:string) => {
-        dispatch(setKey({key,value}))
+    const handleChangeValue = (key:InputsNames, value:string) => {
+        dispatch(setKeyValue({key,value}))
+        const check_fn = key === "email" ? check_email_value : check_text_value
+        if(check_fn(value)){
+            if(inputsState.errors[key]){
+                dispatch(setKeyError({key,value:false}))
+            }
+        } else {
+            dispatch(setKeyError({key,value:true}))
+        }
     }
 
-    const onIconClick = (key:keyof InputsState) => {
-        if(data?.user && !patchLoading){
+    const onIconClick = (key:InputsNames) => {
+        const value = inputsState.values[key]
+        if(data?.user && !patchLoading && !inputsState.errors[key]){
             const patchData = {
                 ...data.user,
-                [key]: inputsState[key]
+                [key]: value
             }
             patchProfile(patchData)
+        } else {
+            dispatch(setKeyError({key, value: true}))
         }
     }
 
     useEffect(() => {
         if(isSuccess){
-            dispatch(setKey({key: "name", value: data.user.name}))
-            dispatch(setKey({key: "email", value: data.user.email}))
+            dispatch(setKeyValue({key: "name", value: data.user.name}))
+            dispatch(setKeyValue({key: "email", value: data.user.email}))
         }
     }, [isSuccess])
 
     useEffect(() => {
         if(patchSuccess && patchData){
             console.log({patchData})
-            dispatch(setKey({key: "name", value: patchData.user.name}))
-            dispatch(setKey({key: "email", value: patchData.user.email}))
+            dispatch(setKeyValue({key: "name", value: patchData.user.name}))
+            dispatch(setKeyValue({key: "email", value: patchData.user.email}))
         }
     }, [patchSuccess])
 
     const inputs_data:{
-        name: keyof InputsState,
+        name: InputsNames,
         type: "text" | "email" | "password" | undefined,
         value: string,
         placeholder: string
@@ -88,7 +101,8 @@ const Inputs = () => {
                     setValue={ (key, value) => handleChangeValue(key, value)}
                     onIconClick={key => onIconClick(key)}
                     disabled={patchLoading}
-                ></ProfileInput>
+                    error={inputsState.errors[input.name]}
+                />
             ))
         }
         {
