@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { get_ls_user_info } from '../services/apis/auth';
 import { authSuccess } from '../services/slices/user';
-import { OnlyUnauthorised, Authorised } from './share/protected-route'
+import { OnlyUnauthorised, Authorised, OnlyFrom } from './share/protected-route'
 
 function App() {
   const dispatch = useDispatch()
@@ -60,7 +60,7 @@ function App() {
                 }/>}
               />
               <Route path="/reset-password" element={
-                <OnlyUnauthorised element={
+                <OnlyFrom onlyUnAuth={true} onlyFrom={"/forgot-password"} element={
                   <ResetPasswordPage/>
                 }/>
               }/>

@@ -1,9 +1,10 @@
 import AuthTemplate, {FormState} from '../../auth-template/auth-template';
 import { useForgotPasswordMutation } from '../../../services/apis/auth';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation, } from 'react-router-dom';
 
 function ForgotPasswordPage() {
   const [forgotPassword,{data:response, error, isSuccess, isError, isLoading}] = useForgotPasswordMutation()
+  const locaton = useLocation()
   
   const handleForgotPassword = (data:FormState) => {
     const {email} = data
@@ -13,7 +14,7 @@ function ForgotPasswordPage() {
   }
 
   if(isSuccess) {
-    return <Navigate to="/reset-password" replace={true}/>
+    return <Navigate to="/reset-password" state={{ from: locaton.pathname }} replace={true}/>
   }
   
   return <AuthTemplate 

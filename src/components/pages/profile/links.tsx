@@ -1,18 +1,13 @@
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './links.module.css'
 import { useLogOutMutation } from '../../../services/apis/auth';
-import { useEffect, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { unauthorized } from '../../../services/slices/user';
+import { useEffect, useMemo } from 'react';
 
 const Links = () => {
-    const dispatch = useDispatch()
     const [logOut, {isSuccess:logoutSuccess, isLoading:logoutLoading}] = useLogOutMutation()
     const current_path = window.location.pathname;
-    const [link, setLink] = useState<string>(current_path)
 
     const handleLogout = () => {
-        setLink(current_path)
         logOut({})
     }
 
