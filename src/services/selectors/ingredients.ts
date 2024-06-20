@@ -31,3 +31,11 @@ export const selectIngredientsByType = createSelector(
         return data.filter( ingredient => ingredient.type === type )
     }
 );
+
+export const selectIngredientById = createSelector(
+    selectIngredientsState, (state: RootStoreState, ingredient_id: string|undefined) => ingredient_id,
+    (ingredinentsState, ingredient_id) => {
+        const data = (ingredinentsState?.data?? []) as Ingredient[]
+        return data.find( ingredient => ingredient._id === ingredient_id )
+    }
+);

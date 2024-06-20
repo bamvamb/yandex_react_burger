@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router-dom'
 
 interface Props {
     Icon: React.ComponentType<TIconProps>
-    text: String,
+    text: string,
     url?: string
 }
 

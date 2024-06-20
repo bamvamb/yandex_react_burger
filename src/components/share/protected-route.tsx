@@ -34,7 +34,6 @@ export const Protected:React.FC<Props> = ({ onlyUnAuth = false, element, onlyFro
     }
 
     if (!onlyUnAuth && !authorized) {
-        console.log(onlyUnAuth, authorized, location.pathname)
         return <Navigate to="/login" state={{ from: location }} />;
     }
     return element;

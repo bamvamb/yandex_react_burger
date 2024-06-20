@@ -5,15 +5,15 @@ import { getReauthBaseQuery, ls_user_keys } from './auth';
 
 
 export interface getIngredientsResponse {
-    success: Boolean,
+    success: boolean,
     data: Ingredient[]
 }
 
 export interface createOrderResponse {
-  success: Boolean,
+  success: boolean,
   name: string,
   order: {
-    number: Number
+    number: number
   }
 }
 
@@ -54,9 +54,19 @@ export const dataApi = createApi({
             }
         })
       }),
-      
+      ingredientDetails: builder.query<Ingredient|null, {ingredient_id: string|undefined}>({
+        query: () => 'ingredients',
+        transformResponse: (response: getIngredientsResponse, undefined, data) => {
+            if(response.success && data && data.ingredient_id){
+              const ingredient =  response.data.find( ingredient => ingredient._id === data.ingredient_id )
+              return ingredient ? ingredientLoc(ingredient) : null
+            } else {
+              return null
+            }
+          }
+        })
     })
 });
 
 
-export const { useGetIngredientsQuery, useCreateOrderMutation } = dataApi;
+export const { useGetIngredientsQuery, useCreateOrderMutation, useIngredientDetailsQuery } = dataApi;

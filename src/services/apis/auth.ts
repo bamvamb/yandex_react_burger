@@ -5,7 +5,7 @@ import { SerializedError } from '@reduxjs/toolkit';
 export const api_url = 'https://norma.nomoreparties.space/api/'
 
 export interface ResponseMessage {
-  success: Boolean,
+  success: boolean,
   message: string
 }
 
@@ -14,11 +14,11 @@ export interface ResponsePatchProfile {
     email: string,
     name: string
   },
-  success: Boolean
+  success: boolean
 }
 
 export interface ResponseAuthMessage {
-  success: Boolean,
+  success: boolean,
   user: {
     email: string,
     name: string
