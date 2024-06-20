@@ -127,7 +127,6 @@ export const getReauthBaseQuery = (_baseQuery:BaseQueryFn<
     if (result.error && check_jwt_expired(result.error)) {
       const refreshTokenMutation = authUnautorizedApi.endpoints.refreshToken.initiate({})
       const resp = await api.dispatch(refreshTokenMutation)
-      console.log({resp})
       if(resp.data?.success){
         result = await _baseQuery(args, api, extraOptions);
       }

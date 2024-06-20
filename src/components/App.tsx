@@ -18,12 +18,9 @@ import { useLocation } from 'react-router-dom';
 import IngredientModal from './ingredient-modal/ingredient-modal';
 
 function App() {
-  
-
-
   return (
-  <Router>
-    <Layout/>
+    <Router>
+      <Layout/>
     </Router>
   );
 }
@@ -93,6 +90,7 @@ const Layout = () => {
             />
           )
         }
+        <Route path="*" element={null}/>
         </Routes>
     </main>
   
