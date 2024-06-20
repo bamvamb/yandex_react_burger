@@ -6,6 +6,8 @@ import { setKeyValue, setKeyError, InputsNames } from '../../../services/slices/
 import { RootStoreState } from '../../../services/store';
 import ProfileInput from './Input';
 import { check_email_value, check_text_value } from '../../../share/input_check';
+import Loader from '../../share/loader/loader';
+import ErrorView from '../../share/error/error';
 
 const Inputs = () => {
     const dispatch = useDispatch()
@@ -86,7 +88,7 @@ const Inputs = () => {
         },
     ], [name, email, password])
 
-    if(isLoading) return <div>Данные о пользователе загружаются...</div>
+    if(isLoading) return <Loader text="Данные о пользователе загружаются..."/>
     if(isError) return <div>Ошибка получения данных о пользователе</div>
 
     return data ? <div className={styles.inputs_container}>
@@ -106,9 +108,7 @@ const Inputs = () => {
             ))
         }
         {
-            patchError && <div className={styles.error}>
-                Произошла ошибка обновления данных пользователя
-            </div>
+            patchError && <ErrorView text="Произошла ошибка обновления данных пользователя"/>
         }
     </div> : null
 }

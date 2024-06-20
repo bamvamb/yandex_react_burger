@@ -7,6 +7,8 @@ import { setContainerScrollTop } from '../../services/slices/tabs'
 import { useDispatch, useSelector} from 'react-redux'
 import { useGetIngredientsQuery } from '../../services/apis/data'
 import { selectIngredientTypes } from '../../services/selectors/ingredients'
+import Loader from '../share/loader/loader'
+import ErrorView from '../share/error/error'
 
 const BurgerIngredients = () => {
     const dispatch = useDispatch()
@@ -16,16 +18,16 @@ const BurgerIngredients = () => {
     const ref = useRef<HTMLDivElement>(null)
     
     if (isLoading) {
-        return <div>Загрузка...</div>;
+        return <Loader text="Загрузка..."/>;
     }
 
     if (error) {
         if ('message' in error) {
-        return <div>Ошибка получения данных об ингредиентах: {error.message}</div>;
+            return <ErrorView text={`Ошибка получения данных об ингредиентах: ${error.message}`}/>;
         } else if('error' in error) {
-        return <div>Ошибка получения данных об ингредиентах: {error.error}</div>;
+            return <ErrorView text={`Ошибка получения данных об ингредиентах: ${error.error}`}/>;
         } else {
-        return <div>Ошибка получения данных об ингредиентах</div>;
+            return <ErrorView text="Ошибка получения данных об ингредиентах"/>
         }
     }
     

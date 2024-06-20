@@ -1,4 +1,3 @@
-import React from 'react'
 import {useParams} from 'react-router-dom'
 import { useIngredientDetailsQuery } from "../../../services/apis/data"
 import IngredientDetail from '../../ingredient-details/ingredient-details';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AppHeader from './app-header/app-header'
 import styles from './App.module.css';
@@ -16,6 +15,7 @@ import { authSuccess } from '../services/slices/user';
 import { OnlyUnauthorised, Authorised, OnlyFrom } from './share/protected-route'
 import { useLocation } from 'react-router-dom';
 import IngredientModal from './ingredient-modal/ingredient-modal';
+import ErrorView from './share/error/error';
 
 function App() {
   return (
@@ -77,7 +77,10 @@ const Layout = () => {
               <ResetPasswordPage/>
             }/>
           }/>
-          <Route path="*" element={<div>Not found 404</div>}/>
+          <Route path="*" element={
+           //<div>Not found 404</div>
+            <ErrorView text={"Страница не найдена"}/>
+          }/>
         </Routes>
         <Routes>
         {

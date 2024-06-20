@@ -1,4 +1,3 @@
-import React from 'react'
 import { Ingredient } from '../../share/typing';
 import styles from "./ingredient-details.module.css"
 

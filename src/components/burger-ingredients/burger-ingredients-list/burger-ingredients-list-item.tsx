@@ -1,4 +1,3 @@
-import React from 'react'
 import {  Counter } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Ingredient } from '../../../share/typing';
 import ItemPrice from '../../share/item-price/item-price';

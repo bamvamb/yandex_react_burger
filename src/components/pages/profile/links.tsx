@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import styles from './links.module.css'
 import { useLogOutMutation } from '../../../services/apis/auth';
 import { useEffect, useMemo } from 'react';
+import Loader from '../../share/loader/loader';
 
 const Links = () => {
     const [logOut, {isSuccess:logoutSuccess, isLoading:logoutLoading}] = useLogOutMutation()
@@ -41,7 +42,7 @@ const Links = () => {
     },[logoutSuccess])
 
     if(logoutLoading){
-        return <div>Разлогиниваемся...</div>
+        return <Loader text="Разлогиниваемся..."/>
     }
 
     return <div className={styles.links_container}>
