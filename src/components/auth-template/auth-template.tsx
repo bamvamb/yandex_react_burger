@@ -8,6 +8,7 @@ import { ResponseMessage } from '../../services/apis/auth';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
 import { getErrorMessage as getErrorMsg } from '../../services/apis/auth';
+import ErrorView from '../share/error/error';
 
 interface Props {
     variant: Variants,
@@ -119,9 +120,7 @@ const AuthTemplate:React.FC<Props> = ({variant, handleSendRequest, requestState}
             >
                 {template.button}
             </Button>
-            {request_error && <span className={styles.request_error}>{
-                getErrorMessage()
-            }</span>}
+            {request_error && <ErrorView text={getErrorMessage()}/>}
             <div className={styles.footer}>
             {
                 template.footer.map( (footer, idx) => (

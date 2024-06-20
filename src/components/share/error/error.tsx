@@ -2,7 +2,7 @@ import { Children } from 'react';
 import styles from './error.module.css'
 interface Props {
     children?: React.ReactNode;
-    text?: string
+    text?: string|null
 }
 
 const ErrorView:React.FC<Props> = ({text, children}) => (

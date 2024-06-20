@@ -2,7 +2,7 @@ import styles from './loader.module.css'
 
 interface Props {
     children?: React.ReactNode;
-    text?: string
+    text?: string|null
 }
 
 const Loader:React.FC<Props> = ({children, text}) => (
