@@ -1,4 +1,3 @@
-import { Children } from 'react';
 import styles from './error.module.css'
 interface Props {
     children?: React.ReactNode;

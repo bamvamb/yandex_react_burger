@@ -95,7 +95,7 @@ const AuthTemplate:React.FC<Props> = ({variant, handleSendRequest, requestState}
 
     const template = authTemplateVariants[variant]
     return (
-        <div className={styles.content}>
+        <form className={styles.content}>
             <h1 className={styles.body_header}>{template.title}</h1>
             {
                 template.inputs.map( input_data => {
@@ -130,7 +130,7 @@ const AuthTemplate:React.FC<Props> = ({variant, handleSendRequest, requestState}
                 ))
             }
             </div>
-        </div>
+        </form>
     );
 }
 

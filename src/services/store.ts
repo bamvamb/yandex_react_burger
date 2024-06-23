@@ -3,7 +3,7 @@ import { dataApi } from './apis/data';
 import burgerSlice from './slices/burger';
 import tagsSlice from './slices/tabs';
 import { authApi, authUnautorizedApi } from './apis/auth';
-import profileInputsSlice from './slices/profileInputs';
+import profileInputsSlice from './slices/profileForm';
 import { userSlice } from './slices/user';
 
 const store = configureStore({

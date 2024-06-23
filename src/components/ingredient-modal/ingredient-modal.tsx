@@ -1,4 +1,3 @@
-import React from 'react'
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootStoreState } from "../../services/store";

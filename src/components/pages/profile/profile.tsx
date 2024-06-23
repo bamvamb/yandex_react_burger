@@ -1,11 +1,11 @@
 import styles from './profile.module.css'
 import Links from './links';
-import Inputs from './inputs';
+import ProfileForm from './form';
 
 const Profile = () => {
     return <div className={styles.profile_container}>
         <Links/>
-        <Inputs/>
+        <ProfileForm/>
     </div>
 }
 

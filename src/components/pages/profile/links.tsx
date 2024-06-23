@@ -58,6 +58,7 @@ const Links = () => {
                 </li>)
             }
         </ul>
+        <div className={styles.footer_text}>В этом разделе вы можете изменить свои персональные данные</div>
     </div>
 }
 

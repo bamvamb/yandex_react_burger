@@ -4,3 +4,9 @@
     gap: 20px;
     composes: p-8 from global;
 }
+
+.btns_container {
+    display: flex;
+    justify-content: space-between;
+    composes: p-4 from global;
+}

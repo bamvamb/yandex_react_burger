@@ -23,3 +23,8 @@
     composes: link;
     color: var(--text-primary-color);;
 }
+
+
+.footer_text {
+    composes: p-8 text text_type_main-default text_color_inactive from global;
+}
