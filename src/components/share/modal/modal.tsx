@@ -5,13 +5,13 @@ import ModalOverlay from './modal-overlay';
 
 interface ModalProps {
   isOpen: boolean;
-  header_title?: string;
+  headerTitle?: string;
   onClose: () => void;
   children: React.ReactNode;
 }
 
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, header_title }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, headerTitle }) => {
   const [iconMouseOver, setIconMouseOver] = useState(false)
   const handleClose = () => {
     setIconMouseOver(false)
@@ -45,7 +45,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, header_title }
           <h1 
             className={styles.modal_header}
             >
-            {header_title}
+            {headerTitle}
             <span
               className={styles.modal_close_icon}
               onClick={handleClose} 

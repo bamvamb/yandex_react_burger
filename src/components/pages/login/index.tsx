@@ -1,5 +1,5 @@
 import AuthTemplate, {FormState} from '../../auth-template/auth-template';
-import { get_ls_user_info, useLogInMutation } from '../../../services/apis/auth';
+import { getLSUserInfo, useLogInMutation } from '../../../services/apis/auth';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -19,7 +19,7 @@ function LoginPage() {
   }
   
   useEffect(() => {
-    const user = get_ls_user_info()
+    const user = getLSUserInfo()
     if(user){
       dispatch(authSuccess(user))
     } else {
@@ -28,7 +28,7 @@ function LoginPage() {
   }, [])
 
   useEffect(() => {
-    const user = get_ls_user_info()
+    const user = getLSUserInfo()
     if(user){
       dispatch(authSuccess(user))
     }

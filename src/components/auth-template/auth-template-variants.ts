@@ -6,7 +6,7 @@ type AuthTemplateVariants = {
         title: string,
         footer: {
             text: string,
-            link_text: string,
+            linkText: string,
             link: string
         }[],
         inputs: {
@@ -24,12 +24,12 @@ export const authTemplateVariants:AuthTemplateVariants = {
         footer: [
             {
                 text: "Вы новый пользователь?",
-                link_text: "Зарегистрироваться",
+                linkText: "Зарегистрироваться",
                 link: "/register"
             },
             {
                 text: "Забыли пароль?",
-                link_text: "Восстановить пароль",
+                linkText: "Восстановить пароль",
                 link: "/forgot-password"
             }
         ],
@@ -51,7 +51,7 @@ export const authTemplateVariants:AuthTemplateVariants = {
         title: "Регистрация",
         footer: [{
             text: "Уже зарегистрированы?",
-            link_text: "Войти",
+            linkText: "Войти",
             link: "/login"
         }],
         inputs: [
@@ -76,7 +76,7 @@ export const authTemplateVariants:AuthTemplateVariants = {
         title: "Восстановление пароля",
         footer: [{
             text: "Вспомнили пароль?",
-            link_text: "Войти",
+            linkText: "Войти",
             link: "/login"
         }],
         inputs: [
@@ -92,7 +92,7 @@ export const authTemplateVariants:AuthTemplateVariants = {
         title: "Восстановление пароля",
         footer: [{
             text: "Вспомнили пароль?",
-            link_text: "Войти",
+            linkText: "Войти",
             link: "/login"
         }],
         inputs: [

@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Ingredient,  ingredientLoc} from '../../share/typing';
-import { ls_storage } from '../../share/browser_storage';
-import { getReauthBaseQuery, ls_user_keys } from './auth';
+import { lsStorage } from '../../share/browser-storage';
+import { getReauthBaseQuery, lsUserKeys } from './auth';
 
 
 export interface getIngredientsResponse {
@@ -20,7 +20,7 @@ export interface createOrderResponse {
 const baseQuery = fetchBaseQuery({ 
   baseUrl: 'https://norma.nomoreparties.space/api/',
   prepareHeaders: (headers) => {
-    const token = ls_storage.get(ls_user_keys.accessToken)
+    const token = lsStorage.get(lsUserKeys.accessToken)
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }

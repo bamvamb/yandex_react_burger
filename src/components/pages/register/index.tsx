@@ -1,5 +1,5 @@
 import AuthTemplate, {FormState} from '../../auth-template/auth-template';
-import { get_ls_user_info, useRegisterUserMutation } from '../../../services/apis/auth';
+import { getLSUserInfo, useRegisterUserMutation } from '../../../services/apis/auth';
 import { Navigate } from 'react-router-dom';
 import { authError, authStarted, authSuccess, unauthorized } from '../../../services/slices/user';
 import { useDispatch } from 'react-redux';
@@ -25,8 +25,7 @@ function RegisterPage() {
   }
 
   useEffect(() => {
-    const user = get_ls_user_info()
-    console.log(user)
+    const user = getLSUserInfo()
     if(user){
       dispatch(authSuccess(user))
     } else {
@@ -35,7 +34,7 @@ function RegisterPage() {
   }, [])
 
   useEffect(() => {
-    const user = get_ls_user_info()
+    const user = getLSUserInfo()
     if(user){
       dispatch(authSuccess(user))
     }

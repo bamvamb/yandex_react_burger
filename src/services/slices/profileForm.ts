@@ -2,40 +2,25 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type InputsNames = "name"|"email"|"password"
 
-export interface InputsState {
-  name: {
-    error: boolean,
-    value: string, 
-    has_changed: boolean
-  },
-  email: {
-    error: boolean,
-    value: string, 
-    has_changed: boolean
-  },
-  password: {
-    error: boolean,
-    value: string, 
-    has_changed: boolean
-  }
+export interface InputState {
+  error: boolean;
+  value: string;
+  changed: boolean;
+}
+export type InputsState = {
+  [propName in InputsNames]: InputState
+};
+
+const defaultInputState:InputState = {
+  value: "",
+  error: false,
+  changed: false
 }
 
 const initialState:InputsState = {
-  name: {
-    value: "",
-    error: false,
-    has_changed: false
-  },
-  email: {
-    value: "",
-    error: false,
-    has_changed: false
-  },
-  password: {
-    value: "",
-    error: false,
-    has_changed: false
-  },
+  name: {...defaultInputState},
+  email: {...defaultInputState},
+  password: {...defaultInputState},
 }
 
 //TODO check input values
@@ -53,16 +38,16 @@ export const profileInputsSlice = createSlice({
       state[action.payload.key].error = action.payload.value
     },
     setHasChange: (state, action:PayloadAction<{key:InputsNames, value:boolean}>) => {
-      state[action.payload.key].has_changed = action.payload.value
+      state[action.payload.key].changed = action.payload.value
     },
     clearForm: (state) => {      
-      state.email.has_changed = false
+      state.email.changed = false
       state.email.error = false
       
-      state.password.has_changed = false
+      state.password.changed = false
       state.password.error = false
 
-      state.name.has_changed = false
+      state.name.changed = false
       state.name.error = false
     }
   },

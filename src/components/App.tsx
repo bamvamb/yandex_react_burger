@@ -10,7 +10,7 @@ import ProfilePage from './pages/profile';
 import IngredientPage from './pages/ingredient';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { get_ls_user_info } from '../services/apis/auth';
+import { getLSUserInfo } from '../services/apis/auth';
 import { authSuccess } from '../services/slices/user';
 import { OnlyUnauthorised, Authorised, OnlyFrom } from './share/protected-route'
 import { useLocation } from 'react-router-dom';
@@ -31,7 +31,7 @@ const Layout = () => {
   const backgroundLocation = location.state?.backgroundLocation as Location
 
   useEffect(() => {
-    const user = get_ls_user_info()
+    const user = getLSUserInfo()
     if(user){
       dispatch(authSuccess(user))
     }
@@ -43,9 +43,7 @@ const Layout = () => {
     <main className={styles.main}>
         <Routes location={backgroundLocation ? backgroundLocation : location}>
           <Route path="/" element={
-            <Authorised element={
-              <HomePage />
-            }/>
+             <HomePage />
           }/>
           <Route path="/profile" element={
             <Authorised element={
@@ -53,10 +51,8 @@ const Layout = () => {
             }/>
           }/>
           <Route path="/ingredients/:id" element={
-            <Authorised element={
-              <IngredientPage/>}
-            />}
-          />
+            <IngredientPage/>
+          }/>
           <Route path="/login" element={
             <OnlyUnauthorised element={
               <LoginPage/>
@@ -86,10 +82,8 @@ const Layout = () => {
         {
           backgroundLocation && (
             <Route path="/ingredients/:id" element={
-              <Authorised element={
-                <IngredientModal/>
-              }
-              />}
+              <IngredientModal/>
+             }
             />
           )
         }

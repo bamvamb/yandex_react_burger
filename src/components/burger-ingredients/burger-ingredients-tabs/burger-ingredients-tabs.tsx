@@ -4,21 +4,21 @@ import styles from "./burger-ingredients-tabs.module.css"
 import { selectCurrentType } from '../../../services/selectors/tabs';
 import { useSelector } from 'react-redux';
 import { RootStoreState } from '../../../services/store';
-import { type_localisation } from '../../../share/typing';
+import { typeLocalisation } from '../../../share/typing';
 
 interface Props {
-    ingredient_types: Array<string>;
-    list_ref: RefObject<HTMLDivElement>;
+    ingredientTypes: Array<string>;
+    listRef: RefObject<HTMLDivElement>;
 }
 
-const BurgerIngredientsTabs: React.FC<Props>  = ({ingredient_types, list_ref}) => {
-    const currentTops = useSelector((state: RootStoreState) => state.tabs.elements_top)
+const BurgerIngredientsTabs: React.FC<Props>  = ({ingredientTypes, listRef}) => {
+    const currentTops = useSelector((state: RootStoreState) => state.tabs.elementsTop)
     const currentType = useSelector(selectCurrentType)
 
     const handleClick = (itype:string) => {
         console.log(currentTops[itype])
-        if(list_ref.current){
-            list_ref.current.scrollTo({
+        if(listRef.current){
+            listRef.current.scrollTo({
                 top: currentTops[itype],
                 behavior: "smooth",
             })
@@ -28,14 +28,14 @@ const BurgerIngredientsTabs: React.FC<Props>  = ({ingredient_types, list_ref}) =
     return <div className={styles.ingredients_tabs}>
         <div className={styles.ingredients_tabs_container}>
         {
-            ingredient_types.map( itype => (
+            ingredientTypes.map( itype => (
                 <Tab 
                     key={itype} 
                     value={itype}
                     active={itype === currentType}
                     onClick={handleClick}
                 >
-                    {type_localisation[itype] ? type_localisation[itype].many : itype}
+                    {typeLocalisation[itype] ? typeLocalisation[itype].many : itype}
                 </Tab>
             ))
         }

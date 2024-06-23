@@ -52,4 +52,4 @@ export default class BrowserStorage {
     }
 }
 
-export const ls_storage = new BrowserStorage("localStorage")
+export const lsStorage = new BrowserStorage("localStorage")

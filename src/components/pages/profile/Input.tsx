@@ -9,11 +9,11 @@ interface Props {
     placeholder: string,
     name: InputsNames
 }
-const input_error_message = "недопустимое значение"
+const inputErrorMessage = "недопустимое значение"
 
 const ProfileInput:React.FC<Props> = ({type, placeholder, name}) => {
     const dispatch = useDispatch()
-    const {value, error, has_changed} = useSelector((state:RootStoreState) => state.profileForm[name])
+    const {value, error, changed} = useSelector((state:RootStoreState) => state.profileForm[name])
     const [disabled, setDisabled] = useState<boolean>(true)
 
     const onChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,16 +22,16 @@ const ProfileInput:React.FC<Props> = ({type, placeholder, name}) => {
     }
 
     useEffect(() => {
-        if(!has_changed && !disabled){
+        if(!changed && !disabled){
             setDisabled( true )
         }
-    }, [has_changed, disabled])
+    }, [changed])
 
     return <Input 
         type={type}
         name={name}
         error={error}
-        errorText={error ? input_error_message : undefined}
+        errorText={error ? inputErrorMessage : undefined}
         value={value}
         onChange={onChange}
         placeholder={placeholder}

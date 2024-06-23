@@ -13,7 +13,7 @@ import ErrorView from '../share/error/error'
 const BurgerIngredients = () => {
     const dispatch = useDispatch()
     const { error, isLoading } = useGetIngredientsQuery()
-    const ingredient_types = useSelector(selectIngredientTypes)
+    const ingredientTypes = useSelector(selectIngredientTypes)
 
     const ref = useRef<HTMLDivElement>(null)
     
@@ -37,15 +37,15 @@ const BurgerIngredients = () => {
 
     return <div className={styles.burger_ingredients}>
         <BurgerIngredientsTabs
-            ingredient_types={ingredient_types}
-            list_ref={ref}
+            ingredientTypes={ingredientTypes}
+            listRef={ref}
         />
         <div ref={ref} onScroll={onScroll} className={styles.burger_ingredients_container}>
         {
-            ingredient_types.map( ingredient_type => (
+            ingredientTypes.map( ingredientType => (
                 <BurgerIngredientsList 
-                    key={ingredient_type}
-                    type={ingredient_type}
+                    key={ingredientType}
+                    type={ingredientType}
                 />
             ))
         }

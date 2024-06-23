@@ -2,15 +2,15 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 
 export interface TabState {
-  elements_top: {
+  elementsTop: {
     [key:string]: number
   }
-  container_scroll_top: number
+  containerScrolTop: number
 }
 
 const initialState:TabState = {
-  elements_top: {},
-  container_scroll_top: 0
+  elementsTop: {},
+  containerScrolTop: 0
 }
 
 
@@ -19,13 +19,13 @@ export const tagsSlice = createSlice({
   initialState,
   reducers: {
     setContainerScrollTop: (state, action:PayloadAction<number>) => {
-      state.container_scroll_top = action.payload
+      state.containerScrolTop = action.payload
     },
     setElementPosition: (state, action:PayloadAction<{
       type: string,
       top: number
     }>) => {
-      state.elements_top[action.payload.type] = action.payload.top
+      state.elementsTop[action.payload.type] = action.payload.top
     }
   },
 });

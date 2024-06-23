@@ -6,7 +6,7 @@ import Loader from '../../share/loader/loader';
 
 const Links = () => {
     const [logOut, {isSuccess:logoutSuccess, isLoading:logoutLoading}] = useLogOutMutation()
-    const current_path = window.location.pathname;
+    const currentPath = window.location.pathname;
 
     const handleLogout = () => {
         logOut({})
@@ -21,18 +21,18 @@ const Links = () => {
         {
             link: "/profile",
             text: "Профиль",
-            active: current_path === "/profile"
+            active: currentPath === "/profile"
         },
         {
             link: "/profile/orders/:number",
             text: "История заказов",
-            active: current_path === "/profile/orders/:number"
+            active: currentPath === "/profile/orders/:number"
         },
         {
             onClick: handleLogout,
             text: "Выход"
         }
-    ], [current_path])
+    ], [currentPath])
 
  
     useEffect(() => {

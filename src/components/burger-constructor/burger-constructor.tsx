@@ -21,12 +21,7 @@ const BurgerConstructor = () => {
     const {bun, core} = useSelector((store:RootStoreState) => store.burger)
     const { data:ingredients } = useGetIngredientsQuery()
     const types = useSelector(selectIngredientTypes)
-
-    useEffect(() => {
-        if(ingredients){
-            dispatch(createRandom(ingredients))
-        }
-    }, [ingredients])
+    const authorized = useSelector((store:RootStoreState) => store.user.authorized)
 
     const [{isHover}, dropTarget] = useDrop({
         accept: types.filter( type => type !== 'bun'),
@@ -61,11 +56,11 @@ const BurgerConstructor = () => {
     }
 
     const onOrder = async () => {
-        const ingreident_ids = core.reduce( 
+        const ingreidentIds = core.reduce( 
             (accumulator, currentValue) => [...accumulator, currentValue._id], 
             (bun ? [bun._id, bun._id] : [])
           )
-        createOrder(ingreident_ids)
+        createOrder(ingreidentIds)
     }
 
     return <div className={styles.burger_constructor}>
@@ -99,10 +94,10 @@ const BurgerConstructor = () => {
         />
         <div className={styles.burger_constructor_order}>
             <ItemPrice price={price}/>
-            <Button disabled={!(Boolean(bun) && core.length > 0)} onClick={() => onOrder()} htmlType="submit" type="primary">Оформить заказ</Button>
+            <Button disabled={!(authorized && Boolean(bun) && core.length > 0)} onClick={() => onOrder()} htmlType="submit" type="primary">Оформить заказ</Button>
         </div>
         <Modal 
-              header_title='Статус заказа'
+              headerTitle='Статус заказа'
               isOpen={showOrder}
               onClose={onOrderModalClose}
             >

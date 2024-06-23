@@ -2,10 +2,9 @@ import { useEffect, useMemo } from 'react';
 import { useGetProfileQuery, usePatchProfileMutation } from '../../../services/apis/auth';
 import styles from './inputs.module.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { setKeyValue, setKeyError, InputsNames, clearForm } from '../../../services/slices/profileForm';
+import { setKeyValue, InputsNames, clearForm } from '../../../services/slices/profileForm';
 import { RootStoreState } from '../../../services/store';
 import ProfileInput from './Input';
-import { check_email_value, check_text_value } from '../../../share/input_check';
 import Loader from '../../share/loader/loader';
 import ErrorView from '../../share/error/error';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -39,7 +38,7 @@ const ProfileForm = () => {
         }
     }, [patchSuccess])
 
-    const inputs_data:{
+    const inputsData:{
         name: InputsNames,
         type: "text" | "email" | "password" | undefined,
         placeholder: string
@@ -85,11 +84,11 @@ const ProfileForm = () => {
     if(isLoading) return <Loader text="Данные о пользователе загружаются..."/>
     if(isError) return <ErrorView text="Ошибка получения данных о пользователе"/>
 
-    const hasChanges = email.has_changed || password.has_changed || name.has_changed
+    const hasChanges = email.changed || password.changed || name.changed
 
     return data ? <form onSubmit={onSubmit} className={styles.inputs_container}>
         {
-            inputs_data.map( input => (
+            inputsData.map( input => (
                 <ProfileInput 
                     key={input.name}
                     type={input.type}
