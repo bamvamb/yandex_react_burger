@@ -14,6 +14,7 @@ import { useDrop } from "react-dnd";
 import { clear, createRandom } from "../../services/slices/burger"
 import { useGetIngredientsQuery } from "../../services/apis/data"
 import { selectIngredientTypes } from "../../services/selectors/ingredients"
+import { useLocation, useNavigate } from "react-router-dom"
 
 
 const BurgerConstructor = () => {
@@ -22,6 +23,8 @@ const BurgerConstructor = () => {
     const { data:ingredients } = useGetIngredientsQuery()
     const types = useSelector(selectIngredientTypes)
     const authorized = useSelector((store:RootStoreState) => store.user.authorized)
+    const navigate = useNavigate()
+    const location = useLocation();
 
     const [{isHover}, dropTarget] = useDrop({
         accept: types.filter( type => type !== 'bun'),
@@ -56,11 +59,15 @@ const BurgerConstructor = () => {
     }
 
     const onOrder = async () => {
-        const ingreidentIds = core.reduce( 
-            (accumulator, currentValue) => [...accumulator, currentValue._id], 
-            (bun ? [bun._id, bun._id] : [])
-          )
-        createOrder(ingreidentIds)
+        if(authorized){
+            const ingreidentIds = core.reduce( 
+                (accumulator, currentValue) => [...accumulator, currentValue._id], 
+                (bun ? [bun._id, bun._id] : [])
+            )
+            createOrder(ingreidentIds)
+        } else {
+            navigate("/login", {state: {from: location}})
+        }
     }
 
     return <div className={styles.burger_constructor}>
@@ -94,7 +101,7 @@ const BurgerConstructor = () => {
         />
         <div className={styles.burger_constructor_order}>
             <ItemPrice price={price}/>
-            <Button disabled={!(authorized && Boolean(bun) && core.length > 0)} onClick={() => onOrder()} htmlType="submit" type="primary">Оформить заказ</Button>
+            <Button disabled={!(Boolean(bun) && core.length > 0)} onClick={() => onOrder()} htmlType="submit" type="primary">Оформить заказ</Button>
         </div>
         <Modal 
               headerTitle='Статус заказа'
