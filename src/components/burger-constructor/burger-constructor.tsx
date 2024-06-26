@@ -7,13 +7,14 @@ import styles from './burger-constructor.module.css'
 import { useDispatch, useSelector } from "react-redux"
 import { RootStoreState } from "../../services/store"
 import { selectPrice } from "../../services/selectors/burger"
-import { useCreateOrderMutation } from "../../services/api"
+import { useCreateOrderMutation } from "../../services/apis/data"
 import Modal from "../share/modal/modal"
 import OrderDetails from "../order-details/order-details"
 import { useDrop } from "react-dnd";
 import { clear, createRandom } from "../../services/slices/burger"
-import { useGetIngredientsQuery } from "../../services/api"
+import { useGetIngredientsQuery } from "../../services/apis/data"
 import { selectIngredientTypes } from "../../services/selectors/ingredients"
+import { useLocation, useNavigate } from "react-router-dom"
 
 
 const BurgerConstructor = () => {
@@ -21,12 +22,9 @@ const BurgerConstructor = () => {
     const {bun, core} = useSelector((store:RootStoreState) => store.burger)
     const { data:ingredients } = useGetIngredientsQuery()
     const types = useSelector(selectIngredientTypes)
-
-    useEffect(() => {
-        if(ingredients){
-            dispatch(createRandom(ingredients))
-        }
-    }, [ingredients])
+    const authorized = useSelector((store:RootStoreState) => store.user.authorized)
+    const navigate = useNavigate()
+    const location = useLocation();
 
     const [{isHover}, dropTarget] = useDrop({
         accept: types.filter( type => type !== 'bun'),
@@ -61,11 +59,15 @@ const BurgerConstructor = () => {
     }
 
     const onOrder = async () => {
-        const ingreident_ids = core.reduce( 
-            (accumulator, currentValue) => [...accumulator, currentValue._id], 
-            (bun ? [bun._id, bun._id] : [])
-          )
-        createOrder(ingreident_ids)
+        if(authorized){
+            const ingreidentIds = core.reduce( 
+                (accumulator, currentValue) => [...accumulator, currentValue._id], 
+                (bun ? [bun._id, bun._id] : [])
+            )
+            createOrder(ingreidentIds)
+        } else {
+            navigate("/login", {state: {from: location}})
+        }
     }
 
     return <div className={styles.burger_constructor}>
@@ -102,7 +104,7 @@ const BurgerConstructor = () => {
             <Button disabled={!(Boolean(bun) && core.length > 0)} onClick={() => onOrder()} htmlType="submit" type="primary">Оформить заказ</Button>
         </div>
         <Modal 
-              header_title='Статус заказа'
+              headerTitle='Статус заказа'
               isOpen={showOrder}
               onClose={onOrderModalClose}
             >

@@ -4,8 +4,14 @@
     align-items: center;
     cursor: pointer;
     text-decoration: none;
-    composes: p-8 from global;
     &:hover {
-        color: white;
-    }
+        color: var(--text-primary-color);
+    };
+    color: var(--text-inactive-color);
+    composes: p-8 from global;
+}
+
+.selected_link {
+    composes: link;
+    color: var(--text-primary-color);
 }

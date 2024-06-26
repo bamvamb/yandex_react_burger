@@ -1,8 +1,7 @@
-import React from 'react'
 import styles from "./order-details.module.css"
 import { CheckMarkIcon, CloseIcon, EditIcon, InfoIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { TIconProps } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/utils'
-import { createOrderResponse } from '../../services/api'
+import { createOrderResponse } from '../../services/apis/data'
 
 interface Props {
     order?: createOrderResponse, 
@@ -21,7 +20,7 @@ interface StateDescriptions {
     [propName: string]: StateDescription
 }
 
-const state_props = {
+const stateProps = {
     "loading": {
         icon: EditIcon,
         state: "Ваш заказ принимается",
@@ -51,7 +50,7 @@ const OrderDetails:React.FC<Props> = ({isLoading, isSuccess, isError, order}) =>
         )
     )
     
-    const Icon = state_props[state].icon
+    const Icon = stateProps[state].icon
 
     return <div className={styles.order_details}>
         <h1 className={styles.order_id}>{order?.order?.number.toString() ?? ""}</h1>
@@ -60,8 +59,8 @@ const OrderDetails:React.FC<Props> = ({isLoading, isSuccess, isError, order}) =>
             <Icon type="primary"/>
         </p>
         <h1 className={styles.name}>{order?.name}</h1>
-        <span className={styles.state}>{state_props[state].state}</span>
-        <span className={styles.recomendation}>{state_props[state].recomendation}</span>
+        <span className={styles.state}>{stateProps[state].state}</span>
+        <span className={styles.recomendation}>{stateProps[state].recomendation}</span>
     </div>
 }
 

@@ -27,23 +27,23 @@ const genRandomBurger = (
       const buns = ingredients.filter( (ingredient) => ingredient.type === "bun")
       const sauses = ingredients.filter( (ingredient) => ingredient.type === "sauce" )
       const mains = ingredients.filter( (ingredient) => ingredient.type === "main")
-      const current_bun = buns[getRandomNumber(buns.length-1)]
-      let mains_count = getRandomNumber(max_mains, min_mains)
-      let sauses_count = getRandomNumber(max_sauses, min_sauses)
+      const currentBun = buns[getRandomNumber(buns.length-1)]
+      let mainsCount = getRandomNumber(max_mains, min_mains)
+      let sausesCount = getRandomNumber(max_sauses, min_sauses)
       const core = []
-      while( mains_count > 0 || sauses_count > 0){
+      while( mainsCount > 0 || sausesCount > 0){
         if(
-          (sauses_count === 0 || getRandomNumber(1)) && mains_count > 0
+          (sausesCount === 0 || getRandomNumber(1)) && mainsCount > 0
         ){
             core.push( mains[getRandomNumber(mains.length - 1)])
-          mains_count -= 1
+          mainsCount -= 1
         } else {
             core.push( sauses[getRandomNumber(sauses.length - 1)])
-          sauses_count -= 1
+          sausesCount -= 1
         }
       }
       return {
-        bun: current_bun,
+        bun: currentBun,
         core: core.map(addUIDToIngredient)
       }
     } else {
@@ -67,12 +67,12 @@ export const burgerSlice = createSlice({
         state.bun = null
     },
     setCoreIngredient: (state, action:PayloadAction<{
-      start_idx: number,
-      end_idx: number
+      startIdx: number,
+      endIdx: number
     }>) => {
         const new_core = state.core.slice()
-        const ingredient = new_core.splice(action.payload.start_idx, 1)[0]
-        new_core.splice(action.payload.end_idx, 0, ingredient)
+        const ingredient = new_core.splice(action.payload.startIdx, 1)[0]
+        new_core.splice(action.payload.endIdx, 0, ingredient)
         state.core = new_core
     },
     addCoreIngredient: (state, action:PayloadAction<{
@@ -85,9 +85,9 @@ export const burgerSlice = createSlice({
         state.core = new_core
     },
     deleteCoreIngredient: (state, action:PayloadAction<number>) => {
-        const new_core = state.core.slice()
-        new_core.splice(action.payload, 1)
-        state.core = new_core
+        const newCore = state.core.slice()
+        newCore.splice(action.payload, 1)
+        state.core = newCore
     },
     clear: (state) => {
         state.bun = null

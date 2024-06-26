@@ -1,0 +1,24 @@
+.content {
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20%;
+    gap:20px
+}
+
+.body_header {
+    composes: text text_type_main-large p-6 from global
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    composes: p-3 from global
+}
+
+.footer_line {
+    composes: text text_type_main-small p-3 from global
+}

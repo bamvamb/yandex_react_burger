@@ -1,12 +1,11 @@
-import React from 'react'
-import { Ingredient } from '../../../share/typing';
+import { Ingredient } from '../../share/typing';
 import styles from "./ingredient-details.module.css"
 
 interface Props {
     ingredient?: Ingredient;
 }
 
-const IngridientDetail: React.FC<Props>  = ({ingredient}) => {
+const IngredientDetail: React.FC<Props>  = ({ingredient}) => {
     const pfc = ingredient ? [
         {
             name: "Каллории",
@@ -28,8 +27,8 @@ const IngridientDetail: React.FC<Props>  = ({ingredient}) => {
             digit: "г",
             value: ingredient.carbohydrates
         }
-    ] : []
-
+    ] : []    
+    
     return ingredient ? (
         <div className={styles.ingredients_detail}>
             <img 
@@ -53,4 +52,4 @@ const IngridientDetail: React.FC<Props>  = ({ingredient}) => {
     ) : null
 }
 
-export default IngridientDetail
+export default IngredientDetail

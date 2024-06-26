@@ -1,0 +1,15 @@
+.content {
+  display: flex;
+  overflow: hidden;
+}
+
+.body_header {
+  composes: text text_type_main-large p-6 from global
+}
+
+.modals {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+}

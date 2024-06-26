@@ -51,8 +51,8 @@ const BurgerConstructorItem: React.FC<Props> = ({ ingredient, type, drag, index 
                 if(dragIndex || dragIndex === 0){
                     //если элемент из бургера
                     dispatch(setCoreIngredient({
-                        start_idx: dragIndex, 
-                        end_idx:hoverIndex
+                        startIdx: dragIndex, 
+                        endIdx:hoverIndex
                     }))
                 } else {
                     //если элемент из списка

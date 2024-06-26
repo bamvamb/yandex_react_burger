@@ -5,9 +5,9 @@ const selectTabsState = (state: RootStoreState) => state.tabs;
 
 export const selectCurrentType = createSelector(
     selectTabsState,
-    (tabsState) => Object.keys(tabsState.elements_top).reduce( (prev, curr) => {
+    (tabsState) => Object.keys(tabsState.elementsTop).reduce( (prev, curr) => {
         if(prev === ""){ return curr }
-        return Math.abs(tabsState.elements_top[prev] - tabsState.container_scroll_top) > 
-            Math.abs(tabsState.elements_top[curr] - tabsState.container_scroll_top) ? curr : prev
+        return Math.abs(tabsState.elementsTop[prev] - tabsState.containerScrolTop) > 
+            Math.abs(tabsState.elementsTop[curr] - tabsState.containerScrolTop) ? curr : prev
     }, "")
 );

@@ -1,0 +1,17 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+    background-color: var(--background-alt);
+    border: 1px solid var(--colors-interface-error);
+    border-radius: 5px;
+    composes: p-3 m-6 from global;
+}
+
+.text {
+    font-size: 16px;
+    margin-left: 10px;
+    color: var(--colors-interface-error);
+    composes: text text_type_main-medium from global
+}
