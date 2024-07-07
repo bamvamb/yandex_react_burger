@@ -12,12 +12,12 @@ const Links = () => {
         logOut({})
     }
 
-    const links:{
+    const links = useMemo<{
         text:string,
         link?:string,
         onClick?:React.MouseEventHandler<HTMLAnchorElement>,
         active?:boolean
-    }[] = useMemo(() => [
+    }[]>(() => [
         {
             link: "/profile",
             text: "Профиль",

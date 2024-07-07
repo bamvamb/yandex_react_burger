@@ -2,30 +2,30 @@ import {
     ConstructorElement,
     DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { Ingredient } from '../../../share/typing'
+import { IIngredient } from '../../../share/typing'
 import styles from './burger-constructor-item.module.css'
 import { useDrag, useDrop } from "react-dnd";
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../../services/hooks';
 import { selectIngredientTypes } from '../../../services/selectors/ingredients';
 import { useRef } from 'react';
 import { addCoreIngredient, setCoreIngredient, changeBun, deleteCoreIngredient } from "../../../services/slices/burger"
-interface Props {
-    ingredient: Ingredient | null
+interface IProps {
+    ingredient: IIngredient | null
     type?: 'top' | 'bottom'
     drag?: Boolean
     index?: number
 }
 
-const BurgerConstructorItem: React.FC<Props> = ({ ingredient, type, drag, index }) => {
-    const dispatch = useDispatch()
-    const types = useSelector(selectIngredientTypes)
+const BurgerConstructorItem: React.FC<IProps> = ({ ingredient, type, drag, index }) => {
+    const dispatch = useAppDispatch()
+    const types = useAppSelector(selectIngredientTypes)
     const acceptedTypes = type ? ["bun"] : types.filter( type => type !== 'bun')
     
     const ref = useRef<HTMLDivElement>(null);
 
     const [{isHover}, dropTarget] = useDrop({
         accept: acceptedTypes,
-        drop(item:{ ingredient: Ingredient; index: number }, monitor) {
+        drop(item:{ ingredient: IIngredient; index: number }, monitor) {
             if(item.ingredient.type === "bun"){
                 dispatch(changeBun(item.ingredient))
             }

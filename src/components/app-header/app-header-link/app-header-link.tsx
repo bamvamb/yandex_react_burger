@@ -3,15 +3,15 @@ import { TIconProps } from '@ya.praktikum/react-developer-burger-ui-components/d
 import styles from './app-header-link.module.css'
 import { Link, useLocation } from 'react-router-dom'
 
-interface Props {
+interface IProps {
     Icon: React.ComponentType<TIconProps>
     text: string,
     url?: string
 }
 
-const AppHeaderLink: React.FC<Props> = ({ text, Icon, url }) => {
-    const [mouseIn, setMouseIn] = useState(false)
+const AppHeaderLink: React.FC<IProps> = ({ text, Icon, url }) => {
     const location = useLocation();
+    const [mouseIn, setMouseIn] = useState<boolean>(false)
     const [selected, setSelected] = useState<boolean>(location.pathname === url);
 
     useEffect(() => {

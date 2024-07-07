@@ -1,26 +1,26 @@
 import styles from "./order-details.module.css"
 import { CheckMarkIcon, CloseIcon, EditIcon, InfoIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { TIconProps } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/utils'
-import { createOrderResponse } from '../../services/apis/data'
+import { ICreateOrderResponse } from '../../services/apis/data'
 
-interface Props {
-    order?: createOrderResponse, 
+interface IProps {
+    order?: ICreateOrderResponse, 
     isSuccess?:boolean, 
     isError?:boolean, 
     isLoading?:boolean
 }
 
-interface StateDescription {
+interface IStateDescription {
     icon: React.ComponentType<TIconProps>,
     state: string,
     recomendation: string
 }
 
-interface StateDescriptions {
-    [propName: string]: StateDescription
+interface IStateDescriptions {
+    [propName: string]: IStateDescription
 }
 
-const stateProps = {
+const stateProps:IStateDescriptions = {
     "loading": {
         icon: EditIcon,
         state: "Ваш заказ принимается",
@@ -41,10 +41,10 @@ const stateProps = {
         state: "Неизвестно что произошло",
         recomendation: "Попробуйте немного подождать, или отправить заказ снова"
     }
-} as StateDescriptions
+}
 
-const OrderDetails:React.FC<Props> = ({isLoading, isSuccess, isError, order}) => {
-    const state = isLoading ? "loading" : (
+const OrderDetails:React.FC<IProps> = ({isLoading, isSuccess, isError, order}) => {
+    const state: keyof typeof stateProps = isLoading ? "loading" : (
         isError || !order?.success ? "error" : (
             isSuccess && order?.success ? "in_process" : "unknown"
         )

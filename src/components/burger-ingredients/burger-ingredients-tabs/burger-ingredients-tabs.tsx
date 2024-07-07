@@ -2,21 +2,19 @@ import { RefObject} from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from "./burger-ingredients-tabs.module.css"
 import { selectCurrentType } from '../../../services/selectors/tabs';
-import { useSelector } from 'react-redux';
-import { RootStoreState } from '../../../services/store';
+import { useAppSelector } from '../../../services/hooks';
 import { typeLocalisation } from '../../../share/typing';
 
-interface Props {
+interface IProps {
     ingredientTypes: Array<string>;
     listRef: RefObject<HTMLDivElement>;
 }
 
-const BurgerIngredientsTabs: React.FC<Props>  = ({ingredientTypes, listRef}) => {
-    const currentTops = useSelector((state: RootStoreState) => state.tabs.elementsTop)
-    const currentType = useSelector(selectCurrentType)
+const BurgerIngredientsTabs: React.FC<IProps>  = ({ingredientTypes, listRef}) => {
+    const currentTops = useAppSelector(state => state.tabs.elementsTop)
+    const currentType = useAppSelector(selectCurrentType)
 
-    const handleClick = (itype:string) => {
-        console.log(currentTops[itype])
+    const handleClick = (itype:string):void => {
         if(listRef.current){
             listRef.current.scrollTo({
                 top: currentTops[itype],

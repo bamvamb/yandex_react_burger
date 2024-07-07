@@ -4,16 +4,16 @@ import BurgerIngredientsList from "./burger-ingredients-list/burger-ingredients-
 
 import styles from "./burger-ingredients.module.css"
 import { setContainerScrollTop } from '../../services/slices/tabs'
-import { useDispatch, useSelector} from 'react-redux'
+import { useAppDispatch, useAppSelector } from '../../services/hooks'
 import { useGetIngredientsQuery } from '../../services/apis/data'
 import { selectIngredientTypes } from '../../services/selectors/ingredients'
 import Loader from '../share/loader/loader'
 import ErrorView from '../share/error/error'
 
 const BurgerIngredients = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const { error, isLoading } = useGetIngredientsQuery()
-    const ingredientTypes = useSelector(selectIngredientTypes)
+    const ingredientTypes = useAppSelector(selectIngredientTypes)
 
     const ref = useRef<HTMLDivElement>(null)
     

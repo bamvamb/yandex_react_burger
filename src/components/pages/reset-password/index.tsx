@@ -1,4 +1,4 @@
-import AuthTemplate, {FormState} from '../../auth-template/auth-template';
+import AuthTemplate, {IFormState} from '../../auth-template/auth-template';
 import { useResetPasswordMutation } from '../../../services/apis/auth';
 
 function ResetPasswordPage() {
@@ -10,7 +10,7 @@ function ResetPasswordPage() {
     isLoading
   }] = useResetPasswordMutation()
 
-  const handleResetPasswordClick = (data:FormState) => {
+  const handleResetPasswordClick = (data:IFormState) => {
     const {password, code:token} = data
     if(token && password){
       resetPassword({ token, password })

@@ -1,11 +1,11 @@
-import { Ingredient } from '../../share/typing';
+import { IIngredient } from '../../share/typing';
 import styles from "./ingredient-details.module.css"
 
-interface Props {
-    ingredient?: Ingredient;
+interface IProps {
+    ingredient?: IIngredient;
 }
 
-const IngredientDetail: React.FC<Props>  = ({ingredient}) => {
+const IngredientDetail: React.FC<IProps>  = ({ingredient}) => {
     const pfc = ingredient ? [
         {
             name: "Каллории",

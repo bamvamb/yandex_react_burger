@@ -1,12 +1,12 @@
-import AuthTemplate, {FormState} from '../../auth-template/auth-template';
+import AuthTemplate, {IFormState} from '../../auth-template/auth-template';
 import { getLSUserInfo, useRegisterUserMutation } from '../../../services/apis/auth';
 import { Navigate } from 'react-router-dom';
 import { authError, authStarted, authSuccess, unauthorized } from '../../../services/slices/user';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../../services/hooks';
 import { useEffect } from 'react';
 
 function RegisterPage() {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const [registerUser,{
       data:response, 
@@ -16,7 +16,7 @@ function RegisterPage() {
       isLoading
   }] = useRegisterUserMutation()
 
-  const handleRegisterClick = (data:FormState) => {
+  const handleRegisterClick = (data:IFormState) => {
     const {name, email, password} = data
     if(name && email && password){
       registerUser({ name, email, password })
@@ -31,6 +31,7 @@ function RegisterPage() {
     } else {
       dispatch(unauthorized())
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -38,12 +39,14 @@ function RegisterPage() {
     if(user){
       dispatch(authSuccess(user))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess])
 
   useEffect(() => {
     if(isError){
       dispatch(authError())
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError])
 
   if(isSuccess){

@@ -1,16 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Ingredient,  ingredientLoc} from '../../share/typing';
+import { IResponse, IIngredient,  ingredientLoc} from '../../share/typing';
 import { lsStorage } from '../../share/browser-storage';
 import { getReauthBaseQuery, lsUserKeys } from './auth';
 
 
-export interface getIngredientsResponse {
-    success: boolean,
-    data: Ingredient[]
+export interface IGetIngredientsResponse extends IResponse {
+  data: IIngredient[]
 }
 
-export interface createOrderResponse {
-  success: boolean,
+export interface ICreateOrderResponse extends IResponse {
   name: string,
   order: {
     number: number
@@ -34,9 +32,9 @@ export const dataApi = createApi({
       baseQuery
     ),
     endpoints: (builder) => ({
-      getIngredients: builder.query<Ingredient[], void>({
+      getIngredients: builder.query<IIngredient[], void>({
         query: () => 'ingredients',
-        transformResponse: (response: getIngredientsResponse) => {
+        transformResponse: (response: IGetIngredientsResponse) => {
             if(response.success){
                 return response.data.map(ingredientLoc)
             } else {
@@ -44,7 +42,7 @@ export const dataApi = createApi({
             }
         }
       }),
-      createOrder: builder.mutation<createOrderResponse, string[]>({
+      createOrder: builder.mutation<ICreateOrderResponse, string[]>({
         query: (ingredients_ids) => ({ 
             url: 'orders', 
             method: 'POST', 
@@ -54,9 +52,9 @@ export const dataApi = createApi({
             }
         })
       }),
-      ingredientDetails: builder.query<Ingredient|null, {ingredient_id: string|undefined}>({
+      ingredientDetails: builder.query<IIngredient|null, {ingredient_id: string|undefined}>({
         query: () => 'ingredients',
-        transformResponse: (response: getIngredientsResponse, undefined, data) => {
+        transformResponse: (response: IGetIngredientsResponse, undefined, data) => {
             if(response.success && data && data.ingredient_id){
               const ingredient =  response.data.find( ingredient => ingredient._id === data.ingredient_id )
               return ingredient ? ingredientLoc(ingredient) : null

@@ -4,14 +4,14 @@ import ReactDOM from 'react-dom';
 import styles from  './modal-overlay.module.css'
 
 
-interface ModalProps {
+export interface IModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
 }
 
 
-const ModalOverlay: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+const ModalOverlay: React.FC<IModalProps> = ({ isOpen, onClose, children }) => {
 
   const onpress = (ev:KeyboardEvent) => {
     if(ev.key === "Escape"){

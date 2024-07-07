@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootStoreState } from '../store';
-import { Ingredient } from '../../share/typing';
+import { IIngredient } from '../../share/typing';
 import { dataApi } from '../apis/data';
 
 const selectIngredientsState = (state: RootStoreState) => {
@@ -12,7 +12,7 @@ const selectIngredientsState = (state: RootStoreState) => {
 export const selectIngredientTypes = createSelector(
     selectIngredientsState,
     (ingredinentsState) => {
-        const data = (ingredinentsState?.data?? []) as Ingredient[]
+        const data = (ingredinentsState?.data?? []) as IIngredient[]
         return data.reduce( 
             (accumulator, currentValue) => {
                 if(!accumulator.includes(currentValue.type)){
@@ -27,7 +27,7 @@ export const selectIngredientTypes = createSelector(
 export const selectIngredientsByType = createSelector(
     selectIngredientsState, (state: RootStoreState, type: string) => type,
     (ingredinentsState, type) => {
-        const data = (ingredinentsState?.data?? []) as Ingredient[]
+        const data = (ingredinentsState?.data?? []) as IIngredient[]
         return data.filter( ingredient => ingredient.type === type )
     }
 );
@@ -35,7 +35,7 @@ export const selectIngredientsByType = createSelector(
 export const selectIngredientById = createSelector(
     selectIngredientsState, (state: RootStoreState, ingredient_id: string|undefined) => ingredient_id,
     (ingredinentsState, ingredient_id) => {
-        const data = (ingredinentsState?.data?? []) as Ingredient[]
+        const data = (ingredinentsState?.data?? []) as IIngredient[]
         return data.find( ingredient => ingredient._id === ingredient_id )
     }
 );

@@ -1,17 +1,17 @@
 import {  Counter } from '@ya.praktikum/react-developer-burger-ui-components'
-import { Ingredient } from '../../../share/typing';
+import { IIngredient } from '../../../share/typing';
 import ItemPrice from '../../share/item-price/item-price';
 import { useDrag } from "react-dnd";
 
 import styles from "./burger-ingredients-list-item.module.css"
 import { useLocation, useNavigate } from 'react-router-dom';
 
-interface Props {
-    ingredient: Ingredient;
+interface IProps {
+    ingredient: IIngredient;
     count: number
 }
 
-const BurgerIngredientsListItem: React.FC<Props>  = ({ingredient, count}) => {
+const BurgerIngredientsListItem: React.FC<IProps>  = ({ingredient, count}) => {
     const location = useLocation()
     const navigate = useNavigate()
     const [, dragRef] = useDrag({

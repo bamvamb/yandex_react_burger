@@ -1,11 +1,9 @@
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import ItemPrice from "../share/item-price/item-price"
 import BurgerConstructorItem from "./burger-constructor-item/burger-constructor-item"
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components"
 import styles from './burger-constructor.module.css'
-import { useDispatch, useSelector } from "react-redux"
-import { RootStoreState } from "../../services/store"
 import { selectPrice } from "../../services/selectors/burger"
 import { useCreateOrderMutation } from "../../services/apis/data"
 import Modal from "../share/modal/modal"
@@ -15,14 +13,15 @@ import { clear, createRandom } from "../../services/slices/burger"
 import { useGetIngredientsQuery } from "../../services/apis/data"
 import { selectIngredientTypes } from "../../services/selectors/ingredients"
 import { useLocation, useNavigate } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "../../services/hooks"
 
 
 const BurgerConstructor = () => {
-    const dispatch = useDispatch()
-    const {bun, core} = useSelector((store:RootStoreState) => store.burger)
+    const dispatch = useAppDispatch()
+    const {bun, core} = useAppSelector(store => store.burger)
     const { data:ingredients } = useGetIngredientsQuery()
-    const types = useSelector(selectIngredientTypes)
-    const authorized = useSelector((store:RootStoreState) => store.user.authorized)
+    const types = useAppSelector(selectIngredientTypes)
+    const authorized = useAppSelector(store => store.user.authorized)
     const navigate = useNavigate()
     const location = useLocation();
 
@@ -35,9 +34,9 @@ const BurgerConstructor = () => {
     });
 
 
-    const price = useSelector(selectPrice)
+    const price = useAppSelector(selectPrice)
     const [createOrder,{data:order, isSuccess, isError, isLoading}] = useCreateOrderMutation()
-    const [showOrder, setShowOrder] = useState(false)
+    const [showOrder, setShowOrder] = useState<boolean>(false)
     
     const handleClear = () => {
         dispatch(clear())

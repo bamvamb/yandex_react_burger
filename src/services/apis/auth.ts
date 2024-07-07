@@ -1,28 +1,22 @@
 import { BaseQueryFn, FetchArgs, FetchBaseQueryError, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {lsStorage} from '../../share/browser-storage';
 import { SerializedError } from '@reduxjs/toolkit';
+import { IResponse } from '../../share/typing';
 
 export const apiUrl = 'https://norma.nomoreparties.space/api/'
 
-export interface ResponseMessage {
-  success: boolean,
+interface IUserResponse extends IResponse {
+  user: {
+    email: string,
+    name: string
+  }
+}
+
+export interface IResponseMessage extends IResponse {
   message: string
 }
 
-export interface ResponsePatchProfile {
-  user: {
-    email: string,
-    name: string
-  },
-  success: boolean
-}
-
-export interface ResponseAuthMessage {
-  success: boolean,
-  user: {
-    email: string,
-    name: string
-  },
+export interface IResponseAuthMessage extends IUserResponse {
   accessToken: string,
   refreshToken: string
 }
@@ -34,7 +28,10 @@ export const lsUserKeys = {
   email: "email"
 }
 
-export const getLSUserInfo = () => {
+export const getLSUserInfo: () => {
+  name: string;
+  email: string;
+  } | undefined = () => {
   const name = lsStorage.get(lsUserKeys.username)
   const email = lsStorage.get(lsUserKeys.email)
   if(name && email){
@@ -42,21 +39,21 @@ export const getLSUserInfo = () => {
   }
 }
 
-export const refreshTokensInStorage = (accessToken: string, refreshToken: string) => {
+export const refreshTokensInStorage = (accessToken: string, refreshToken: string):void => {
   lsStorage.set(lsUserKeys.accessToken, accessToken.split("Bearer ")[1])
   lsStorage.set(lsUserKeys.refreshToken, refreshToken)
 }
 
-const setUserInStorage = ({user, accessToken, refreshToken}:ResponseAuthMessage) => {
+const setUserInStorage = ({user, accessToken, refreshToken}:IResponseAuthMessage):void => {
   lsStorage.set(lsUserKeys.email, user.email)
   lsStorage.set(lsUserKeys.username, user.name)
   refreshTokensInStorage(accessToken, refreshToken)
 }
 
-export const deleteUserFromStorage = () => Object.keys(lsUserKeys).forEach( key => lsStorage.delete(key))
+export const deleteUserFromStorage = ():void => Object.keys(lsUserKeys).forEach( key => lsStorage.delete(key))
 
-export const getErrorMessage = (error: FetchBaseQueryError | SerializedError | undefined) => {
-  if(!error) return
+export const getErrorMessage = (error: FetchBaseQueryError | SerializedError | undefined): string | null => {
+  if(!error) return null
   if('data' in error && typeof error.data === 'object' && 
     error.data && 'message' in error.data){
     return error.data?.message as string
@@ -64,10 +61,10 @@ export const getErrorMessage = (error: FetchBaseQueryError | SerializedError | u
   return null
 }
 
-const jwt_expired_403 = "jwt expired"
-const jwt_malformed_403 = "jwt malformed"
+const jwt_expired_403:string = "jwt expired"
+const jwt_malformed_403:string = "jwt malformed"
 
-export const check_jwt_expired = (error: FetchBaseQueryError) => {
+export const check_jwt_expired = (error: FetchBaseQueryError):boolean => {
   if(!error) return false
   if(error.status === 401) return true
   const error_message = getErrorMessage(error)
@@ -76,14 +73,15 @@ export const check_jwt_expired = (error: FetchBaseQueryError) => {
   ].includes(error_message)) {
     return true
   }
+  return false
 }
 
 export const transformAuthResponse = (
-  response:ResponseAuthMessage, 
+  response:IResponseAuthMessage, 
   messages:{
     success_message: string,
     error_message: string
-  }):ResponseMessage => {
+  }):IResponseMessage => {
   if(response.success){
     setUserInStorage(response)
     return {
@@ -98,7 +96,7 @@ export const transformAuthResponse = (
   }
 }
 
-const jsonHeader = {
+const jsonHeader:{[key:string]: string} = {
   'Content-Type': 'application/json',
 }
 
@@ -158,7 +156,7 @@ export const authApi = createApi({
       baseQuery
     ),
     endpoints: (builder) => ({
-      logOut: builder.mutation<ResponseMessage,{}>({
+      logOut: builder.mutation<IResponseMessage,{}>({
         query: () => ({
             url: 'auth/logout', 
             method: 'POST', 
@@ -167,14 +165,14 @@ export const authApi = createApi({
             },
             headers: jsonHeader
         }),
-        transformResponse: (response:ResponseMessage):ResponseMessage => {
+        transformResponse: (response:IResponseMessage):IResponseMessage => {
           if(response.success){
             deleteUserFromStorage()
           }
           return response
         }
       }),
-      patchProfile: builder.mutation<ResponsePatchProfile,{
+      patchProfile: builder.mutation<IUserResponse,{
         email:string,
         name:string,
         password?:string
@@ -195,7 +193,7 @@ export const authApi = createApi({
       }, void>({
         query: () => 'auth/user'
       }),
-      registerUser: builder.mutation<ResponseMessage,{
+      registerUser: builder.mutation<IResponseMessage,{
         email: string, 
         password: string, 
         name: string 
@@ -206,12 +204,12 @@ export const authApi = createApi({
             body: formData,
             headers: jsonHeader
         }),
-        transformResponse: (response:ResponseAuthMessage):ResponseMessage => transformAuthResponse(response, {
+        transformResponse: (response:IResponseAuthMessage):IResponseMessage => transformAuthResponse(response, {
           success_message: "User successfully registered",
           error_message: "Error occured on register action"
         })
       }),
-      refreshToken: builder.mutation<ResponseMessage,{}>({
+      refreshToken: builder.mutation<IResponseMessage,{}>({
         query: () => ({
             url: 'auth/token', 
             method: 'POST', 
@@ -224,7 +222,7 @@ export const authApi = createApi({
           success: boolean,
           accessToken: string,
           refreshToken: string
-        }):ResponseMessage => {
+        }):IResponseMessage => {
           if(response.success){
             refreshTokensInStorage(response.accessToken, response.refreshToken)
             return {
@@ -239,7 +237,7 @@ export const authApi = createApi({
           }
         }
       }),
-      forgotPassword: builder.mutation<ResponseMessage,{
+      forgotPassword: builder.mutation<IResponseMessage,{
         email:string
       }>({
         query: (formData) => ({
@@ -249,7 +247,7 @@ export const authApi = createApi({
             headers: jsonHeader
         })
       }),
-      resetPassword: builder.mutation<ResponseMessage,{
+      resetPassword: builder.mutation<IResponseMessage,{
         password:string,
         token:string
       }>({
@@ -260,7 +258,7 @@ export const authApi = createApi({
             headers: jsonHeader
         })
       }),
-      logIn: builder.mutation<ResponseMessage,{
+      logIn: builder.mutation<IResponseMessage,{
         email: string, 
         password: string
       }>({
@@ -270,7 +268,7 @@ export const authApi = createApi({
             body: formData,
             headers: jsonHeader
         }),
-        transformResponse: (response:ResponseAuthMessage):ResponseMessage => transformAuthResponse(response, {
+        transformResponse: (response:IResponseAuthMessage):IResponseMessage => transformAuthResponse(response, {
           success_message: "User successfully logged in",
           error_message: "Error occured on login action"
         })

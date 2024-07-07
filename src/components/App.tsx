@@ -9,13 +9,13 @@ import ResetPasswordPage from './pages/reset-password';
 import ProfilePage from './pages/profile';
 import IngredientPage from './pages/ingredient';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { getLSUserInfo } from '../services/apis/auth';
 import { authSuccess } from '../services/slices/user';
 import { OnlyUnauthorised, Authorised, OnlyFrom } from './share/protected-route'
 import { useLocation } from 'react-router-dom';
 import IngredientModal from './ingredient-modal/ingredient-modal';
 import ErrorView from './share/error/error';
+import { useAppDispatch } from '../services/hooks';
 
 function App() {
   return (
@@ -26,7 +26,7 @@ function App() {
 }
 
 const Layout = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const location = useLocation()
   const backgroundLocation = location.state?.backgroundLocation as Location
 
@@ -35,6 +35,7 @@ const Layout = () => {
     if(user){
       dispatch(authSuccess(user))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

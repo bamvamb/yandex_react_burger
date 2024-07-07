@@ -1,18 +1,17 @@
 import { useEffect, useMemo } from 'react';
 import { useGetProfileQuery, usePatchProfileMutation } from '../../../services/apis/auth';
 import styles from './inputs.module.css'
-import { useDispatch, useSelector } from 'react-redux';
-import { setKeyValue, InputsNames, clearForm } from '../../../services/slices/profileForm';
-import { RootStoreState } from '../../../services/store';
+import { useAppDispatch, useAppSelector } from '../../../services/hooks';
+import { setKeyValue, TInputsNames, clearForm } from '../../../services/slices/profileForm';
 import ProfileInput from './Input';
 import Loader from '../../share/loader/loader';
 import ErrorView from '../../share/error/error';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const ProfileForm = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const {data, isLoading, isSuccess, isError} = useGetProfileQuery()
-    const { name, password, email } = useSelector((state:RootStoreState) => state.profileForm)
+    const { name, password, email } = useAppSelector(state => state.profileForm)
 
     const [patchProfile,{
         data:patchData, 
@@ -27,6 +26,7 @@ const ProfileForm = () => {
             dispatch(setKeyValue({key: "email", value: data.user.email}))
             dispatch(clearForm())
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSuccess])
 
 
@@ -36,13 +36,14 @@ const ProfileForm = () => {
             dispatch(setKeyValue({key: "email", value: patchData.user.email}))
             dispatch(clearForm())
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [patchSuccess])
 
-    const inputsData:{
-        name: InputsNames,
+    const inputsData = useMemo<{
+        name: TInputsNames,
         type: "text" | "email" | "password" | undefined,
         placeholder: string
-    }[] = useMemo(() =>[
+    }[]>(() =>[
         {
             name: "name",
             type: "text",
@@ -58,6 +59,7 @@ const ProfileForm = () => {
             type: "password",
             placeholder: "пароль"
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     ], [name, email, password])
 
     const onCancelClick = () => {

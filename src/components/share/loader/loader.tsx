@@ -1,11 +1,11 @@
 import styles from './loader.module.css'
 
-interface Props {
+interface IProps {
     children?: React.ReactNode;
     text?: string|null
 }
 
-const Loader:React.FC<Props> = ({children, text}) => (
+const Loader:React.FC<IProps> = ({children, text}) => (
     <div className={styles.container}>
       <div className={styles.spinner}></div>
       {text && <p className={styles.text}>{text}</p>}
