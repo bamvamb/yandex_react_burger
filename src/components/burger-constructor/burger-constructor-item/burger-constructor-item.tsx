@@ -5,7 +5,7 @@ import {
 import { IIngredient } from '../../../share/typing'
 import styles from './burger-constructor-item.module.css'
 import { useDrag, useDrop } from "react-dnd";
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../../services/hooks';
 import { selectIngredientTypes } from '../../../services/selectors/ingredients';
 import { useRef } from 'react';
 import { addCoreIngredient, setCoreIngredient, changeBun, deleteCoreIngredient } from "../../../services/slices/burger"
@@ -17,8 +17,8 @@ interface IProps {
 }
 
 const BurgerConstructorItem: React.FC<IProps> = ({ ingredient, type, drag, index }) => {
-    const dispatch = useDispatch()
-    const types = useSelector(selectIngredientTypes)
+    const dispatch = useAppDispatch()
+    const types = useAppSelector(selectIngredientTypes)
     const acceptedTypes = type ? ["bun"] : types.filter( type => type !== 'bun')
     
     const ref = useRef<HTMLDivElement>(null);

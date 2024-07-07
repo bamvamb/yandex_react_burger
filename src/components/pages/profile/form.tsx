@@ -1,18 +1,17 @@
 import { useEffect, useMemo } from 'react';
 import { useGetProfileQuery, usePatchProfileMutation } from '../../../services/apis/auth';
 import styles from './inputs.module.css'
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../../services/hooks';
 import { setKeyValue, TInputsNames, clearForm } from '../../../services/slices/profileForm';
-import { RootStoreState } from '../../../services/store';
 import ProfileInput from './Input';
 import Loader from '../../share/loader/loader';
 import ErrorView from '../../share/error/error';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const ProfileForm = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const {data, isLoading, isSuccess, isError} = useGetProfileQuery()
-    const { name, password, email } = useSelector((state:RootStoreState) => state.profileForm)
+    const { name, password, email } = useAppSelector(state => state.profileForm)
 
     const [patchProfile,{
         data:patchData, 

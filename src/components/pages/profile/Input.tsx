@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react"
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components"
 import { TInputsNames, setHasChange, setKeyValue } from "../../../services/slices/profileForm"
-import { useDispatch, useSelector } from "react-redux"
-import { RootStoreState } from "../../../services/store"
+import { useAppDispatch, useAppSelector } from "../../../services/hooks"
 
 interface IProps {
     type?: "text" | "email" | "password" | undefined,
@@ -12,8 +11,8 @@ interface IProps {
 const inputErrorMessage = "недопустимое значение"
 
 const ProfileInput:React.FC<IProps> = ({type, placeholder, name}) => {
-    const dispatch = useDispatch()
-    const {value, error, changed} = useSelector((state:RootStoreState) => state.profileForm[name])
+    const dispatch = useAppDispatch()
+    const {value, error, changed} = useAppSelector(state => state.profileForm[name])
     const [disabled, setDisabled] = useState<boolean>(true)
 
     const onChange = (ev: React.ChangeEvent<HTMLInputElement>) => {

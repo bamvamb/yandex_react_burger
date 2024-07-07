@@ -1,7 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-
-import { useSelector, useDispatch } from 'react-redux';
-import {RootStoreState} from '../../../services/store';
+import { useAppDispatch, useAppSelector } from '../../../services/hooks';
 import BurgerIngredientsListItem from './burger-ingredients-list-item';
 import style from "./burger-ingredients-list.module.css"
 import { selectIngridientsCount } from '../../../services/selectors/burger';
@@ -14,9 +12,9 @@ interface IProps {
 }
 
 const BurgerIngredientsList: React.FC<IProps> = ({type}) => {
-    const dispatch = useDispatch()
-    const ingredentsCount = useSelector( selectIngridientsCount )
-    const ingredients = useSelector( (state:RootStoreState) => selectIngredientsByType(state, type) )
+    const dispatch = useAppDispatch()
+    const ingredentsCount = useAppSelector( selectIngridientsCount )
+    const ingredients = useAppSelector( (state) => selectIngredientsByType(state, type) )
     const ref = useRef<HTMLDivElement|null>(null)
     const localisedType = typeLocalisation[type]?.many
 

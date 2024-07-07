@@ -2,11 +2,11 @@ import AuthTemplate, {IFormState} from '../../auth-template/auth-template';
 import { getLSUserInfo, useRegisterUserMutation } from '../../../services/apis/auth';
 import { Navigate } from 'react-router-dom';
 import { authError, authStarted, authSuccess, unauthorized } from '../../../services/slices/user';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../../services/hooks';
 import { useEffect } from 'react';
 
 function RegisterPage() {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const [registerUser,{
       data:response, 

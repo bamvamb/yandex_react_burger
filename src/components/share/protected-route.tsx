@@ -1,8 +1,7 @@
 
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { useSelector } from 'react-redux';
-import { RootStoreState } from '../../services/store'
+import { useAppSelector } from "../../services/hooks";
 
 interface IProps {
   onlyUnAuth?: boolean;
@@ -11,7 +10,7 @@ interface IProps {
 }
 
 export const Protected:React.FC<IProps> = ({ onlyUnAuth = false, element, onlyFrom }) => {
-    const {authorized} = useSelector((store:RootStoreState) => store.user)
+    const {authorized} = useAppSelector(store => store.user)
     const location = useLocation();
 
     if(onlyFrom && location.state?.from !== onlyFrom){
