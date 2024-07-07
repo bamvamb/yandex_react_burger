@@ -1,4 +1,4 @@
-import AuthTemplate, {FormState} from '../../auth-template/auth-template';
+import AuthTemplate, {IFormState} from '../../auth-template/auth-template';
 import { getLSUserInfo, useLogInMutation } from '../../../services/apis/auth';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -10,7 +10,7 @@ function LoginPage() {
   const dispatch = useDispatch()
   const [logIn, {data:response, error, isSuccess, isError, isLoading}] = useLogInMutation()
 
-  const handleLogin = (data: FormState) => {
+  const handleLogin = (data: IFormState) => {
     const {email, password} = data
     if(email && password){
       dispatch(authStarted())

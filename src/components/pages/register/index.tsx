@@ -1,4 +1,4 @@
-import AuthTemplate, {FormState} from '../../auth-template/auth-template';
+import AuthTemplate, {IFormState} from '../../auth-template/auth-template';
 import { getLSUserInfo, useRegisterUserMutation } from '../../../services/apis/auth';
 import { Navigate } from 'react-router-dom';
 import { authError, authStarted, authSuccess, unauthorized } from '../../../services/slices/user';
@@ -16,7 +16,7 @@ function RegisterPage() {
       isLoading
   }] = useRegisterUserMutation()
 
-  const handleRegisterClick = (data:FormState) => {
+  const handleRegisterClick = (data:IFormState) => {
     const {name, email, password} = data
     if(name && email && password){
       registerUser({ name, email, password })

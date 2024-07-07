@@ -9,11 +9,11 @@ import { setElementPosition } from '../../../services/slices/tabs';
 import { selectIngredientsByType } from '../../../services/selectors/ingredients';
 import { typeLocalisation } from '../../../share/typing';
 
-interface Props {
+interface IProps {
     type: string
 }
 
-const BurgerIngredientsList: React.FC<Props> = ({type}) => {
+const BurgerIngredientsList: React.FC<IProps> = ({type}) => {
     const dispatch = useDispatch()
     const ingredentsCount = useSelector( selectIngridientsCount )
     const ingredients = useSelector( (state:RootStoreState) => selectIngredientsByType(state, type) )

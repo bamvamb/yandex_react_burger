@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import styles from  './modal.module.css'
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import ModalOverlay from './modal-overlay';
+import ModalOverlay, {IModalProps} from './modal-overlay';
 
-interface ModalProps {
-  isOpen: boolean;
+interface IProps extends IModalProps {
   headerTitle?: string;
-  onClose: () => void;
-  children: React.ReactNode;
 }
 
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, headerTitle }) => {
-  const [iconMouseOver, setIconMouseOver] = useState(false)
+const Modal: React.FC<IProps> = ({ isOpen, onClose, children, headerTitle }) => {
+  const [iconMouseOver, setIconMouseOver] = useState<boolean>(false)
   const handleClose = () => {
     setIconMouseOver(false)
     onClose()

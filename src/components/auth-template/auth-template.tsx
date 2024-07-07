@@ -1,20 +1,20 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './auth-template.module.css';
 import { useState } from 'react';
-import { Variants, authTemplateVariants, Inputs } from './auth-template-variants';
+import { TVariants, authTemplateVariants, TInputs } from './auth-template-variants';
 import { Link } from 'react-router-dom';
 import { checkEmailValue, checkTextValue } from '../../share/input-check';
-import { ResponseMessage } from '../../services/apis/auth';
+import { IResponseMessage } from '../../services/apis/auth';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
 import { getErrorMessage as getErrorMsg } from '../../services/apis/auth';
 import ErrorView from '../share/error/error';
 
-interface Props {
-    variant: Variants,
-    handleSendRequest?: (fs:FormState) => void,
+interface IProps {
+    variant: TVariants,
+    handleSendRequest?: (fs:IFormState) => void,
     requestState?: {
-        response: ResponseMessage|undefined,
+        response: IResponseMessage|undefined,
         isSuccess: boolean,
         isError: boolean,
         isLoading: boolean,
@@ -22,41 +22,41 @@ interface Props {
     }
 }
 
-export interface FormState {
+export interface IFormState {
     name: string|null,
     password: string|null,
     email: string|null,
     code: string|null
 }
 
-export interface FormStateError {
+export interface IFormStateError {
     name: boolean,
     password: boolean,
     email: boolean,
     code: boolean
 }
 
-const getInitialState = (variant: Variants):FormState => ({
+const getInitialState = (variant: TVariants):IFormState => ({
     name: authTemplateVariants[variant].inputs.find( inpDict => inpDict.name === "name") ? "" : null,
     password: authTemplateVariants[variant].inputs.find( inpDict => inpDict.name === "password") ? "" : null,
     email: authTemplateVariants[variant].inputs.find( inpDict => inpDict.name === "email") ? "" : null,
     code: authTemplateVariants[variant].inputs.find( inpDict => inpDict.name === "code") ? "" : null
 })
 
-const inputErrorMessage = "недопустимое значение"
-const requestErrorMessage = "Произошла ошибка при обработке запроса - попробуйте снова позже. Если ошибка повторится обратитесь к администратору"
+const inputErrorMessage:string = "недопустимое значение"
+const requestErrorMessage:string = "Произошла ошибка при обработке запроса - попробуйте снова позже. Если ошибка повторится обратитесь к администратору"
 
-const AuthTemplate:React.FC<Props> = ({variant, handleSendRequest, requestState}) => {
+const AuthTemplate:React.FC<IProps> = ({variant, handleSendRequest, requestState}) => {
     const initialState = getInitialState(variant)
-    const [state, setState] = useState<FormState>(initialState)
-    const [checkState, setCheckState] = useState<FormStateError>({
+    const [state, setState] = useState<IFormState>(initialState)
+    const [checkState, setCheckState] = useState<IFormStateError>({
         name: false,
         password: false,
         email: false,
         code: false
     })
 
-    let inputsNames: (keyof FormState)[] = Object.keys(initialState) as any;
+    let inputsNames: (keyof IFormState)[] = Object.keys(initialState) as (keyof IFormState)[];
     inputsNames = inputsNames.filter( key => initialState[key] === "")
 
     const requestError = requestState?.isError || requestState?.response?.success === false
@@ -69,7 +69,7 @@ const AuthTemplate:React.FC<Props> = ({variant, handleSendRequest, requestState}
         return null
     }
 
-    const setVal = (key:Inputs, val:string) => {
+    const setVal = (key:TInputs, val:string) => {
         setState({...state, [key]: val})
         if(checkState[key]){ setCheckState({...checkState, [key]: false})}
     }

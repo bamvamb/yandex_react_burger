@@ -37,7 +37,7 @@ const BurgerConstructor = () => {
 
     const price = useSelector(selectPrice)
     const [createOrder,{data:order, isSuccess, isError, isLoading}] = useCreateOrderMutation()
-    const [showOrder, setShowOrder] = useState(false)
+    const [showOrder, setShowOrder] = useState<boolean>(false)
     
     const handleClear = () => {
         dispatch(clear())

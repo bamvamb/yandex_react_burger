@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { useGetProfileQuery, usePatchProfileMutation } from '../../../services/apis/auth';
 import styles from './inputs.module.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { setKeyValue, InputsNames, clearForm } from '../../../services/slices/profileForm';
+import { setKeyValue, TInputsNames, clearForm } from '../../../services/slices/profileForm';
 import { RootStoreState } from '../../../services/store';
 import ProfileInput from './Input';
 import Loader from '../../share/loader/loader';
@@ -38,11 +38,11 @@ const ProfileForm = () => {
         }
     }, [patchSuccess])
 
-    const inputsData:{
-        name: InputsNames,
+    const inputsData = useMemo<{
+        name: TInputsNames,
         type: "text" | "email" | "password" | undefined,
         placeholder: string
-    }[] = useMemo(() =>[
+    }[]>(() =>[
         {
             name: "name",
             type: "text",

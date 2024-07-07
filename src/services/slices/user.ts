@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface UserState {
+export interface IUserState {
   authorized: boolean,
   loading: boolean,
   error: boolean,
@@ -8,7 +8,7 @@ export interface UserState {
   email?: string|undefined
 }
 
-const initialState:UserState = {
+const initialState:IUserState = {
   authorized: false,
   loading: false,
   error: false

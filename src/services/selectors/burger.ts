@@ -1,7 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootStoreState } from '../store';
+import { BurgerState } from '../slices/burger';
 
-const selectBurgerState = (state: RootStoreState) => state.burger;
+const selectBurgerState = (state: RootStoreState):BurgerState => state.burger;
 
 export const selectPrice = createSelector(
   selectBurgerState,
@@ -11,13 +12,13 @@ export const selectPrice = createSelector(
   )
 );
 
-interface ingredientsCount {
+interface IIngredientsCount {
   [key: string]: number
 }
 
 export const selectIngridientsCount = createSelector(
   selectBurgerState,
-  (burgerState):ingredientsCount => burgerState.core.reduce( 
+  (burgerState):IIngredientsCount => burgerState.core.reduce( 
     (accumulator, currentValue) => {
       if(accumulator[currentValue._id]){
         accumulator[currentValue._id] += 1

@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react"
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components"
-import { InputsNames, setHasChange, setKeyValue } from "../../../services/slices/profileForm"
+import { TInputsNames, setHasChange, setKeyValue } from "../../../services/slices/profileForm"
 import { useDispatch, useSelector } from "react-redux"
 import { RootStoreState } from "../../../services/store"
 
-interface Props {
+interface IProps {
     type?: "text" | "email" | "password" | undefined,
     placeholder: string,
-    name: InputsNames
+    name: TInputsNames
 }
 const inputErrorMessage = "недопустимое значение"
 
-const ProfileInput:React.FC<Props> = ({type, placeholder, name}) => {
+const ProfileInput:React.FC<IProps> = ({type, placeholder, name}) => {
     const dispatch = useDispatch()
     const {value, error, changed} = useSelector((state:RootStoreState) => state.profileForm[name])
     const [disabled, setDisabled] = useState<boolean>(true)

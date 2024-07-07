@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ConstructorIngredient, Ingredient } from '../../share/typing';
+import { ConstructorIngredient, IIngredient } from '../../share/typing';
 import { v4 as uuid4 } from 'uuid';
 
 export interface BurgerState {
-  bun: Ingredient|null,
+  bun: IIngredient|null,
   core: ConstructorIngredient[]
 }
 
@@ -12,12 +12,12 @@ const initialState: BurgerState = {
   core: []
 };
 
-const getRandomNumber = (max:number, min: number=0) => {
+const getRandomNumber = (max:number, min: number=0):number => {
     return min + Math.round( Math.random() * (max-min))
 }
 
 const genRandomBurger = (
-    ingredients:Ingredient[],
+    ingredients:IIngredient[],
     max_sauses:number=2, 
     min_sauses: number=1,
     max_mains:number=5,
@@ -54,13 +54,13 @@ const genRandomBurger = (
     }
 }
 
-const addUIDToIngredient = (ingredient: Ingredient):ConstructorIngredient => ({...ingredient, uid:uuid4()})
+const addUIDToIngredient = (ingredient: IIngredient):ConstructorIngredient => ({...ingredient, uid:uuid4()})
 
 export const burgerSlice = createSlice({
   name: 'burger',
   initialState,
   reducers: {
-    changeBun: (state, action:PayloadAction<Ingredient>) => {
+    changeBun: (state, action:PayloadAction<IIngredient>) => {
         state.bun = action.payload
     },
     clearBun: (state) => {
@@ -77,7 +77,7 @@ export const burgerSlice = createSlice({
     },
     addCoreIngredient: (state, action:PayloadAction<{
       idx: number,
-      ingredient: Ingredient
+      ingredient: IIngredient
     }>) => {
         const new_core = state.core.slice()
         const new_ingredient = addUIDToIngredient(action.payload.ingredient)
@@ -93,7 +93,7 @@ export const burgerSlice = createSlice({
         state.bun = null
         state.core = []
     },
-    createRandom: (state, action:PayloadAction<Ingredient[]>) => {
+    createRandom: (state, action:PayloadAction<IIngredient[]>) => {
         const {bun, core} = genRandomBurger(action.payload)
         state.bun = bun;
         state.core = core;

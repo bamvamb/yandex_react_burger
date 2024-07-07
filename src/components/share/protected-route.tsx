@@ -4,13 +4,13 @@ import { Navigate, useLocation } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { RootStoreState } from '../../services/store'
 
-type Props = {
+interface IProps {
   onlyUnAuth?: boolean;
   element: JSX.Element;
   onlyFrom?:string
 }
 
-export const Protected:React.FC<Props> = ({ onlyUnAuth = false, element, onlyFrom }) => {
+export const Protected:React.FC<IProps> = ({ onlyUnAuth = false, element, onlyFrom }) => {
     const {authorized} = useSelector((store:RootStoreState) => store.user)
     const location = useLocation();
 

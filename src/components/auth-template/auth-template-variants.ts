@@ -1,8 +1,8 @@
-export type Variants = "login"|"register"|"forgot-password"|"reset-password"
-export type Inputs = "name"|"email"|"password"|"code"
-type InputsTypes = "text"|"email"|"password"
-type AuthTemplateVariants = {
-    [key in Variants]: {
+export type TVariants = "login"|"register"|"forgot-password"|"reset-password"
+export type TInputs = "name"|"email"|"password"|"code"
+type TInputsTypes = "text"|"email"|"password"
+type TAuthTemplateVariants = {
+    [key in TVariants]: {
         title: string,
         footer: {
             text: string,
@@ -10,15 +10,15 @@ type AuthTemplateVariants = {
             link: string
         }[],
         inputs: {
-            name: Inputs,
-            type?: InputsTypes,
+            name: TInputs,
+            type?: TInputsTypes,
             placeholder: string    
         }[],
         button: string
     };
 };
 
-export const authTemplateVariants:AuthTemplateVariants = {
+export const authTemplateVariants:TAuthTemplateVariants = {
     login:{
         title: "Вход",
         footer: [

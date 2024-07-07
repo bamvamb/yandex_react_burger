@@ -1,43 +1,40 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type InputsNames = "name"|"email"|"password"
+export type TInputsNames = "name"|"email"|"password"
 
-export interface InputState {
+export interface IInputState {
   error: boolean;
   value: string;
   changed: boolean;
 }
-export type InputsState = {
-  [propName in InputsNames]: InputState
+export type TInputsState = {
+  [propName in TInputsNames]: IInputState
 };
 
-const defaultInputState:InputState = {
+const defaultInputState:IInputState = {
   value: "",
   error: false,
   changed: false
 }
 
-const initialState:InputsState = {
+const initialState:TInputsState = {
   name: {...defaultInputState},
   email: {...defaultInputState},
   password: {...defaultInputState},
 }
 
-//TODO check input values
-
-
 export const profileInputsSlice = createSlice({
   name: 'profileForm',
   initialState,
   reducers: {
-    setKeyValue: (state, action:PayloadAction<{key:InputsNames, value:string}>) => {
+    setKeyValue: (state, action:PayloadAction<{key:TInputsNames, value:string}>) => {
       state[action.payload.key].value = action.payload.value
       state[action.payload.key].error = false
     },
-    setKeyError: (state, action:PayloadAction<{key:InputsNames, value:boolean}>) => {
+    setKeyError: (state, action:PayloadAction<{key:TInputsNames, value:boolean}>) => {
       state[action.payload.key].error = action.payload.value
     },
-    setHasChange: (state, action:PayloadAction<{key:InputsNames, value:boolean}>) => {
+    setHasChange: (state, action:PayloadAction<{key:TInputsNames, value:boolean}>) => {
       state[action.payload.key].changed = action.payload.value
     },
     clearForm: (state) => {      

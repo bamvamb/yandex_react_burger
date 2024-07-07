@@ -1,4 +1,8 @@
-export interface Ingredient {
+export interface IResponse {
+    success: boolean
+}
+
+export interface IIngredient {
     _id: string,
     name: string,
     type: string,
@@ -16,17 +20,17 @@ export interface Ingredient {
     __v: number
 }
 
-export interface ConstructorIngredient extends Ingredient {
+export interface ConstructorIngredient extends IIngredient {
     uid: string
 }
 
-interface TypeLocale {
+interface ITypeLocale {
     many: string,
     one: string
 }
 
-interface TypeLocales {
-    [propName: string]: TypeLocale
+interface ITypeLocales {
+    [propName: string]: ITypeLocale
 }
 
 export const typeLocalisation = {
@@ -42,17 +46,17 @@ export const typeLocalisation = {
         many: "Соусы",
         one: "Соус"
     }
-} as TypeLocales
+} as ITypeLocales
 
-export const ingredientLoc = (ingredient:Ingredient) => ({
+export const ingredientLoc = (ingredient:IIngredient) => ({
     ...ingredient,
     type_loc_many: typeLocalisation[ingredient.type]?.many,
     type_loc_one: typeLocalisation[ingredient.type]?.one,
-} as Ingredient)
+} as IIngredient)
 
 const getFetchJson = async (
     resp: Response
-) => {
+):Promise<any> => {
     const contentType = resp.headers.get("content-type");
     if(resp.ok && contentType && contentType.indexOf("application/json") !== -1){
         try {
@@ -69,7 +73,7 @@ const getFetchJson = async (
 
 const url = "https://norma.nomoreparties.space/api/ingredients"
 
-export const getIngredients = async () => {
+export const getIngredients = async ():Promise<any> => {
     try {
         const _json = await getFetchJson(await fetch(url))
         if(_json.success){
