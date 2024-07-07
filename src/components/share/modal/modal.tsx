@@ -20,11 +20,13 @@ const Modal: React.FC<IProps> = ({ isOpen, onClose, children, headerTitle }) => 
       onClose()
     }
   }
+
   useEffect(() => {
     document.addEventListener("keydown", onpress)
     return () => {
       document.removeEventListener("keydown", onpress)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleClick = (ev:React.MouseEvent<HTMLDivElement, MouseEvent>) => {

@@ -26,6 +26,7 @@ const ProfileForm = () => {
             dispatch(setKeyValue({key: "email", value: data.user.email}))
             dispatch(clearForm())
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSuccess])
 
 
@@ -35,6 +36,7 @@ const ProfileForm = () => {
             dispatch(setKeyValue({key: "email", value: patchData.user.email}))
             dispatch(clearForm())
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [patchSuccess])
 
     const inputsData = useMemo<{
@@ -57,6 +59,7 @@ const ProfileForm = () => {
             type: "password",
             placeholder: "пароль"
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     ], [name, email, password])
 
     const onCancelClick = () => {

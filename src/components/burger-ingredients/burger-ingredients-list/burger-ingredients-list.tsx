@@ -22,6 +22,7 @@ const BurgerIngredientsList: React.FC<IProps> = ({type}) => {
         if(ref.current){
             dispatch(setElementPosition({type, top: ref.current.offsetTop }))
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return <div ref={ref} className={style.burger_ingredients_list_container}>

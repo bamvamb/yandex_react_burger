@@ -25,6 +25,7 @@ function LoginPage() {
     } else {
       dispatch(unauthorized())
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -32,12 +33,14 @@ function LoginPage() {
     if(user){
       dispatch(authSuccess(user))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess])
 
   useEffect(() => {
     if(isError){
       dispatch(authError())
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError])
 
   if(isSuccess){

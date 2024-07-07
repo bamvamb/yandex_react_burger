@@ -24,6 +24,7 @@ const ProfileInput:React.FC<IProps> = ({type, placeholder, name}) => {
         if(!changed && !disabled){
             setDisabled( true )
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [changed])
 
     return <Input 
