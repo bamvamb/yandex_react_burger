@@ -9,8 +9,8 @@ import ResetPasswordPage from './pages/reset-password';
 import ProfilePage from './pages/profile';
 import IngredientPage from './pages/ingredient';
 import { useEffect } from 'react';
-import { getLSUserInfo } from '../services/apis/auth';
-import { authSuccess } from '../services/slices/user';
+import { getLSUserInfo } from '../services/tokens';
+import { authSuccess } from '../services/slices/user/user';
 import { OnlyUnauthorised, Authorised, OnlyFrom } from './share/protected-route'
 import { useLocation } from 'react-router-dom';
 import IngredientModal from './ingredient-modal/ingredient-modal';

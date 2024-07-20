@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { dataApi } from './apis/data';
-import burgerSlice from './slices/burger';
-import tagsSlice from './slices/tabs';
-import { authApi } from './apis/auth';
-import profileInputsSlice from './slices/profileForm';
-import { userSlice } from './slices/user';
+import { dataApi } from './apis/ingredients/ingredients';
+import burgerSlice from './slices/burger/burger';
+import tagsSlice from './slices/tabs/tabs';
+import { authApi } from './apis/auth/auth';
+import profileInputsSlice from './slices/profileForm/profileForm';
+import { userSlice } from './slices/user/user';
 
 const store = configureStore({
   reducer: {

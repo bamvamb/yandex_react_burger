@@ -1,13 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ConstructorIngredient, IIngredient } from '../../share/typing';
+import { ConstructorIngredient, IIngredient } from '../../../share/typing';
 import { v4 as uuid4 } from 'uuid';
-
-export interface BurgerState {
-  bun: IIngredient|null,
-  core: ConstructorIngredient[]
-}
-
-const initialState: BurgerState = {
+import { IBurgerState } from './types';
+const initialState: IBurgerState = {
   bun: null,
   core: []
 };
@@ -22,7 +17,7 @@ const genRandomBurger = (
     min_sauses: number=1,
     max_mains:number=5,
     min_mains:number=3
-  ):BurgerState => {
+  ):IBurgerState => {
     if( ingredients && ingredients.length !== 0){
       const buns = ingredients.filter( (ingredient) => ingredient.type === "bun")
       const sauses = ingredients.filter( (ingredient) => ingredient.type === "sauce" )

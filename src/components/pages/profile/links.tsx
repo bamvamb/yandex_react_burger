@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './links.module.css'
-import { useLogOutMutation } from '../../../services/apis/auth';
+import { useLogOutMutation } from '../../../services/apis/auth/auth';
 import { useEffect, useMemo } from 'react';
 import Loader from '../../share/loader/loader';
 

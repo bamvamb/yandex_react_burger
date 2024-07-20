@@ -5,12 +5,12 @@ import BurgerConstructorItem from "./burger-constructor-item/burger-constructor-
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components"
 import styles from './burger-constructor.module.css'
 import { selectPrice } from "../../services/selectors/burger"
-import { useCreateOrderMutation } from "../../services/apis/data"
+import { useCreateOrderMutation } from "../../services/apis/ingredients/ingredients"
 import Modal from "../share/modal/modal"
 import OrderDetails from "../order-details/order-details"
 import { useDrop } from "react-dnd";
-import { clear, createRandom } from "../../services/slices/burger"
-import { useGetIngredientsQuery } from "../../services/apis/data"
+import { clear, createRandom } from "../../services/slices/burger/burger"
+import { useGetIngredientsQuery } from "../../services/apis/ingredients/ingredients"
 import { selectIngredientTypes } from "../../services/selectors/ingredients"
 import { useLocation, useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../services/hooks"

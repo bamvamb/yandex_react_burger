@@ -1,22 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IResponse, IIngredient,  ingredientLoc} from '../../share/typing';
-import { lsStorage } from '../../share/browser-storage';
-import { getReauthBaseQuery, lsUserKeys } from './auth';
-
-
-export interface IGetIngredientsResponse extends IResponse {
-  data: IIngredient[]
-}
-
-export interface ICreateOrderResponse extends IResponse {
-  name: string,
-  order: {
-    number: number
-  }
-}
+import { IIngredient,  ingredientLoc} from '../../../share/typing';
+import { lsStorage } from '../../../share/browser-storage';
+import { getReauthBaseQuery } from '../auth/auth';
+import { lsUserKeys } from '../../tokens';
+import { backendUrl } from '../../constants/varaibles';
+import { IGetIngredientsResponse, ICreateOrderResponse } from './types';
 
 const baseQuery = fetchBaseQuery({ 
-  baseUrl: 'https://norma.nomoreparties.space/api/',
+  baseUrl: `${backendUrl}/api/`,
   prepareHeaders: (headers) => {
     const token = lsStorage.get(lsUserKeys.accessToken)
     if (token) {
@@ -55,14 +46,15 @@ export const dataApi = createApi({
       ingredientDetails: builder.query<IIngredient|null, {ingredient_id: string|undefined}>({
         query: () => 'ingredients',
         transformResponse: (response: IGetIngredientsResponse, undefined, data) => {
-            if(response.success && data && data.ingredient_id){
-              const ingredient =  response.data.find( ingredient => ingredient._id === data.ingredient_id )
-              return ingredient ? ingredientLoc(ingredient) : null
-            } else {
-              return null
-            }
+          if(response.success && data && data.ingredient_id){
+            const ingredient =  response.data.find( ingredient => ingredient._id === data.ingredient_id )
+            return ingredient ? ingredientLoc(ingredient) : null
+          } else {
+            return null
           }
-        })
+        }
+      }),
+
     })
 });
 

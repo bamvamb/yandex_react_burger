@@ -1,15 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export type TInputsNames = "name"|"email"|"password"
-
-export interface IInputState {
-  error: boolean;
-  value: string;
-  changed: boolean;
-}
-export type TInputsState = {
-  [propName in TInputsNames]: IInputState
-};
+import { IInputState, TInputsNames, TInputsState } from './types';
 
 const defaultInputState:IInputState = {
   value: "",

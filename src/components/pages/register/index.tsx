@@ -1,7 +1,7 @@
 import AuthTemplate, {IFormState} from '../../auth-template/auth-template';
-import { getLSUserInfo, useRegisterUserMutation } from '../../../services/apis/auth';
+import { getLSUserInfo, useRegisterUserMutation } from '../../../services/apis/auth/auth';
 import { Navigate } from 'react-router-dom';
-import { authError, authStarted, authSuccess, unauthorized } from '../../../services/slices/user';
+import { authError, authStarted, authSuccess, unauthorized } from '../../../services/slices/user/user';
 import { useAppDispatch } from '../../../services/hooks';
 import { useEffect } from 'react';
 

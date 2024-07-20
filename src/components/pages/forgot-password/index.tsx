@@ -1,5 +1,5 @@
 import AuthTemplate, {IFormState} from '../../auth-template/auth-template';
-import { useForgotPasswordMutation } from '../../../services/apis/auth';
+import { useForgotPasswordMutation } from '../../../services/apis/auth/auth';
 import { Navigate, useLocation, } from 'react-router-dom';
 
 function ForgotPasswordPage() {
