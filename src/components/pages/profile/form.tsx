@@ -2,7 +2,8 @@ import { useEffect, useMemo } from 'react';
 import { useGetProfileQuery, usePatchProfileMutation } from '../../../services/apis/auth/auth';
 import styles from './inputs.module.css'
 import { useAppDispatch, useAppSelector } from '../../../services/hooks';
-import { setKeyValue, TInputsNames, clearForm } from '../../../services/slices/profileForm/profileForm';
+import { setKeyValue, clearForm } from '../../../services/slices/profileForm/profileForm';
+import { TInputsNames } from '../../../services/slices/profileForm/types';
 import ProfileInput from './Input';
 import Loader from '../../share/loader/loader';
 import ErrorView from '../../share/error/error';

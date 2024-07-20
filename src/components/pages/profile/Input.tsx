@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components"
-import { TInputsNames, setHasChange, setKeyValue } from "../../../services/slices/profileForm/profileForm"
+import { setHasChange, setKeyValue } from "../../../services/slices/profileForm/profileForm"
+import { TInputsNames } from "../../../services/slices/profileForm/types"
 import { useAppDispatch, useAppSelector } from "../../../services/hooks"
 
 interface IProps {

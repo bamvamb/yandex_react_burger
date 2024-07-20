@@ -1,9 +1,9 @@
-import { BaseQueryFn, FetchArgs, FetchBaseQueryError, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { BaseQueryFn, FetchArgs, FetchBaseQueryError, createApi } from '@reduxjs/toolkit/query/react';
 import {lsStorage} from '../../../share/browser-storage';
 import { IResponseAuthMessage, IResponseMessage, IUserResponse } from './types';
-import { setUserInStorage, getLSUserInfo, refreshTokensInStorage, deleteUserFromStorage, lsUserKeys } from '../../tokens';
+import { refreshTokensInStorage, deleteUserFromStorage} from '../../tokens';
 import { apiUrl, jsonHeader, protectedApiRoutes } from '../../constants/varaibles';
-import { baseQuery, check_jwt_expired, getErrorMessage, transformAuthResponse } from '../../utils';
+import { baseQuery, check_jwt_expired, transformAuthResponse } from '../../utils';
 
 
 export const getReauthBaseQuery = (_baseQuery:BaseQueryFn<

@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { TVariants, authTemplateVariants, TInputs } from './auth-template-variants';
 import { Link } from 'react-router-dom';
 import { checkEmailValue, checkTextValue } from '../../share/input-check';
-import { IResponseMessage } from '../../services/apis/auth/auth';
+import { IResponseMessage } from '../../services/apis/auth/types';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
-import { getErrorMessage as getErrorMsg } from '../../services/apis/auth/auth';
+import { getErrorMessage as getErrorMsg } from '../../services/utils';
 import ErrorView from '../share/error/error';
 
 interface IProps {

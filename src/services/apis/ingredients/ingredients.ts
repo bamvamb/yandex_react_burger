@@ -45,7 +45,7 @@ export const dataApi = createApi({
       }),
       ingredientDetails: builder.query<IIngredient|null, {ingredient_id: string|undefined}>({
         query: () => 'ingredients',
-        transformResponse: (response: IGetIngredientsResponse, undefined, data) => {
+        transformResponse: (response: IGetIngredientsResponse, _, data) => {
           if(response.success && data && data.ingredient_id){
             const ingredient =  response.data.find( ingredient => ingredient._id === data.ingredient_id )
             return ingredient ? ingredientLoc(ingredient) : null

@@ -1,5 +1,6 @@
 import AuthTemplate, {IFormState} from '../../auth-template/auth-template';
-import { getLSUserInfo, useLogInMutation } from '../../../services/apis/auth/auth';
+import { useLogInMutation } from '../../../services/apis/auth/auth';
+import { getLSUserInfo } from '../../../services/tokens';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../../services/hooks';

@@ -2,7 +2,7 @@ import { FetchBaseQueryError, fetchBaseQuery } from "@reduxjs/toolkit/query"
 
 import { lsStorage } from "../share/browser-storage"
 import { lsUserKeys, setUserInStorage } from "./tokens"
-import { backendUrl, jwt_expired_403, jwt_malformed_403, protectedApiRoutes } from "./constants/varaibles"
+import { backendUrl, jwt_expired_403, jwt_malformed_403 } from "./constants/varaibles"
 import { SerializedError } from "@reduxjs/toolkit"
 import { IResponseAuthMessage, IResponseMessage } from "./apis/auth/types"
 
