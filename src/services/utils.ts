@@ -2,7 +2,7 @@ import { FetchBaseQueryError, fetchBaseQuery } from "@reduxjs/toolkit/query"
 
 import { lsStorage } from "../share/browser-storage"
 import { lsUserKeys, setUserInStorage } from "./tokens"
-import { backendUrl, jwt_expired_403, jwt_malformed_403 } from "./constants/varaibles"
+import { apiUrl, jwt_expired_403, jwt_malformed_403 } from "./constants/varaibles"
 import { SerializedError } from "@reduxjs/toolkit"
 import { IResponseAuthMessage, IResponseMessage } from "./apis/auth/types"
 
@@ -28,7 +28,7 @@ export const getErrorMessage = (error: FetchBaseQueryError | SerializedError | u
 }
 
 export const baseQuery = fetchBaseQuery({ 
-    baseUrl: `${backendUrl}/api/`,
+    baseUrl: apiUrl,
     prepareHeaders: (headers) => {
       const token = lsStorage.get(lsUserKeys.accessToken)
       if (token) {

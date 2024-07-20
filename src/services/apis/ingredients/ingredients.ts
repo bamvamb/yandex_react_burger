@@ -3,11 +3,11 @@ import { IIngredient,  ingredientLoc} from '../../../share/typing';
 import { lsStorage } from '../../../share/browser-storage';
 import { getReauthBaseQuery } from '../auth/auth';
 import { lsUserKeys } from '../../tokens';
-import { backendUrl } from '../../constants/varaibles';
+import { apiUrl } from '../../constants/varaibles';
 import { IGetIngredientsResponse, ICreateOrderResponse } from './types';
 
 const baseQuery = fetchBaseQuery({ 
-  baseUrl: `${backendUrl}/api/`,
+  baseUrl: apiUrl,
   prepareHeaders: (headers) => {
     const token = lsStorage.get(lsUserKeys.accessToken)
     if (token) {
