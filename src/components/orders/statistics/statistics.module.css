@@ -1,0 +1,14 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.orders_list {
+    display: flex;
+    justify-content: space-between;
+}
+
+.orders_column {
+    display: flex;
+    flex-direction: column;
+}

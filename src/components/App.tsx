@@ -8,6 +8,7 @@ import ForgotPasswordPage from './pages/forgot-password';
 import ResetPasswordPage from './pages/reset-password';
 import ProfilePage from './pages/profile';
 import IngredientPage from './pages/ingredient';
+import Orders from './pages/orders';
 import { useEffect } from 'react';
 import { getLSUserInfo } from '../services/tokens';
 import { authSuccess } from '../services/slices/user/user';
@@ -45,6 +46,9 @@ const Layout = () => {
         <Routes location={backgroundLocation ? backgroundLocation : location}>
           <Route path="/" element={
              <HomePage />
+          }/>
+          <Route path="/orders" element={
+             <Orders />
           }/>
           <Route path="/profile" element={
             <Authorised element={
