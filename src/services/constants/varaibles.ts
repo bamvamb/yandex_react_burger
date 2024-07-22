@@ -1,6 +1,7 @@
 
 export const backendUrl = 'https://norma.nomoreparties.space/'
 export const apiUrl = backendUrl + 'api/'
+export const wssUrl = backendUrl.replace('https', 'wss')
 
 export const protectedApiRoutes:string[] = [
     "auth/user",
