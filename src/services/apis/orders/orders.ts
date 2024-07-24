@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import { IGetOrdersResponse } from './types';
 import { wssUrl } from '../../constants/varaibles';
 

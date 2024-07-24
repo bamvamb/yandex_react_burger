@@ -4,10 +4,11 @@ import { IResponse } from '../../../share/typing'
 export interface IOrder {
     ingredients: string[],
     _id: string,
-    "status": "created"|"pending"|"done",
-    "number": number,
-    "createdAt": ISODateString,
-    "updatedAt": ISODateString
+    status: "created"|"pending"|"done",
+    number: number,
+    createdAt: ISODateString,
+    updatedAt: ISODateString,
+    name: string
 }
   
 export interface IGetOrdersResponse extends IResponse {

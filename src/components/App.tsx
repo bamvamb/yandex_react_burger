@@ -47,7 +47,7 @@ const Layout = () => {
           <Route path="/" element={
              <HomePage />
           }/>
-          <Route path="/orders" element={
+          <Route path="/feed" element={
              <Orders />
           }/>
           <Route path="/profile" element={

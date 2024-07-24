@@ -1,0 +1,27 @@
+.img {
+    width: 120px;
+}
+
+.container_sizes {
+    width: 100px;
+    height: 90px;
+    border-radius: 50%;
+}
+
+.container {
+    composes: container_sizes;
+    border: solid 3px var(--colors-interface-accent);
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    background-color: var(--background-alt);
+}
+
+.img_text {
+    composes: container_sizes;
+    position: absolute;
+    background-color: color-mix(in srgb, var(--background-alt), transparent 40%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
