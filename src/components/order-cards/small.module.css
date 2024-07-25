@@ -12,14 +12,17 @@
     display: flex;
 }
 
+.ingredient_container:not(:last-child) {
+    width: 60px;
+}
+
 .ingredient_container {
-    width: 80px;
     position: relative;
 }
 
 .ingredients_div {
     display: flex;
-    gap: 44px;
+    gap: 24px;
     justify-content: space-between;
     overflow: auto;
 }
