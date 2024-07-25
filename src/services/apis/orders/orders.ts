@@ -1,6 +1,6 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-import { IGetOrdersResponse } from './types';
-import { wssUrl } from '../../constants/varaibles';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { IGetOrderResponse, IGetOrdersResponse, IOrder } from './types';
+import { apiUrl, wssUrl } from '../../constants/varaibles';
 
 const socket:{
     ws: WebSocket|undefined,
@@ -26,13 +26,31 @@ const initialState:IGetOrdersResponse = {
 } 
 
 export const ordersApi = createApi({
-  reducerPath: 'ordersApi',
+    reducerPath: 'ordersApi',
+    baseQuery:  fetchBaseQuery({ 
+      baseUrl: apiUrl,
+    }),
+    endpoints: (builder) => ({
+      getOrder: builder.query<IOrder|undefined, {order_number:number|string|undefined}>({
+        query: ({order_number}) => `/orders/${order_number}`,
+        transformResponse: (response: IGetOrderResponse) => {
+            if(response.success){
+                return response.orders[0]
+            }
+        }
+      })
+    })
+})
+
+export const {useGetOrderQuery} = ordersApi
+
+export const ordersWSApi = createApi({
+  reducerPath: 'ordersWSApi',
   async baseQuery (options: IGetOrdersResponse) {
     init_connection()
     await socket.connected
     return { data: options }
   },
-
   endpoints: (builder) => ({
     getOrders: builder.query<IGetOrdersResponse, void>({
       query: () =>  {return initialState},
@@ -73,4 +91,4 @@ export const ordersApi = createApi({
 });
 
 
-export const { useGetOrdersQuery } = ordersApi;
+export const { useGetOrdersQuery } = ordersWSApi;

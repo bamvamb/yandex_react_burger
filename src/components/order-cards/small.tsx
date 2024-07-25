@@ -1,44 +1,28 @@
 import { useMemo } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
 import styles from "./small.module.css"
-import { ICardProps } from "./types"
-import { IIngredient } from "../../share/typing"
+import { ICardProps } from "./share/types"
 import ItemPrice from "../share/item-price/item-price"
-import IngredientCircle from "./ingredient-circle"
+import IngredientCircle from "./share/ingredient-circle"
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components"
-interface IIngredientsData {
-    ingredients: IIngredient[], 
-    price: number,
-    hidden: number
-}
+import { getOrderData } from "./share/helper"
+import { IIngredientsData } from "./share/types"
 
 const Small:React.FC<ICardProps> = ({
     order,
     ingredients:all_ingredients
 }) => {
     const {ingredients: ingredient_ids, number, createdAt, name} = order
-    const {ingredients, price, hidden} = useMemo<IIngredientsData>(() => {
-        const total_displayed_ingredients = 6;
-        const res:IIngredientsData = {
-            ingredients: [],
-            price: 0,
-            hidden: 0
-        }
+    const navigate = useNavigate()
+    const location = useLocation()
+    const {ingredients, price, hidden} = useMemo<IIngredientsData>(() => getOrderData(ingredient_ids, all_ingredients, 6), [order])
 
-        ingredient_ids.forEach( iid => {
-            const ingredient = all_ingredients.find( ingredient => ingredient._id === iid) as IIngredient
-            res.price += ingredient.price
-            if( !res.ingredients.find( ingr => ingr._id === iid)) {
-                if( res.ingredients.length < total_displayed_ingredients){
-                        res.ingredients.push(ingredient)
-                } else {
-                    res.hidden += 1
-                }
-            }
-        })
-        return res
-    }, [order])
+    const onClick = () => {
+        navigate(`/feed/${order.number}`, {state: { backgroundLocation: location}})
+    }
 
-    return <div className={styles.container}>
+    return (
+        <div onClick={onClick} className={styles.container}>
         <div className={styles.title_div}>
             <div className={styles.order_id}>#{number}</div>
             <div className={styles.created}>
@@ -59,6 +43,7 @@ const Small:React.FC<ICardProps> = ({
             <ItemPrice price={price}/>
         </div>
     </div>
+    )
 }
 
 export default Small

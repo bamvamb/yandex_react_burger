@@ -1,4 +1,4 @@
-import { IIngredient } from '../../share/typing'
+import { IIngredient } from '../../../share/typing'
 import styles from './ingredient-circle.module.css'
 
 interface IProps extends IIngredient {

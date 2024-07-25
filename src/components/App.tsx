@@ -8,15 +8,17 @@ import ForgotPasswordPage from './pages/forgot-password';
 import ResetPasswordPage from './pages/reset-password';
 import ProfilePage from './pages/profile';
 import IngredientPage from './pages/ingredient';
-import Orders from './pages/orders';
+import Orders from './pages/feeds';
+import Order from './pages/feed';
 import { useEffect } from 'react';
 import { getLSUserInfo } from '../services/tokens';
 import { authSuccess } from '../services/slices/user/user';
 import { OnlyUnauthorised, Authorised, OnlyFrom } from './share/protected-route'
 import { useLocation } from 'react-router-dom';
-import IngredientModal from './ingredient-modal/ingredient-modal';
+import IngredientModal from './modals/ingredient-modal';
 import ErrorView from './share/error/error';
 import { useAppDispatch } from '../services/hooks';
+import OrderModal from './modals/feed-modal';
 
 function App() {
   return (
@@ -49,6 +51,9 @@ const Layout = () => {
           }/>
           <Route path="/feed" element={
              <Orders />
+          }/>
+          <Route path="/feed/:number" element={
+             <Order/>
           }/>
           <Route path="/profile" element={
             <Authorised element={
@@ -85,11 +90,14 @@ const Layout = () => {
         </Routes>
         <Routes>
         {
-          backgroundLocation && (
+          backgroundLocation && (<>
             <Route path="/ingredients/:id" element={
               <IngredientModal/>
-             }
-            />
+             }/>
+             <Route path="/feed/:number" element={
+              <OrderModal/>
+             }/>
+            </>
           )
         }
         <Route path="*" element={null}/>

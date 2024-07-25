@@ -17,6 +17,12 @@
     composes: p-4 text text_type_main-medium from global
 }
 
+.modal_content {
+    max-height: 70vh;
+    overflow: hidden;
+    display: flex;
+}
+
 .modal_close_icon {
     cursor: pointer;
 }
