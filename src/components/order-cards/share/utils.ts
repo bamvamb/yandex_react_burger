@@ -1,5 +1,28 @@
+import { TOrderStatus } from "../../../services/apis/orders/types";
 import { IIngredient } from "../../../share/typing";
 import { IIngredientWCount, IIngredientsData } from "./types";
+import statusStyles from './status.module.css'
+
+export const statusLocAndStyle: {
+    [key in TOrderStatus]: {
+        title: string,
+        className: string
+    }
+} = {
+    created: {
+        title: "Создан",
+        className: statusStyles.status_created
+    },
+    pending: {
+        title: "В работе",
+        className: statusStyles.status_pending
+    },
+    done: {
+        title: "Готов",
+        className: statusStyles.status_done
+    }
+}
+
 
 export const getOrderData = (ingredient_ids:string[], allIngredients:IIngredient[], totalDisplayed?:number):IIngredientsData => {
     const res:IIngredientsData = {

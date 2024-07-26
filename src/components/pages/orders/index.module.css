@@ -1,0 +1,8 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(2, 48% [col-start]);
+    column-gap: 4%;
+    row-gap: 15px;
+    overflow: hidden;
+    composes: p-4 from global;
+}

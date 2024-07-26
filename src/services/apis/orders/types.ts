@@ -16,7 +16,8 @@ export interface IOrder {
 export interface IGetFeedsResponse extends IResponse {
     orders: IOrder[],
     total: number,
-    totalToday: number
+    totalToday: number,
+    message?: string
 }
 
 export interface IGetOrderResponse extends IResponse {

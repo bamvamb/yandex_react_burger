@@ -7,18 +7,25 @@ export const lsUserKeys = {
     username: "username",
     email: "email"
 }
-  
+
 export const getLSUserInfo: () => {
     name: string;
     email: string;
     } | undefined = () => {
-    const name = lsStorage.get(lsUserKeys.username)
-    const email = lsStorage.get(lsUserKeys.email)
+        const name = lsStorage.get(lsUserKeys.username)
+        const email = lsStorage.get(lsUserKeys.email)
     if(name && email){
       return {name, email}
     }
 }
-  
+
+export const getLSTokens = ():{accessToken: string|null, refreshToken: string|null} => (
+    {
+        accessToken: lsStorage.get(lsUserKeys.accessToken),
+        refreshToken: lsStorage.get(lsUserKeys.refreshToken)
+    }
+)
+
 export const refreshTokensInStorage = (accessToken: string, refreshToken: string):void => {
     lsStorage.set(lsUserKeys.accessToken, accessToken.split("Bearer ")[1])
     lsStorage.set(lsUserKeys.refreshToken, refreshToken)

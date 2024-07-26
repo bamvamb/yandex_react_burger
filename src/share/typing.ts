@@ -2,6 +2,11 @@ export interface IResponse {
     success: boolean
 }
 
+export interface IErrorResponse {
+    success: boolean,
+    message: string
+}
+
 export interface IIngredient {
     _id: string,
     name: string,

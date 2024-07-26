@@ -8,7 +8,7 @@ import ForgotPasswordPage from './pages/forgot-password';
 import ResetPasswordPage from './pages/reset-password';
 import ProfilePage from './pages/profile';
 import IngredientPage from './pages/ingredient';
-import Orders from './pages/feeds';
+import Feeds from './pages/feeds';
 import Order from './pages/feed';
 import { useEffect } from 'react';
 import { getLSUserInfo } from '../services/tokens';
@@ -19,6 +19,7 @@ import IngredientModal from './modals/ingredient-modal';
 import ErrorView from './share/error/error';
 import { useAppDispatch } from '../services/hooks';
 import OrderModal from './modals/feed-modal';
+import Orders from './pages/orders';
 
 function App() {
   return (
@@ -50,14 +51,24 @@ const Layout = () => {
              <HomePage />
           }/>
           <Route path="/feed" element={
-             <Orders />
+             <Feeds />
           }/>
           <Route path="/feed/:number" element={
              <Order/>
           }/>
+          <Route path="/profile/orders/:number" element={
+             <Authorised element={
+              <Order/>
+            }/>
+          }/>
           <Route path="/profile" element={
             <Authorised element={
               <ProfilePage/>
+            }/>
+          }/>
+          <Route path="/profile/orders" element={
+            <Authorised element={
+              <Orders/>
             }/>
           }/>
           <Route path="/ingredients/:id" element={
@@ -95,6 +106,9 @@ const Layout = () => {
               <IngredientModal/>
              }/>
              <Route path="/feed/:number" element={
+              <OrderModal/>
+             }/>
+             <Route path="/profile/orders/:number" element={
               <OrderModal/>
              }/>
             </>

@@ -12,7 +12,6 @@ export default class WSSClient {
     }
     initNew = (route:string, accessToken?:string) => {
         const wssurl = this.routeUrl + route + (accessToken ? `?token=${accessToken}` : "")
-        console.log(wssurl)
         const ws = new window.WebSocket(wssurl);
         this.sockets[route] = {
             ws,
@@ -24,7 +23,7 @@ export default class WSSClient {
     }
     addEvents = async (
         route: string,
-        callback: (data:string) => void,
+        onmessage: (data:string) => void,
         onclose?: () => void|Promise<void>,
         accessToken?:string
     ) => {
@@ -35,7 +34,7 @@ export default class WSSClient {
         )
         await connected
         if(ws){
-            ws.onmessage = (event) =>  callback(event.data)
+            ws.onmessage = (event) => onmessage(event.data)
             if(onclose) {
                 ws.onclose = async () => {
                     if(onclose instanceof Promise) await onclose

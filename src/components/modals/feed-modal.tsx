@@ -1,5 +1,5 @@
 import { useLocation, useParams, useNavigate } from "react-router-dom";
-import { useGetFeedQuery } from "../../services/apis/orders/feeds/feeds";
+import { useGetFeedQuery } from "../../services/apis/orders/orders";
 import Modal from "../share/modal/modal";
 import OrderCard from "../order-cards/full";
 import { useGetIngredientsQuery } from "../../services/apis/ingredients/ingredients";
@@ -20,10 +20,10 @@ const OrderModal = () => {
     
     let body = null;
     if( isLoading || ingredientsLoading ) body = <Loader text="Загружаю данные..."/>
-    if (!order) { 
+    else if (!order) {
         body = <ErrorView text="Заказа не существует"/>
     } else if(ingredients) {
-        body = <OrderCard order={order} ingredients={ingredients}/>
+        body = <OrderCard link="/feed/" order={order} ingredients={ingredients}/>
     }
 
     return ingredients ? (

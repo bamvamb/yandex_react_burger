@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import styles from './links.module.css'
-import { useLogOutMutation } from '../../../services/apis/auth/auth';
+import { useLogOutMutation } from '../../services/apis/auth/auth';
 import { useEffect, useMemo } from 'react';
-import Loader from '../../share/loader/loader';
+import Loader from '../share/loader/loader';
 
 const Links = () => {
     const [logOut, {isSuccess:logoutSuccess, isLoading:logoutLoading}] = useLogOutMutation()
@@ -24,14 +24,15 @@ const Links = () => {
             active: currentPath === "/profile"
         },
         {
-            link: "/profile/orders/:number",
+            link: "/profile/orders",
             text: "История заказов",
-            active: currentPath === "/profile/orders/:number"
+            active: currentPath === "/profile/orders"
         },
         {
             onClick: handleLogout,
             text: "Выход"
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     ], [currentPath])
 
  
@@ -39,6 +40,7 @@ const Links = () => {
         if(logoutSuccess){
             window.location.reload()
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[logoutSuccess])
 
     if(logoutLoading){

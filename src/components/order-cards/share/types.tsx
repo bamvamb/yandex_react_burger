@@ -1,9 +1,12 @@
 import { IOrder } from "../../../services/apis/orders/types";
 import { IIngredient } from "../../../share/typing";
 
+
 export interface ICardProps {
     order: IOrder,
-    ingredients: IIngredient[]
+    ingredients: IIngredient[],
+    link: string,
+    showStatus?: boolean
 }
 
 export interface IIngredientWCount extends IIngredient {

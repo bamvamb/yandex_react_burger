@@ -1,0 +1,16 @@
+.status {
+    composes: text text_type_main-medium from global
+}
+
+.status_created {
+    composes: status;
+}
+
+.status_done {
+    composes: status;
+    color: var(--colors-interface-success);
+}
+
+.status_pending {
+    composes: text_color_inactive from global
+}

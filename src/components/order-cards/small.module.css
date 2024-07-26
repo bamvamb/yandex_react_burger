@@ -47,3 +47,7 @@
 .name {
     composes: title
 }
+
+.status {
+    composes: text text_type_main-small pt-2 pb-2 from global
+}
