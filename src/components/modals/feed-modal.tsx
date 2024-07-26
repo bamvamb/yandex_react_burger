@@ -23,7 +23,7 @@ const OrderModal = () => {
     else if (!order) {
         body = <ErrorView text="Заказа не существует"/>
     } else if(ingredients) {
-        body = <OrderCard link="/feeds/" order={order} ingredients={ingredients}/>
+        body = <OrderCard link="/feed/" order={order} ingredients={ingredients}/>
     }
 
     return ingredients ? (

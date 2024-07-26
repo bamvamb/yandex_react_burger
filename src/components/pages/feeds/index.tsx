@@ -21,7 +21,7 @@ const Feeds = () => {
             <span className={styles.title}>Лента заказов</span>
             { 
                 data && <div className={styles.grid}>
-                    <OrdersList link="/feeds/" {...data}/>
+                    <OrdersList link="/feed/" {...data}/>
                     <Statistics {...data}/>
                 </div> 
             }

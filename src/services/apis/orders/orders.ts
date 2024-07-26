@@ -62,10 +62,20 @@ export const orderWSApi = createApi({
                     })
                 }
               },
-              async () => await cacheEntryRemoved
+              async () => await cacheEntryRemoved,
+              undefined,
+              async (err) => {
+                updateCachedData((draft) => { 
+                  draft.success = false
+                  draft.message = err.reason
+                })
+              }
             )
         } catch(error){
-            console.log(error)
+            updateCachedData((draft) => {
+              draft.success = false
+              draft.message = "ошибка инициализации подключения"
+            })
         }
       },
     }),
@@ -120,7 +130,13 @@ export const orderWSApi = createApi({
                   }
                 },
                 async () => await cacheEntryRemoved,
-                accessToken
+                accessToken,
+                async (err) => {
+                  updateCachedData((draft) => { 
+                    draft.success = false
+                    draft.message = err.reason
+                  })
+                }
               )
             } else {
               await refreshToken(initConnection)
@@ -130,7 +146,10 @@ export const orderWSApi = createApi({
           await initConnection()
 
         } catch(error){
-            console.log(error)
+          updateCachedData((draft) => {
+            draft.success = false
+            draft.message = "ошибка инициализации подключения"
+          })
         }
       },
     }),

@@ -4,6 +4,11 @@ export interface ISocketData {
     connected: Promise<void>|undefined
 }
 
+interface WebSocketError extends Event {
+    code: number;
+    reason: string;
+}
+
 export default class WSSClient {
     sockets:{[key:string]: ISocketData } = {}
     routeUrl: string
@@ -25,7 +30,8 @@ export default class WSSClient {
         route: string,
         onmessage: (data:string) => void,
         onclose?: () => void|Promise<void>,
-        accessToken?:string
+        accessToken?:string,
+        onerror?: (err:{code:number, reason:string}) => void|Promise<void>
     ) => {
         const {ws, connected} = this.sockets[route] ? (
             this.sockets[route]
@@ -37,8 +43,15 @@ export default class WSSClient {
             ws.onmessage = (event) => onmessage(event.data)
             if(onclose) {
                 ws.onclose = async () => {
-                    if(onclose instanceof Promise) await onclose
-                    else onclose()
+                    const fnres = onclose()
+                    if(onclose instanceof Promise) await fnres
+                }
+            }
+            if(onerror){
+                ws.onerror = async (event) => {
+                    const err = event as WebSocketError
+                    const fnres = onerror(err)
+                    if(onerror instanceof Promise) await fnres
                 }
             }
         }
