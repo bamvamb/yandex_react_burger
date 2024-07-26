@@ -20,7 +20,7 @@ export default class WSSClient {
         }
         return this.sockets[route]
     }
-    addOnMessage = async (
+    addEvents = async (
         route: string, 
         callback: (data:string) => void,
         onclose?: () => void|Promise<void>
@@ -40,5 +40,6 @@ export default class WSSClient {
                 }
             }
         }
+        //TODO:?another events for this?
     }
 }

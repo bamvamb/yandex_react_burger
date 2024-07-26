@@ -32,8 +32,6 @@ export const {useGetFeedQuery} = feedApi
 export const feedWSApi = createApi({
   reducerPath: 'feedWSApi',
   async baseQuery (options: IGetFeedsResponse) {
-    const socketData = wssclient.initNew('orders/all')
-    await socketData.connected
     return { data: options }
   },
   endpoints: (builder) => ({
@@ -45,7 +43,7 @@ export const feedWSApi = createApi({
       ) {
         try {
             await cacheDataLoaded
-            wssclient.addOnMessage(
+            wssclient.addEvents(
               'orders/all', 
               (resp) => {
                 const data = JSON.parse(resp) as IGetFeedsResponse;
