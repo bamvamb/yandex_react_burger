@@ -1,5 +1,5 @@
 import { useLocation, useParams, useNavigate } from "react-router-dom";
-import { useGetOrderQuery } from "../../services/apis/orders/orders";
+import { useGetFeedQuery } from "../../services/apis/orders/feeds/feeds";
 import Modal from "../share/modal/modal";
 import OrderCard from "../order-cards/full";
 import { useGetIngredientsQuery } from "../../services/apis/ingredients/ingredients";
@@ -11,7 +11,7 @@ const OrderModal = () => {
     const { number } = useParams();
     const backgroundLocation = location.state?.backgroundLocation as Location
     const navigate = useNavigate()
-    const { data:order, isLoading } = useGetOrderQuery({order_number:number})
+    const { data:order, isLoading } = useGetFeedQuery({order_number:number})
     const {data: ingredients, isLoading: ingredientsLoading} = useGetIngredientsQuery()
     
     const onModalClose = () => {
@@ -25,8 +25,6 @@ const OrderModal = () => {
     } else if(ingredients) {
         body = <OrderCard order={order} ingredients={ingredients}/>
     }
-
-    console.log(order, ingredients)
 
     return ingredients ? (
         <Modal 

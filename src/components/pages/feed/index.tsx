@@ -1,5 +1,5 @@
 import {useParams} from 'react-router-dom'
-import { useGetOrderQuery } from '../../../services/apis/orders/orders';
+import { useGetFeedQuery } from '../../../services/apis/orders/feeds/feeds';
 import Loader from '../../share/loader/loader';
 import ErrorView from '../../share/error/error';
 import OrderCard from '../../order-cards/full';
@@ -7,7 +7,7 @@ import { useGetIngredientsQuery } from '../../../services/apis/ingredients/ingre
 
 const OrderPage = () => {
     const { number } = useParams();
-    const { data:order, isLoading } = useGetOrderQuery({order_number:number})
+    const { data:order, isLoading } = useGetFeedQuery({order_number:number})
     const {data: ingredients, isLoading: ingredientsLoading} = useGetIngredientsQuery()
     if( isLoading || ingredientsLoading ) return <Loader text="Загружаю данные..."/>
     if (!order) return <ErrorView text="Заказа не существует"/>

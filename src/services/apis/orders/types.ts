@@ -13,7 +13,7 @@ export interface IOrder {
     name: string
 }
   
-export interface IGetOrdersResponse extends IResponse {
+export interface IGetFeedsResponse extends IResponse {
     orders: IOrder[],
     total: number,
     totalToday: number

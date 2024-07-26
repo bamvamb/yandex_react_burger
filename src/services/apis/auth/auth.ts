@@ -3,7 +3,7 @@ import {lsStorage} from '../../../share/browser-storage';
 import { IResponseAuthMessage, IResponseMessage, IUserResponse } from './types';
 import { refreshTokensInStorage, deleteUserFromStorage} from '../../tokens';
 import { apiUrl, jsonHeader, protectedApiRoutes } from '../../constants/varaibles';
-import { baseQuery, check_jwt_expired, transformAuthResponse } from '../../utils';
+import { baseQuery, checkJwtExpired, transformAuthResponse } from '../../utils';
 
 
 export const getReauthBaseQuery = (_baseQuery:BaseQueryFn<
@@ -19,7 +19,7 @@ export const getReauthBaseQuery = (_baseQuery:BaseQueryFn<
     let result = await _baseQuery(args, api, extraOptions);   
     const path = typeof args === "string" ? args : args?.url.replace(apiUrl, "")
     const isProtected = protectedApiRoutes.includes(path)
-    if (result.error && isProtected && check_jwt_expired(result.error)) {
+    if (result.error && isProtected && checkJwtExpired(result.error)) {
       const refreshTokenMutation = authApi.endpoints.refreshToken.initiate({})
       const resp = await api.dispatch(refreshTokenMutation)
       if(resp.data?.success){

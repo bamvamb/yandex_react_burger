@@ -1,8 +1,8 @@
 import styles from "./statistics.module.css"
-import { IGetOrdersResponse, IOrder } from "../../../services/apis/orders/types"
+import { IGetFeedsResponse, IOrder } from "../../../services/apis/orders/types"
 import { useMemo } from "react"
 
-const Statistics:React.FC<IGetOrdersResponse> = ({orders, total, totalToday}) => {
+const Statistics:React.FC<IGetFeedsResponse> = ({orders, total, totalToday}) => {
     
     const {ready, on_process} = useMemo(() => orders.reduce<{ready: IOrder[], on_process:IOrder[]}>((prev, cur) => {
         if(cur.status === "done"){

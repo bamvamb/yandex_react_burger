@@ -6,7 +6,7 @@ import { apiUrl, jwt_expired_403, jwt_malformed_403 } from "./constants/varaible
 import { SerializedError } from "@reduxjs/toolkit"
 import { IResponseAuthMessage, IResponseMessage } from "./apis/auth/types"
 
-export const check_jwt_expired = (error: FetchBaseQueryError):boolean => {
+export const checkJwtExpired = (error: FetchBaseQueryError):boolean => {
     if(!error) return false
     if(error.status === 401) return true
     const error_message = getErrorMessage(error)

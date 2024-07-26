@@ -5,14 +5,14 @@ import tagsSlice from './slices/tabs/tabs';
 import { authApi } from './apis/auth/auth';
 import profileInputsSlice from './slices/profileForm/profileForm';
 import { userSlice } from './slices/user/user';
-import { ordersWSApi, ordersApi } from './apis/orders/orders';
+import { feedWSApi, feedApi } from './apis/orders/feeds/feeds';
 
 const store = configureStore({
   reducer: {
     [authApi.reducerPath]: authApi.reducer,
     [dataApi.reducerPath]: dataApi.reducer,
-    [ordersApi.reducerPath]: ordersApi.reducer,
-    [ordersWSApi.reducerPath]: ordersWSApi.reducer,
+    [feedApi.reducerPath]: feedApi.reducer,
+    [feedWSApi.reducerPath]: feedWSApi.reducer,
     [burgerSlice.reducerPath]: burgerSlice.reducer,
     [tagsSlice.reducerPath]: tagsSlice.reducer,
     [profileInputsSlice.reducerPath]: profileInputsSlice.reducer,
@@ -22,8 +22,8 @@ const store = configureStore({
     getDefaultMiddleware().concat(
       dataApi.middleware, 
       authApi.middleware, 
-      ordersApi.middleware,
-      ordersWSApi.middleware
+      feedApi.middleware,
+      feedWSApi.middleware
     ),
 });
 

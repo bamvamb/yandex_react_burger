@@ -1,4 +1,4 @@
-import { useGetOrdersQuery } from "../../../services/apis/orders/orders"
+import { useGetFeedsQuery } from "../../../services/apis/orders/feeds/feeds"
 import Statistics from "../../orders/statistics/statistics";
 import Loader from "../../share/loader/loader";
 import ErrorView from "../../share/error/error";
@@ -6,7 +6,7 @@ import styles from './index.module.css';
 import OrdersList from "../../orders/orders/orders";
 
 const Orders = () => {
-    const { data, error, isLoading } = useGetOrdersQuery();
+    const { data, error, isLoading } = useGetFeedsQuery();
 
     if(isLoading){
         return <Loader text="Загружаем очередь..."/>

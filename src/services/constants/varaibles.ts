@@ -1,3 +1,4 @@
+import WSSClient from "../wss"
 
 export const backendUrl = 'https://norma.nomoreparties.space/'
 export const apiUrl = backendUrl + 'api/'
@@ -15,3 +16,5 @@ export const jsonHeader:{[key:string]: string} = {
 
 export const jwt_expired_403:string = "jwt expired"
 export const jwt_malformed_403:string = "jwt malformed"
+
+export const wssclient = new WSSClient(wssUrl)
