@@ -50,10 +50,10 @@ const Layout = () => {
           <Route path="/" element={
              <HomePage />
           }/>
-          <Route path="/feed" element={
+          <Route path="/feeds" element={
              <Feeds />
           }/>
-          <Route path="/feed/:number" element={
+          <Route path="/feeds/:number" element={
              <Order/>
           }/>
           <Route path="/profile/orders/:number" element={
@@ -105,7 +105,7 @@ const Layout = () => {
             <Route path="/ingredients/:id" element={
               <IngredientModal/>
              }/>
-             <Route path="/feed/:number" element={
+             <Route path="/feeds/:number" element={
               <OrderModal/>
              }/>
              <Route path="/profile/orders/:number" element={
