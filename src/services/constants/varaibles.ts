@@ -1,4 +1,4 @@
-import WSSClient from "../wss"
+import WSSClient from "../ws"
 
 export const backendUrl = 'https://norma.nomoreparties.space/'
 export const apiUrl = backendUrl + 'api/'

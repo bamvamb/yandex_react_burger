@@ -31,6 +31,10 @@ export const ordersApi = createApi({
 
 export const {useGetFeedQuery} = ordersApi
 
+const sortOrders = (orders:IOrder[]) => orders.sort( 
+  (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+)
+
 export const orderWSApi = createApi({
   reducerPath: 'feedWSApi',
   async baseQuery (options: IGetFeedsResponse) {
@@ -47,30 +51,30 @@ export const orderWSApi = createApi({
             await cacheDataLoaded
             wssclient.addEvents(
               'orders/all', 
-              (resp) => {
-                const data = JSON.parse(resp) as IGetFeedsResponse;
-                if (data.success) {
-                    updateCachedData((draft) => {
-                        draft.orders = data.orders
-                        draft.total = data.total
-                        draft.totalToday = data.totalToday
-                    });
-                } else {
-                    updateCachedData((draft) => { 
-                      draft.success = data.success 
-                      draft.message = data.message
-                    })
+              {
+                onmessage:(resp) => {
+                  const data = JSON.parse(resp) as IGetFeedsResponse;
+                  if (data.success) {
+                      updateCachedData((draft) => {
+                          draft.orders = sortOrders(data.orders)
+                          draft.total = data.total
+                          draft.totalToday = data.totalToday
+                      });
+                  } else {
+                      updateCachedData((draft) => { 
+                        draft.success = data.success 
+                        draft.message = data.message
+                      })
+                  }
+                }, 
+                onclose: async () => await cacheEntryRemoved,
+                onerror: (err) => {
+                  updateCachedData((draft) => { 
+                    draft.success = false
+                    draft.message = err.reason
+                  })
                 }
-              },
-              async () => await cacheEntryRemoved,
-              undefined,
-              async (err) => {
-                updateCachedData((draft) => { 
-                  draft.success = false
-                  draft.message = err.reason
-                })
-              }
-            )
+              })
         } catch(error){
             updateCachedData((draft) => {
               draft.success = false
@@ -108,43 +112,43 @@ export const orderWSApi = createApi({
             if(accessToken){
               wssclient.addEvents(
                 'orders', 
-                async (resp) => {
-                  const data = JSON.parse(resp) as IGetFeedsResponse;
-                  if (data.success) {
-                      updateCachedData((draft) => {
-                          draft.orders = data.orders
-                          draft.total = data.total
-                          draft.totalToday = data.totalToday
-                      });
-                  } else {
-                      if(data.success === false){
-                        if(data.success === false && data.message === "Invalid or missing token"){
-                          await refreshToken(initConnection)
-                        } else {
-                          updateCachedData((draft) => { 
-                            draft.success = data.success
-                            draft.message = data.message
-                          })
+                {
+                  onmessage: async (resp) => {
+                    const data = JSON.parse(resp) as IGetFeedsResponse;
+                    if (data.success) {
+                        updateCachedData((draft) => {
+                            draft.orders = sortOrders(data.orders)
+                            draft.total = data.total
+                            draft.totalToday = data.totalToday
+                        });
+                    } else {
+                        if(data.success === false){
+                          if(data.success === false && data.message === "Invalid or missing token"){
+                            await refreshToken(initConnection)
+                          } else {
+                            updateCachedData((draft) => { 
+                              draft.success = data.success
+                              draft.message = data.message
+                            })
+                          }
                         }
-                      }
+                    }
+                  },
+                  onclose: async () => await cacheEntryRemoved,
+                  onerror: (err) => {
+                    updateCachedData((draft) => { 
+                      draft.success = false
+                      draft.message = err.reason
+                    })
                   }
                 },
-                async () => await cacheEntryRemoved,
-                accessToken,
-                async (err) => {
-                  updateCachedData((draft) => { 
-                    draft.success = false
-                    draft.message = err.reason
-                  })
-                }
+                accessToken
               )
             } else {
               await refreshToken(initConnection)
             }
           }
-
           await initConnection()
-
         } catch(error){
           updateCachedData((draft) => {
             draft.success = false
