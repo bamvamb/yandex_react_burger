@@ -10,7 +10,7 @@ import ProfilePage from './pages/profile';
 import IngredientPage from './pages/ingredient';
 import Feeds from './pages/feeds';
 import Order from './pages/feed';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { getLSUserInfo } from '../services/tokens';
 import { authSuccess } from '../services/slices/user/user';
 import { OnlyUnauthorised, Authorised, OnlyFrom } from './share/protected-route'
@@ -20,6 +20,7 @@ import ErrorView from './share/error/error';
 import { useAppDispatch } from '../services/hooks';
 import OrderModal from './modals/feed-modal';
 import Orders from './pages/orders';
+import { closeFeedsWS, closeOrdersWS } from '../services/apis/orders/orders';
 
 function App() {
   return (
@@ -29,10 +30,26 @@ function App() {
   );
 }
 
+const wss_page_routes = {
+  orders: "/profile/orders",
+  feeds: "/feed"
+}
+
 const Layout = () => {
   const dispatch = useAppDispatch()
   const location = useLocation()
+  const ref = useRef<string>()
   const backgroundLocation = location.state?.backgroundLocation as Location
+
+  useEffect(() => {
+    if(ref.current === wss_page_routes.feeds){
+      closeFeedsWS()
+    }
+    if(ref.current === wss_page_routes.orders){
+      closeOrdersWS()
+    }
+    ref.current = location.pathname
+  }, [location.pathname])
 
   useEffect(() => {
     const user = getLSUserInfo()

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IGetOrderResponse, IGetFeedsResponse, IOrder } from './types';
-import { apiUrl } from '../../constants/varaibles';
+import { apiUrl, wss_routes } from '../../constants/varaibles';
 import { wssclient } from '../../constants/varaibles';
 import { deleteUserFromStorage, getLSTokens } from '../../tokens'
 import authApi from '../auth/auth';
@@ -9,7 +9,8 @@ const initialState:IGetFeedsResponse = {
     orders: [],
     total: 0,
     totalToday: 0,
-    success: true
+    success: true,
+    loading: true
 } 
 
 export const ordersApi = createApi({
@@ -42,7 +43,10 @@ export const orderWSApi = createApi({
   },
   endpoints: (builder) => ({
     getFeeds: builder.query<IGetFeedsResponse, void>({
-      query: () =>  {return initialState},
+      query: () =>  {
+        wssclient.reconnect(wss_routes.feeds)
+        return initialState
+      },
       async onCacheEntryAdded(
         arg,
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
@@ -50,7 +54,7 @@ export const orderWSApi = createApi({
         try {
             await cacheDataLoaded
             wssclient.addEvents(
-              'orders/all', 
+              wss_routes.feeds, 
               {
                 onmessage:(resp) => {
                   const data = JSON.parse(resp) as IGetFeedsResponse;
@@ -59,15 +63,19 @@ export const orderWSApi = createApi({
                           draft.orders = sortOrders(data.orders)
                           draft.total = data.total
                           draft.totalToday = data.totalToday
+                          draft.loading = false
                       });
                   } else {
                       updateCachedData((draft) => { 
                         draft.success = data.success 
                         draft.message = data.message
+                        draft.loading = false
                       })
                   }
                 }, 
-                onclose: async () => await cacheEntryRemoved,
+                onclose: async () => { 
+                  await cacheEntryRemoved 
+                },
                 onerror: (err) => {
                   updateCachedData((draft) => { 
                     draft.success = false
@@ -84,7 +92,10 @@ export const orderWSApi = createApi({
       },
     }),
     getOrders: builder.query<IGetFeedsResponse, void>({
-      query: () =>  {return initialState},
+      query: () =>  {
+        wssclient.reconnect(wss_routes.orders)
+        return initialState
+      },
       async onCacheEntryAdded(
         arg,
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch }
@@ -111,7 +122,7 @@ export const orderWSApi = createApi({
             const {accessToken} = getLSTokens()
             if(accessToken){
               wssclient.addEvents(
-                'orders', 
+                wss_routes.orders, 
                 {
                   onmessage: async (resp) => {
                     const data = JSON.parse(resp) as IGetFeedsResponse;
@@ -120,18 +131,18 @@ export const orderWSApi = createApi({
                             draft.orders = sortOrders(data.orders)
                             draft.total = data.total
                             draft.totalToday = data.totalToday
+                            draft.loading = false
                         });
                     } else {
-                        if(data.success === false){
-                          if(data.success === false && data.message === "Invalid or missing token"){
-                            await refreshToken(initConnection)
-                          } else {
-                            updateCachedData((draft) => { 
-                              draft.success = data.success
-                              draft.message = data.message
-                            })
-                          }
-                        }
+                      if(data.message === "Invalid or missing token"){
+                        await refreshToken(initConnection)
+                      } else {
+                        updateCachedData((draft) => { 
+                          draft.success = data.success
+                          draft.message = data.message
+                          draft.loading = false
+                        })
+                      }
                     }
                   },
                   onclose: async () => await cacheEntryRemoved,
@@ -160,5 +171,8 @@ export const orderWSApi = createApi({
   }),
 });
 
+
+export const closeOrdersWS = () => wssclient.disconnect(wss_routes.orders)
+export const closeFeedsWS = () => wssclient.disconnect(wss_routes.feeds)
 
 export const { useGetFeedsQuery, useGetOrdersQuery } = orderWSApi;

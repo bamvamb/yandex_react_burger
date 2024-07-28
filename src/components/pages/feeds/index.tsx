@@ -4,11 +4,17 @@ import Loader from "../../share/loader/loader";
 import ErrorView from "../../share/error/error";
 import styles from './index.module.css';
 import OrdersList from "../../orders/orders/orders";
+import { useEffect } from "react";
 
 const Feeds = () => {
-    const { data, error, isLoading } = useGetFeedsQuery();
+    const { data, error, isLoading, refetch } = useGetFeedsQuery();
 
-    if(isLoading){
+    useEffect(() => {
+        refetch()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
+
+    if(isLoading || data?.loading){
         return <Loader text="Загружаем очередь..."/>
     }
 

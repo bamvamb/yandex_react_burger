@@ -2,7 +2,9 @@
 export interface ISocketData {
     ws: WebSocket,
     connection: Promise<void>
-    connected?: boolean
+    connected?: boolean,
+    handlers: WebSocketActionsHandlers,
+    accessToken?: string
 }
 
 interface WebSocketError extends Event {
@@ -11,7 +13,7 @@ interface WebSocketError extends Event {
 }
 
 interface WebSocketActionsHandlers {
-    onmessage: (serialized_data:string) => void|Promise<void>,
+    onmessage?: (serialized_data:string) => void|Promise<void>,
     onopen?: () => void|Promise<void>,
     onclose?: () => void|Promise<void>,
     onerror?: (err:{code:number, reason:string}) => void|Promise<void>
@@ -32,17 +34,21 @@ export default class WSSMiddleware {
                 ws.onopen = async () => { 
                     if(onOpen){
                         const fnres = onOpen()
-                        if(onclose instanceof Promise) await fnres
+                        if(fnres instanceof Promise) await fnres
                     }
                     this.sockets[route].connected = true
                     resolve()
                 }
-            })
+            }),
+            handlers: {
+                onopen: onOpen
+            },
+            accessToken
         }
         return this.sockets[route]
     }
     getOrCreateSocket = async (route: string, accessToken?: string, onOpen?:  WebSocketActionsHandlers['onopen']) => {
-        return this.sockets[route] ? this.sockets[route] : await this.initNew(route, accessToken, onOpen)
+        return this.sockets[route]?.connected ? this.sockets[route] : await this.initNew(route, accessToken, onOpen)
     }
 
     addEvents = async (
@@ -57,15 +63,15 @@ export default class WSSMiddleware {
             if(onmessage){
                 ws.onmessage = async (event) => {
                     const fnres = onmessage(event.data)
-                    if(onclose instanceof Promise) await fnres
+                    if(fnres instanceof Promise) await fnres
                 }
             }
             
             ws.onclose = async () => {
                 if(onclose){
+                    this.sockets[route].connected = false
                     const fnres = onclose()
-                    if(onclose instanceof Promise) await fnres
-                    delete this.sockets[route]
+                    if(fnres instanceof Promise) await fnres
                 }
             }
 
@@ -73,9 +79,10 @@ export default class WSSMiddleware {
                 ws.onerror = async (event) => {
                     const err = event as WebSocketError
                     const fnres = onerror(err)
-                    if(onerror instanceof Promise) await fnres
+                    if(fnres instanceof Promise) await fnres
                 }
             }
+            socket.handlers = {...eventsHandlers}
         }
         await connection
     }
@@ -90,5 +97,16 @@ export default class WSSMiddleware {
     send = async (data: object, route:string, accessToken?:string) => {
         const {ws} = await this.getOrCreateSocket(route, accessToken)
         ws.send(JSON.stringify(data))
+    }
+
+    reconnect = async (route: string) => {
+        if(this.sockets[route] && ! this.sockets[route].connected){
+            const socket = this.sockets[route]
+            await this.addEvents(
+                route, 
+                socket.handlers,
+                socket.accessToken
+            )
+        }
     }
 }

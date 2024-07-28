@@ -17,14 +17,6 @@ const OrderModal = () => {
     const onModalClose = () => {
         navigate(backgroundLocation, {replace: true})
     }
-    
-    let body = null;
-    if( isLoading || ingredientsLoading ) body = <Loader text="Загружаю данные..."/>
-    else if (!order) {
-        body = <ErrorView text="Заказа не существует"/>
-    } else if(ingredients) {
-        body = <OrderCard link="/feed/" order={order} ingredients={ingredients}/>
-    }
 
     return ingredients ? (
         <Modal 
@@ -32,7 +24,11 @@ const OrderModal = () => {
             onClose={onModalClose}
             headerTitle='Детали заказа'
         >
-            {body}
+            {isLoading || ingredientsLoading ? <Loader text="Загружаю данные..."/> : (
+                order && ingredients ? <OrderCard link="/feed/" order={order} ingredients={ingredients}/> : (
+                    !order ? <ErrorView text="Заказа не существует"/> : <ErrorView text="Ошибка загрузки списка ингридиентов"/>
+                )
+            )}
         </Modal>
     ) : null
 }
