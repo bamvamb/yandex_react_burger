@@ -44,6 +44,8 @@ export const orderWSApi = createApi({
   endpoints: (builder) => ({
     getFeeds: builder.query<IGetFeedsResponse, void>({
       query: () =>  {
+
+        //переподключаем соединение, если такой сокет уже был создан ранее (если был переход на другую страницу, а затем возврат обратно)
         wssclient.reconnect(wss_routes.feeds)
         return initialState
       },
@@ -53,6 +55,8 @@ export const orderWSApi = createApi({
       ) {
         try {
             await cacheDataLoaded
+
+            //инициируем соединение с сервером, добавляем все обработчики
             wssclient.addEvents(
               wss_routes.feeds, 
               {
@@ -102,12 +106,16 @@ export const orderWSApi = createApi({
       ) {
         try {
           const refreshToken = async (successCallback: () => Promise<void>) => {
+
+            //инициируем мутацию обновления токена
             const refreshTokenMutation = authApi.endpoints.refreshToken.initiate({})
             const resp = await dispatch(refreshTokenMutation)
             if(resp.data?.success){
               await successCallback()
             }
             if(resp.error){
+
+              //инициируем мутацию логаута при провале попытки обновить токен
               const logoutMutation =  authApi.endpoints.logOut.initiate({})
               const resp = await dispatch(logoutMutation)
               if(!resp.data?.success){
@@ -119,8 +127,12 @@ export const orderWSApi = createApi({
 
           const initConnection = async () => {
             await cacheDataLoaded
+
+            //получаем токен для подключения по защищенному каналу из хранилища (localstorage)
             const {accessToken} = getLSTokens()
             if(accessToken){
+
+              //инициируем подключение, добавляем обработчики событий
               wssclient.addEvents(
                 wss_routes.orders, 
                 {
@@ -134,7 +146,9 @@ export const orderWSApi = createApi({
                             draft.loading = false
                         });
                     } else {
-                      if(data.message === "Invalid or missing token"){
+                       if(data.message === "Invalid or missing token"){
+                        
+                        //если в сообщении получили информацию о плохом токене - пытаемся его обновить, и затем повторно подключится
                         await refreshToken(initConnection)
                       } else {
                         updateCachedData((draft) => { 

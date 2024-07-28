@@ -31,19 +31,34 @@ export const getOrderData = (ingredient_ids:string[], allIngredients:IIngredient
         hidden: 0
     }
 
+    //обходим список ингредиентов
     ingredient_ids.forEach( iid => {
-        const _ingredient = allIngredients.find( ingredient => ingredient._id === iid) as IIngredient
-        const ingredient: IIngredientWCount = {..._ingredient, count: 1}
-        res.price += ingredient.price
-        const resIngredient = res.ingredients.find( ingr => ingr._id === iid)
-        if( !resIngredient ) {
-            if( !totalDisplayed || res.ingredients.length < totalDisplayed ){
-                res.ingredients.push(ingredient)
-            } else {
-                res.hidden += 1
+
+        //находим ингредиент по id (он должен быть если данные с апи не побились)
+        const _ingredient = allIngredients.find( ingredient => ingredient._id === iid)
+        if(_ingredient){
+
+            //обновлям общую цену
+            res.price += _ingredient.price
+
+            //ищем не существует ли уже ингредиент в списке результатов
+            const resIngredient = res.ingredients.find( ingr => ingr._id === iid)
+
+            //если ингредиент уже существует - используем его, либо расширяем найденный в списке всех ингредиентов обьект счетчиком
+            const ingredient: IIngredientWCount = resIngredient ? resIngredient : {..._ingredient, count: 1}
+
+            //если ингредиента в финальном списке нет
+            if( !resIngredient ) {
+                if( !totalDisplayed || res.ingredients.length < totalDisplayed ){
+
+                    //если нет ограничения по выводу, или длинна текущего списка не превышает его - добавляем для отрисовки
+                    res.ingredients.push(ingredient)
+                } else {
+                    
+                    //в противном случае - считаем количество скрытых
+                    res.hidden += 1
+                }
             }
-        } else {
-            resIngredient.count += 1
         }
     })
     return res
