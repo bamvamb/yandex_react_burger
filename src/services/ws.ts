@@ -17,7 +17,7 @@ interface WebSocketActionsHandlers {
     onerror?: (err:{code:number, reason:string}) => void|Promise<void>
 }
 
-export default class WSSClient {
+export default class WSSMiddleware {
     sockets:{[key:string]: ISocketData } = {}
     routeUrl: string
     constructor(routeUrl: string) {
