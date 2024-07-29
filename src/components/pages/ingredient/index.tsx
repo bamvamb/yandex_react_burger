@@ -1,5 +1,5 @@
 import {useParams} from 'react-router-dom'
-import { useIngredientDetailsQuery } from "../../../services/apis/data"
+import { useIngredientDetailsQuery } from "../../../services/apis/ingredients/ingredients"
 import IngredientDetail from '../../ingredient-details/ingredient-details';
 import Loader from '../../share/loader/loader';
 import ErrorView from '../../share/error/error';

@@ -1,7 +1,7 @@
 import styles from "./order-details.module.css"
 import { CheckMarkIcon, CloseIcon, EditIcon, InfoIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { TIconProps } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/utils'
-import { ICreateOrderResponse } from '../../services/apis/data'
+import { ICreateOrderResponse } from '../../services/apis/ingredients/types'
 
 interface IProps {
     order?: ICreateOrderResponse, 

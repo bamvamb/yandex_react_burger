@@ -1,13 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ConstructorIngredient, IIngredient } from '../../share/typing';
+import { ConstructorIngredient, IIngredient } from '../../../share/typing';
 import { v4 as uuid4 } from 'uuid';
-
-export interface BurgerState {
-  bun: IIngredient|null,
-  core: ConstructorIngredient[]
-}
-
-const initialState: BurgerState = {
+import { IBurgerState } from './types';
+const initialState: IBurgerState = {
   bun: null,
   core: []
 };
@@ -22,23 +17,29 @@ const genRandomBurger = (
     min_sauses: number=1,
     max_mains:number=5,
     min_mains:number=3
-  ):BurgerState => {
+  ):IBurgerState => {
     if( ingredients && ingredients.length !== 0){
+      //отбираем ингридиенты по типам (можно теоретически переписать в один цикл, но это явно не основная функция и пока ингридиентов мало - не проблема)
       const buns = ingredients.filter( (ingredient) => ingredient.type === "bun")
       const sauses = ingredients.filter( (ingredient) => ingredient.type === "sauce" )
       const mains = ingredients.filter( (ingredient) => ingredient.type === "main")
+      //генерим рандомную булку
       const currentBun = buns[getRandomNumber(buns.length-1)]
+      //генерим рандомное количество ингридиентов по типу
       let mainsCount = getRandomNumber(max_mains, min_mains)
       let sausesCount = getRandomNumber(max_sauses, min_sauses)
       const core = []
+      //пока кол-во ингридиентов не равно нулю
       while( mainsCount > 0 || sausesCount > 0){
         if(
           (sausesCount === 0 || getRandomNumber(1)) && mainsCount > 0
         ){
-            core.push( mains[getRandomNumber(mains.length - 1)])
+          // если нет соусов (и остались только осн.ингридиенты),  или если выпала 1 в рандоме от 0 до 1 - выбираем основной случайный ингредиент
+          core.push( mains[getRandomNumber(mains.length - 1)])
           mainsCount -= 1
         } else {
-            core.push( sauses[getRandomNumber(sauses.length - 1)])
+          // в противном случае - соус
+          core.push( sauses[getRandomNumber(sauses.length - 1)])
           sausesCount -= 1
         }
       }

@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootStoreState } from '../store';
 import { IIngredient } from '../../share/typing';
-import { dataApi } from '../apis/data';
+import { dataApi } from '../apis/ingredients/ingredients';
 
 const selectIngredientsState = (state: RootStoreState) => {
     const ingredinentsState = state[dataApi.reducerPath];

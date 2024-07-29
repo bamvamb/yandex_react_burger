@@ -8,14 +8,19 @@ import ForgotPasswordPage from './pages/forgot-password';
 import ResetPasswordPage from './pages/reset-password';
 import ProfilePage from './pages/profile';
 import IngredientPage from './pages/ingredient';
-import { useEffect } from 'react';
-import { getLSUserInfo } from '../services/apis/auth';
-import { authSuccess } from '../services/slices/user';
+import Feeds from './pages/feeds';
+import Order from './pages/feed';
+import { useEffect, useRef } from 'react';
+import { getLSUserInfo } from '../services/tokens';
+import { authSuccess } from '../services/slices/user/user';
 import { OnlyUnauthorised, Authorised, OnlyFrom } from './share/protected-route'
 import { useLocation } from 'react-router-dom';
-import IngredientModal from './ingredient-modal/ingredient-modal';
+import IngredientModal from './modals/ingredient-modal';
 import ErrorView from './share/error/error';
 import { useAppDispatch } from '../services/hooks';
+import OrderModal from './modals/feed-modal';
+import Orders from './pages/orders';
+import { closeFeedsWS, closeOrdersWS } from '../services/apis/orders/orders';
 
 function App() {
   return (
@@ -25,10 +30,26 @@ function App() {
   );
 }
 
+const wss_page_routes = {
+  orders: "/profile/orders",
+  feeds: "/feed"
+}
+
 const Layout = () => {
   const dispatch = useAppDispatch()
   const location = useLocation()
+  const ref = useRef<string>()
   const backgroundLocation = location.state?.backgroundLocation as Location
+
+  useEffect(() => {
+    if(ref.current === wss_page_routes.feeds){
+      closeFeedsWS()
+    }
+    if(ref.current === wss_page_routes.orders){
+      closeOrdersWS()
+    }
+    ref.current = location.pathname
+  }, [location.pathname])
 
   useEffect(() => {
     const user = getLSUserInfo()
@@ -46,9 +67,25 @@ const Layout = () => {
           <Route path="/" element={
              <HomePage />
           }/>
+          <Route path="/feed" element={
+             <Feeds />
+          }/>
+          <Route path="/feed/:number" element={
+             <Order/>
+          }/>
+          <Route path="/profile/orders/:number" element={
+             <Authorised element={
+              <Order/>
+            }/>
+          }/>
           <Route path="/profile" element={
             <Authorised element={
               <ProfilePage/>
+            }/>
+          }/>
+          <Route path="/profile/orders" element={
+            <Authorised element={
+              <Orders/>
             }/>
           }/>
           <Route path="/ingredients/:id" element={
@@ -81,11 +118,20 @@ const Layout = () => {
         </Routes>
         <Routes>
         {
-          backgroundLocation && (
+          backgroundLocation && (<>
             <Route path="/ingredients/:id" element={
               <IngredientModal/>
-             }
-            />
+             }/>
+             <Route path="/feed/:number" element={
+              <OrderModal/>
+             }/>
+             <Route path="/profile/orders/:number" element={
+              <Authorised element={
+                <OrderModal/>
+              }
+              />
+             }/>
+            </>
           )
         }
         <Route path="*" element={null}/>

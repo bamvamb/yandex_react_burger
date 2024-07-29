@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../../services/hooks';
 import BurgerIngredientsListItem from './burger-ingredients-list-item';
 import style from "./burger-ingredients-list.module.css"
 import { selectIngridientsCount } from '../../../services/selectors/burger';
-import { setElementPosition } from '../../../services/slices/tabs';
+import { setElementPosition } from '../../../services/slices/tabs/tabs';
 import { selectIngredientsByType } from '../../../services/selectors/ingredients';
 import { typeLocalisation } from '../../../share/typing';
 

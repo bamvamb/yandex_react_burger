@@ -3,9 +3,9 @@ import BurgerIngredientsTabs from "./burger-ingredients-tabs/burger-ingredients-
 import BurgerIngredientsList from "./burger-ingredients-list/burger-ingredients-list"
 
 import styles from "./burger-ingredients.module.css"
-import { setContainerScrollTop } from '../../services/slices/tabs'
+import { setContainerScrollTop } from '../../services/slices/tabs/tabs'
 import { useAppDispatch, useAppSelector } from '../../services/hooks'
-import { useGetIngredientsQuery } from '../../services/apis/data'
+import { useGetIngredientsQuery } from '../../services/apis/ingredients/ingredients'
 import { selectIngredientTypes } from '../../services/selectors/ingredients'
 import Loader from '../share/loader/loader'
 import ErrorView from '../share/error/error'

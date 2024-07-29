@@ -1,8 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootStoreState } from '../store';
-import { BurgerState } from '../slices/burger';
+import { IBurgerState } from '../slices/burger/types';
 
-const selectBurgerState = (state: RootStoreState):BurgerState => state.burger;
+const selectBurgerState = (state: RootStoreState):IBurgerState => state.burger;
 
 export const selectPrice = createSelector(
   selectBurgerState,

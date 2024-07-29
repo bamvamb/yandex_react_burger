@@ -1,5 +1,5 @@
 import styles from './profile.module.css'
-import Links from './links';
+import Links from '../../profile/links';
 import ProfileForm from './form';
 
 const Profile = () => {

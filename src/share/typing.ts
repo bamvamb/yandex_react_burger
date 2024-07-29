@@ -2,6 +2,11 @@ export interface IResponse {
     success: boolean
 }
 
+export interface IErrorResponse {
+    success: boolean,
+    message: string
+}
+
 export interface IIngredient {
     _id: string,
     name: string,
@@ -19,6 +24,10 @@ export interface IIngredient {
     description?: string
     __v: number
 }
+
+export type ISODateString = string
+export const isISODateString = (dateString: string): dateString is ISODateString => /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(dateString)
+
 
 export interface ConstructorIngredient extends IIngredient {
     uid: string

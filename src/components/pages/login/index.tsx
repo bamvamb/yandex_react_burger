@@ -1,9 +1,10 @@
 import AuthTemplate, {IFormState} from '../../auth-template/auth-template';
-import { getLSUserInfo, useLogInMutation } from '../../../services/apis/auth';
+import { useLogInMutation } from '../../../services/apis/auth/auth';
+import { getLSUserInfo } from '../../../services/tokens';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../../services/hooks';
-import { authError, authStarted, authSuccess, unauthorized } from '../../../services/slices/user';
+import { authError, authStarted, authSuccess, unauthorized } from '../../../services/slices/user/user';
 
 function LoginPage() {
   const location = useLocation()

@@ -8,7 +8,7 @@ import { useDrag, useDrop } from "react-dnd";
 import { useAppDispatch, useAppSelector } from '../../../services/hooks';
 import { selectIngredientTypes } from '../../../services/selectors/ingredients';
 import { useRef } from 'react';
-import { addCoreIngredient, setCoreIngredient, changeBun, deleteCoreIngredient } from "../../../services/slices/burger"
+import { addCoreIngredient, setCoreIngredient, changeBun, deleteCoreIngredient } from "../../../services/slices/burger/burger"
 interface IProps {
     ingredient: IIngredient | null
     type?: 'top' | 'bottom'

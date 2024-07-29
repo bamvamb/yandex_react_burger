@@ -1,12 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-
-export interface ITabState {
-  elementsTop: {
-    [key:string]: number
-  }
-  containerScrolTop: number
-}
+import { ITabState } from './types';
 
 const initialState:ITabState = {
   elementsTop: {},

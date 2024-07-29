@@ -1,5 +1,5 @@
 import AuthTemplate, {IFormState} from '../../auth-template/auth-template';
-import { useResetPasswordMutation } from '../../../services/apis/auth';
+import { useResetPasswordMutation } from '../../../services/apis/auth/auth';
 
 function ResetPasswordPage() {
   const [resetPassword,{
