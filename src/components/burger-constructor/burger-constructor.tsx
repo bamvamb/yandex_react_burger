@@ -69,7 +69,7 @@ const BurgerConstructor = () => {
         }
     }
 
-    return <div className={styles.burger_constructor}>
+    return <div data-testid="burger-constructor" className={styles.burger_constructor}>
         <div className={styles.burger_constructor_order}>
             <Button onClick={handleClear} htmlType="submit" type="primary">Очистить</Button>
             <Button onClick={handleGenRandom} htmlType="submit" type="primary">Сделать случайный</Button>

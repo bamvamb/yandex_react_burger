@@ -27,7 +27,7 @@ const BurgerIngredientsListItem: React.FC<IProps>  = ({ingredient, count}) => {
     }
 
     return (
-        <li ref={dragRef} onClick={onClick} className={styles.ingredients_list_item}>
+        <li data-testid={`burger-ingredient-${ingredient.type}`} ref={dragRef} onClick={onClick} className={styles.ingredients_list_item}>
             { count && count > 0 ? <Counter count={count}/> : null}
             <img 
                 src={ingredient.image} 

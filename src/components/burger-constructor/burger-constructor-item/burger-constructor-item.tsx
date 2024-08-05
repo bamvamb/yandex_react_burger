@@ -83,6 +83,7 @@ const BurgerConstructorItem: React.FC<IProps> = ({ ingredient, type, drag, index
             ) 
         )
         return <div 
+            data-testid={`burger-constructor-${type ? "bun":"main"}`}
             ref={dropTarget} 
             className={`${className} ${ isHover ? styles.hover : '' }`}
         >перенесите {type ? "булку":"ингредиент"} сюда</div>
@@ -104,6 +105,7 @@ const BurgerConstructorItem: React.FC<IProps> = ({ ingredient, type, drag, index
 
     return (
         <div
+            data-testid={`burger-constructor-dropped-${ingredient.type}`}
             ref={type ? dropTarget : ref}
             className={className}
         >

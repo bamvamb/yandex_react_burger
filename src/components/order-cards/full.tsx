@@ -1,7 +1,6 @@
 import { useMemo } from "react"
 import styles from "./full.module.css"
 import { ICardProps, IIngredientsData } from "./share/types"
-import { TOrderStatus } from "../../services/apis/orders/types"
 import { getOrderData } from "./share/utils"
 import IngredientCircle from "./share/ingredient-circle"
 import ItemPrice from "../share/item-price/item-price"
