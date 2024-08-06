@@ -1,32 +1,37 @@
+
+import { ingredientBun, ingredientMain, 
+    modal, modalOverlay, modalCloseBtn, ingredientBody } from "../support/element-varaibles"
+
+
 describe( 'ingredient modal check', () => {
     beforeEach(() => {
-        cy.intercept("GET", "https://norma.nomoreparties.space/api/ingredients", {fixture: "ingredients"}).as("ingredients")
-        cy.visit("http://localhost:3000/")
+        cy.intercept("GET", "api/ingredients", {fixture: "ingredients"}).as("ingredients")
+        cy.visit('')
     })
 
     it('click on any ingredient must open modal, click on overlay or close btn - must close it', () => {
         cy.wait('@ingredients').then(() => {
-            cy.get('[data-testid=burger-ingredient-bun]').then( ingredient => {
+            cy.get(ingredientBun).then( ingredient => {
                 ingredient[0].click()
-                cy.get('[data-testid=modal]').should('exist')
-                cy.get('[data-testid=ingredient-details]').should('exist')
-                cy.get('[data-testid=modal-overlay]').should('exist').then(( overlay )=>{
+                cy.get(modal).should('exist')
+                cy.get(ingredientBody).should('exist')
+                cy.get(modalOverlay).should('exist').then(( overlay )=>{
                     overlay[0].click()
-                    cy.get('[data-testid=modal-overlay]').should('not.exist')
-                    cy.get('[data-testid=modal]').should('not.exist')
-                    cy.get('[data-testid=ingredient-details]').should('not.exist')
+                    cy.get(modalOverlay).should('not.exist')
+                    cy.get(modal).should('not.exist')
+                    cy.get(ingredientBody).should('not.exist')
                 })
             })
             
-            cy.get('[data-testid=burger-ingredient-main]').then( ingredient => {
+            cy.get(ingredientMain).then( ingredient => {
                 ingredient[0].click()
-                cy.get('[data-testid=modal]').should('exist')
-                cy.get('[data-testid=ingredient-details]').should('exist')
-                cy.get('[data-testid=modal-btn-close]').should('exist').then( btnclose => {
+                cy.get(modal).should('exist')
+                cy.get(ingredientBody).should('exist')
+                cy.get(modalCloseBtn).should('exist').then( btnclose => {
                     btnclose[0].click()
-                    cy.get('[data-testid=modal-overlay]').should('not.exist')
-                    cy.get('[data-testid=modal]').should('not.exist')
-                    cy.get('[data-testid=ingredient-details]').should('not.exist')
+                    cy.get(modalOverlay).should('not.exist')
+                    cy.get(modal).should('not.exist')
+                    cy.get(ingredientBody).should('not.exist')
                 }) 
             })
         })
