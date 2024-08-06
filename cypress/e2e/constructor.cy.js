@@ -1,6 +1,6 @@
 
 
-describe( 'ingredient to constructor', () => {
+describe( 'constructor dnd check', () => {
     beforeEach(() => {
         cy.intercept("GET", "https://norma.nomoreparties.space/api/ingredients", {fixture: "ingredients"}).as("ingredients")
         cy.visit("http://localhost:3000/")

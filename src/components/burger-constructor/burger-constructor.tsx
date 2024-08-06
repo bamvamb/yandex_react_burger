@@ -100,7 +100,7 @@ const BurgerConstructor = () => {
         />
         <div className={styles.burger_constructor_order}>
             <ItemPrice price={price}/>
-            <Button disabled={!(Boolean(bun) && core.length > 0)} onClick={() => onOrder()} htmlType="submit" type="primary">Оформить заказ</Button>
+            <Button data-testid="btn-create-order" disabled={!(Boolean(bun) && core.length > 0)} onClick={() => onOrder()} htmlType="submit" type="primary">Оформить заказ</Button>
         </div>
         <Modal 
               headerTitle='Статус заказа'

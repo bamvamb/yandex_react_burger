@@ -16,7 +16,7 @@ const IngredientModal = () => {
     }
   
     return (
-        <Modal 
+        <Modal
         isOpen={true} 
         onClose={onIngredientModalClose}
         headerTitle='Детали ингридиента'
