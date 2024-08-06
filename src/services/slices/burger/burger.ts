@@ -2,7 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ConstructorIngredient, IIngredient } from '../../../share/typing';
 import { v4 as uuid4 } from 'uuid';
 import { IBurgerState } from './types';
-const initialState: IBurgerState = {
+
+export const initialState: IBurgerState = {
   bun: null,
   core: []
 };

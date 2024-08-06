@@ -40,12 +40,13 @@ const Modal: React.FC<IProps> = ({ isOpen, onClose, children, headerTitle }) => 
 
   return (
       <ModalOverlay {...{onClose, isOpen}}>
-        <div onClick={handleClick} className={styles.modal}>
+        <div data-testid="modal" onClick={handleClick} className={styles.modal}>
           <h1 
             className={styles.modal_header}
             >
             {headerTitle}
             <span
+              data-testid="modal-btn-close"
               className={styles.modal_close_icon}
               onClick={handleClose} 
               onMouseEnter={() => setIconMouseOver(true)}

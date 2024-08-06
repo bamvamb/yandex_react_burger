@@ -7,7 +7,7 @@ const defaultInputState:IInputState = {
   changed: false
 }
 
-const initialState:TInputsState = {
+export const initialState:TInputsState = {
   name: {...defaultInputState},
   email: {...defaultInputState},
   password: {...defaultInputState},

@@ -1,7 +1,6 @@
 import { useMemo } from "react"
 import styles from "./full.module.css"
 import { ICardProps, IIngredientsData } from "./share/types"
-import { TOrderStatus } from "../../services/apis/orders/types"
 import { getOrderData } from "./share/utils"
 import IngredientCircle from "./share/ingredient-circle"
 import ItemPrice from "../share/item-price/item-price"
@@ -16,7 +15,7 @@ const Full:React.FC<ICardProps> = ({
     const {ingredients, price} = useMemo<IIngredientsData>(() => getOrderData(ingredient_ids, allIngredients), [order])
     const {title: statusTitle, className:statusClassName} = statusLocAndStyle[status]
     
-    return <div className={styles.container}>
+    return <div data-testid="full-order-card" className={styles.container}>
         <div className={styles.number}>#{number}</div>
         <div className={styles.name}>{name}</div>
         <div className={statusClassName}>{statusTitle}</div>

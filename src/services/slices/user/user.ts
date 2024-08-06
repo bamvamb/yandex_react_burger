@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IUserState } from './types';
 
- 
-const initialState:IUserState = {
+export const initialState:IUserState = {
   authorized: false,
   loading: false,
   error: false

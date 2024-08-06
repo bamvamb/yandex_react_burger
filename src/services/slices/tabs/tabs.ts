@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ITabState } from './types';
 
-const initialState:ITabState = {
+export const initialState:ITabState = {
   elementsTop: {},
   containerScrolTop: 0
 }
 
 
-export const tagsSlice = createSlice({
+export const tabsSlice = createSlice({
   name: 'tabs',
   initialState,
   reducers: {
@@ -24,6 +24,6 @@ export const tagsSlice = createSlice({
 });
 
 
-export const { setContainerScrollTop, setElementPosition } = tagsSlice.actions;
+export const { setContainerScrollTop, setElementPosition } = tabsSlice.actions;
 
-export default tagsSlice;
+export default tabsSlice;

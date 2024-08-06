@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { dataApi } from './apis/ingredients/ingredients';
 import burgerSlice from './slices/burger/burger';
-import tagsSlice from './slices/tabs/tabs';
+import tabsSlice from './slices/tabs/tabs';
 import { authApi } from './apis/auth/auth';
 import profileInputsSlice from './slices/profileForm/profileForm';
 import { userSlice } from './slices/user/user';
@@ -14,7 +14,7 @@ const store = configureStore({
     [ordersApi.reducerPath]: ordersApi.reducer,
     [orderWSApi.reducerPath]: orderWSApi.reducer,
     [burgerSlice.reducerPath]: burgerSlice.reducer,
-    [tagsSlice.reducerPath]: tagsSlice.reducer,
+    [tabsSlice.reducerPath]: tabsSlice.reducer,
     [profileInputsSlice.reducerPath]: profileInputsSlice.reducer,
     [userSlice.reducerPath]: userSlice.reducer
   },

@@ -27,7 +27,7 @@ const BurgerIngredientsList: React.FC<IProps> = ({type}) => {
 
     return <div ref={ref} className={style.burger_ingredients_list_container}>
         <h1 className={style.burger_ingredients_list_header}>{localisedType ? localisedType : type}</h1>
-        <ul className={style.burger_ingredients_list}>
+        <ul  data-testid="burger-ingredients" className={style.burger_ingredients_list}>
             { 
                 ingredients.map( (ingredient) => (
                     <BurgerIngredientsListItem 
