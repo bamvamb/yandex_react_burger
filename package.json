@@ -2,16 +2,17 @@
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://bamvamb.github.io/yandex_react_burger",
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.5",
     "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.97",
     "@types/react": "^18.3.2",
     "@types/react-dom": "^18.3.0",
     "@ya.praktikum/react-developer-burger-ui-components": "^1.14.0",
+    "cypress": "^13.13.2",
     "react": "^18.3.1",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
@@ -26,10 +27,13 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress": "cypress open cache clear"
   },
   "eslintConfig": {
     "extends": [
@@ -51,13 +55,20 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.3.0",
+    "@testing-library/react": "^16.0.0",
     "@types/uuid": "^9.0.8",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-cypress": "^3.4.0",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "fetch-mock": "^11.0.0",
+    "gh-pages": "^6.1.1",
     "globals": "^15.2.0",
+    "jest": "^27.5.1",
     "prettier": "3.2.5",
+    "react-test-renderer": "^18.3.1",
+    "redux-mock-store": "^1.5.4",
     "typescript-eslint": "^7.9.0"
   }
 }

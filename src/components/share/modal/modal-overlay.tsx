@@ -31,7 +31,7 @@ const ModalOverlay: React.FC<IModalProps> = ({ isOpen, onClose, children }) => {
   if (!modalRoot) return null;
 
   const modalOverlayElement = (
-    <div className={styles.modal_overlay} onClick={onClose}>
+    <div data-testid="modal-overlay" className={styles.modal_overlay} onClick={onClose}>
         {children}
     </div>
   );

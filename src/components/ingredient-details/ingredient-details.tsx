@@ -30,7 +30,7 @@ const IngredientDetail: React.FC<IProps>  = ({ingredient}) => {
     ] : []    
     
     return ingredient ? (
-        <div className={styles.ingredients_detail}>
+        <div data-testid="ingredient-details" className={styles.ingredients_detail}>
             <img 
                 src={ingredient.image_large} 
                 alt={ingredient.name}

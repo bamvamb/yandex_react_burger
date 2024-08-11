@@ -101,6 +101,7 @@ const AuthTemplate:React.FC<IProps> = ({variant, handleSendRequest, requestState
             {
                 template.inputs.map( inputData => {
                     return <Input 
+                        data-testid={`auth-input-${inputData.name}`}
                         key={inputData.name}
                         type={inputData.type}
                         error={checkState[inputData.name]}
